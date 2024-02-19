@@ -7,6 +7,12 @@ export interface User {
 	password: string;
 }
 
+export interface SessionUser {
+	uuid: string;
+	name: string;
+	email: string;
+}
+
 export interface Tag {
 	uuid: string;
 	slug: string;
@@ -62,4 +68,37 @@ export interface Recipe {
 	totalTime: number;
 	yields: string;
 	nutrients: Nutrient;
+}
+
+export interface JwtEmailPayload {
+	email: string;
+}
+
+interface KeyVal {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[key: string]: any;
+}
+
+export type AlertType = 'success' | 'warning' | 'error';
+
+export interface FailRes extends KeyVal {}
+
+interface ApiInputErrorRes {
+	message: string;
+}
+
+interface ApiKVInputErrorRes {
+	[key: string]: ApiInputErrorRes;
+}
+
+export interface ApiErrorRes {
+	inputs: ApiKVInputErrorRes;
+}
+
+export interface ApiRes {
+	message?: string;
+	messageType?: AlertType;
+	messageTypeExtra?: KeyVal;
+	errors?: ApiErrorRes;
+	data?: KeyVal;
 }

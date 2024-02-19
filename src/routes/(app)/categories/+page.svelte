@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>{PUBLIC_MAIN_TITLE}</title>
+	<title>Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-3">

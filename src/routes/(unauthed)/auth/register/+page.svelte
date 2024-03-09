@@ -1,126 +1,81 @@
 <script lang="ts">
-	import SkilletIcon from '~icons/material-symbols/skillet-outline-rounded';
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Alert from '$lib/components/Alert.svelte';
-	import type { ApiRes } from '$lib/types';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
 
-	let submitting = false;
-
-	let name = '';
-	let email = '';
-	let password = '';
-
-	let apiRes: ApiRes;
-
-	const handleSubmit = async () => {
-		submitting = true;
-		try {
-			const response = await fetch('/api/auth/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					name,
-					email,
-					password
-				})
-			});
-			apiRes = await response.json();
-		} catch (error: any) {
-			apiRes.message = error.message;
-			apiRes.messageType = 'error';
-		} finally {
-			submitting = false;
-		}
-	};
+	export let form: ActionData;
 </script>
 
 <svelte:head>
 	<title>Register - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="flex justify-center items-center h-screen bg-slate-100 px-2">
-	<div class="2xl:basis-1/2 xl:basis-3/4">
-		<div class="flex justify-center items-center pb-10">
-			<a href="/" class="flex justify-center items-center gap-4">
-				<SkilletIcon style="font-size: 2.4rem; color: #f97316;" />
-				<div class="text-2xl font-bold">
-					Manage<span class="text-orange-500">Meals</span>
-				</div></a
-			>
-		</div>
-		<div class="shadow-lg p-5 rounded border bg-white">
-			<h1 class="text-center font-bold text-2xl pb-5">Register</h1>
-			<p class="text-center pb-5">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur nesciunt nihil quos
-				illo, architecto magnam consequatur aspernatur, voluptas, ex provident commodi similique
-				magni adipisci quasi dolorum eligendi esse corrupti a.
-			</p>
-			{#if apiRes?.message}
-				<div class="py-4">
-					<Alert variant={apiRes?.messageType || 'error'}>
-						{apiRes?.message}
-					</Alert>
-				</div>
-			{/if}
-			<form on:submit|preventDefault={handleSubmit}>
-				<div class="pb-5 last:pb-0">
-					<label for="name" class="font-semibold pb-2 block">Name</label>
-					<input
-						type="text"
-						id="name"
-						name="name"
-						bind:value={name}
-						placeholder="Name"
-						class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
-					/>
-					{#if apiRes?.errors?.inputs?.name?.message}
-						<div class="text-sm pt-1 text-red-500">{apiRes?.errors?.inputs?.name?.message}</div>
-					{/if}
-				</div>
-				<div class="pb-5 last:pb-0">
-					<label for="email" class="font-semibold pb-2 block">Email</label>
-					<input
-						type="email"
-						id="email"
-						name="email"
-						bind:value={email}
-						placeholder="Email"
-						class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
-					/>
-					{#if apiRes?.errors?.inputs?.email?.message}
-						<div class="text-sm pt-1 text-red-500">{apiRes?.errors?.inputs?.email?.message}</div>
-					{/if}
-				</div>
-				<div class="pb-5 last:pb-0">
-					<label for="password" class="font-semibold pb-2 block">Password</label>
-					<input
-						type="password"
-						id="password"
-						name="password"
-						bind:value={password}
-						placeholder="Password"
-						class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
-					/>
-					{#if apiRes?.errors?.inputs?.password?.message}
-						<div class="text-sm pt-1 text-red-500">{apiRes?.errors?.inputs?.password?.message}</div>
-					{/if}
-				</div>
-				<div class="pb-5 last:pb-0">
-					<button
-						type="submit"
-						disabled={submitting}
-						class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-						>Register</button
-					>
-				</div>
-			</form>
-			<p class="pt-5">
-				Already registered? Please <a href="/auth/login" class="hover:underline text-blue-500"
-					>click here</a
-				> to login.
-			</p>
-		</div>
+<h1 class="text-center font-bold text-2xl pb-5">Register</h1>
+<p class="text-center pb-5">
+	Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur nesciunt nihil quos illo,
+	architecto magnam consequatur aspernatur, voluptas, ex provident commodi similique magni adipisci
+	quasi dolorum eligendi esse corrupti a.
+</p>
+{#if form?.message}
+	<div class="py-4">
+		<Alert variant={form?.messageType || 'error'}>
+			{form?.message}
+		</Alert>
 	</div>
-</div>
+{/if}
+<form method="post" use:enhance>
+	<div class="pb-5 last:pb-0">
+		<label for="name" class="font-semibold pb-2 block">Name</label>
+		<input
+			type="text"
+			id="name"
+			name="name"
+			value={form?.inputs?.name ?? ''}
+			placeholder="Name"
+			class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
+		/>
+		{#if form?.errors?.name}
+			<div class="text-sm pt-1 text-red-500">{form?.errors?.name}</div>
+		{/if}
+	</div>
+	<div class="pb-5 last:pb-0">
+		<label for="email" class="font-semibold pb-2 block">Email</label>
+		<input
+			type="email"
+			id="email"
+			name="email"
+			value={form?.inputs?.email ?? ''}
+			placeholder="Email"
+			class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
+		/>
+		{#if form?.errors?.email}
+			<div class="text-sm pt-1 text-red-500">{form?.errors?.email}</div>
+		{/if}
+	</div>
+	<div class="pb-5 last:pb-0">
+		<label for="password" class="font-semibold pb-2 block">Password</label>
+		<input
+			type="password"
+			id="password"
+			name="password"
+			placeholder="Password"
+			class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
+		/>
+		{#if form?.errors?.password}
+			<div class="text-sm pt-1 text-red-500">{form?.errors?.password}</div>
+		{/if}
+	</div>
+	<div class="pb-5 last:pb-0">
+		<button
+			type="submit"
+			class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			>Register</button
+		>
+	</div>
+</form>
+<p class="pt-5">
+	Already registered? Please <a href="/auth/login" class="hover:underline text-blue-500"
+		>click here</a
+	> to login.
+</p>

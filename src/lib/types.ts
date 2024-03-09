@@ -1,31 +1,28 @@
-export interface User {
-	uuid: string;
-	createdAt: Date;
-	name: string;
-	email: string;
-	emailVerified: boolean;
-	password: string;
-}
-
-export interface SessionUser {
+export interface IUser {
 	uuid: string;
 	name: string;
 	email: string;
 }
 
-export interface Tag {
+export interface ITag {
+	name: string;
 	uuid: string;
 	slug: string;
-	name: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
 }
 
-export interface Category {
+export interface ICategory {
+	name: string;
 	uuid: string;
 	slug: string;
-	name: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
 }
 
-interface Nutrient {
+interface IRecipeNutrient {
 	calories: string;
 	carbohydrateContent: string;
 	cholesterolContent: string;
@@ -38,67 +35,68 @@ interface Nutrient {
 	unsaturatedFatContent: string;
 }
 
-interface IngredientGroup {
+interface IRecipeIngredientGroup {
 	ingredients: string[];
 	purpose: string;
 }
 
-export interface Recipe {
-	uuid: string;
-	createdAt: Date;
-	createdByUuid: string;
-	categoryUuids: string[];
-	tagUuids: string[];
+interface IRecipeData {
 	author: string;
 	canonical_url: string;
-	cookTime?: number;
-	cuisine?: string;
+	category: string;
+	cook_time: string;
+	cuisine: string;
 	description: string;
 	host: string;
 	image: string;
-	ingredientGroups: IngredientGroup[];
+	ingredient_groups: IRecipeIngredientGroup[];
 	ingredients: string[];
 	instructions: string;
-	instructionsList: string[];
+	instructions_list: string[];
 	language: string;
-	prepTime: number;
-	ratings: number;
+	nutrients: IRecipeNutrient;
+	prep_time: string;
+	ratings: string;
 	site_name: string;
 	title: string;
-	totalTime: number;
+	total_time: string;
 	yields: string;
-	nutrients: Nutrient;
 }
 
-export interface JwtEmailPayload {
-	email: string;
+export interface IRecipe {
+	uuid: string;
+	slug: string;
+	createdByUuid: string;
+	createdAt: string;
+	updatedAt: string;
+	categoryUuids: string[];
+	tagUuids: string[];
+	categories: ICategory[];
+	tags: ITag[];
+	rating: number;
+	data: IRecipeData;
 }
 
-interface KeyVal {
+interface IKeyVal {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[key: string]: any;
 }
 
-export type AlertType = 'success' | 'warning' | 'error';
+export type TAlert = 'success' | 'warning' | 'error';
 
-export interface FailRes extends KeyVal {}
-
-interface ApiInputErrorRes {
-	message: string;
-}
-
-interface ApiKVInputErrorRes {
-	[key: string]: ApiInputErrorRes;
-}
-
-export interface ApiErrorRes {
-	inputs: ApiKVInputErrorRes;
-}
-
-export interface ApiRes {
+export interface IEnhanceRes extends IKeyVal {
 	message?: string;
-	messageType?: AlertType;
-	messageTypeExtra?: KeyVal;
-	errors?: ApiErrorRes;
-	data?: KeyVal;
+	messageType?: TAlert;
+	messageTypeExtra?: IKeyVal;
+}
+
+export interface IEnhanceFailRes extends IEnhanceRes {
+	inputs: IKeyVal;
+	errors: IKeyVal;
+}
+
+export interface IPaginated<T> {
+	page: number;
+	total: number;
+	data: T;
 }

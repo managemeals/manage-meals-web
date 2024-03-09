@@ -1,79 +1,49 @@
-import { connectRedis } from '$lib/server/cache/redis';
-import { users } from '$lib/server/db/collections';
-import { connectMongo } from '$lib/server/db/mongo';
-import type { JwtEmailPayload, SessionUser } from '$lib/types';
-import jwt from 'jsonwebtoken';
+import {
+	COOKIE_ACCESS_TOKEN,
+	COOKIE_ACCESS_TOKEN_EXPIRE_SEC,
+	COOKIE_REFRESH_TOKEN,
+	COOKIE_REFRESH_TOKEN_EXPIRE_SEC
+} from '$env/static/private';
+import apiClient, { apiClientUnauthed } from '$lib/server/api/client';
+import type { Handle } from '@sveltejs/kit';
 
-try {
-	await connectMongo();
-	console.log('Mongo connected');
-} catch (error) {
-	console.error(error);
-}
+export const handle: Handle = async ({ event, resolve }) => {
+	let accessToken = event.cookies.get(COOKIE_ACCESS_TOKEN) || '';
+	let refreshToken = event.cookies.get(COOKIE_REFRESH_TOKEN) || '';
 
-try {
-	await connectRedis();
-	console.log('Redis connected');
-} catch (error) {
-	console.error(error);
-}
+	if (!accessToken && !refreshToken) {
+		return await resolve(event);
+	}
 
-export const handle = async ({ event, resolve }) => {
-	return await resolve(event);
-	// const accessToken = (event.cookies.get(AUTH_ACCESS_TOKEN_NAME) || '').substring(7);
-	// const refreshToken = (event.cookies.get(AUTH_REFRESH_TOKEN_NAME) || '').substring(7);
-	// if (!accessToken && !refreshToken) {
-	// 	return await resolve(event);
-	// }
+	// If the access token has expired, but not the refresh token
+	if (!accessToken && refreshToken) {
+		try {
+			const res = await apiClientUnauthed.post('/auth/refresh-token', {
+				token: refreshToken
+			});
+			accessToken = res.data.accessToken;
+			refreshToken = res.data.refreshToken;
+			event.cookies.set(COOKIE_ACCESS_TOKEN, accessToken, {
+				path: '/',
+				maxAge: parseInt(COOKIE_ACCESS_TOKEN_EXPIRE_SEC, 10)
+			});
+			event.cookies.set(COOKIE_REFRESH_TOKEN, refreshToken, {
+				path: '/',
+				maxAge: parseInt(COOKIE_REFRESH_TOKEN_EXPIRE_SEC, 10)
+			});
+		} catch (e) {
+			console.log(e);
+			return await resolve(event);
+		}
+	}
 
-	// let jwtPayload: JwtEmailPayload;
-	// let newAccessToken = '';
-	// let newRefreshToken = '';
-	// try {
-	// 	jwtPayload = jwt.verify(accessToken, ACCESS_JWT_SECRET) as JwtEmailPayload;
-	// } catch (err1) {
-	// 	console.log('Verify access token error:', err1);
-	// 	try {
-	// 		jwtPayload = jwt.verify(refreshToken, REFRESH_JWT_SECRET) as JwtEmailPayload;
-	// 		newAccessToken = jwt.sign({ email: jwtPayload.email }, ACCESS_JWT_SECRET, {
-	// 			expiresIn: parseInt(AUTH_ACCESS_TOKEN_MAX_AGE, 10)
-	// 		});
-	// 		newRefreshToken = jwt.sign({ email: jwtPayload.email }, REFRESH_JWT_SECRET, {
-	// 			expiresIn: parseInt(AUTH_REFRESH_TOKEN_MAX_AGE, 10)
-	// 		});
-	// 	} catch (err2) {
-	// 		console.log('Verify refresh token error:', err2);
-	// 		return await resolve(event);
-	// 	}
-	// }
+	try {
+		const res = await apiClient(accessToken).get('/settings/user');
+		event.locals.user = res.data;
+	} catch (e) {
+		console.log(e);
+	}
 
-	// try {
-	// 	const user = await users.findOne({ email: jwtPayload.email });
-	// 	if (!user) {
-	// 		throw new Error('User not found');
-	// 	}
-	// 	const sessionUser: SessionUser = {
-	// 		uuid: user.uuid,
-	// 		name: user.name,
-	// 		email: user.email
-	// 	};
-	// 	event.locals.user = sessionUser;
-	// } catch (error) {
-	// 	console.log('Error finding user:', error);
-	// 	return await resolve(event);
-	// }
-
-	// if (newAccessToken && newRefreshToken) {
-	// 	event.cookies.set(AUTH_ACCESS_TOKEN_NAME, `Bearer ${newAccessToken}`, {
-	// 		path: '/',
-	// 		maxAge: parseInt(AUTH_ACCESS_TOKEN_COOKIE_MAX_AGE, 10)
-	// 	});
-	// 	event.cookies.set(AUTH_REFRESH_TOKEN_NAME, `Bearer ${newRefreshToken}`, {
-	// 		path: '/',
-	// 		maxAge: parseInt(AUTH_REFRESH_TOKEN_COOKIE_MAX_AGE, 10)
-	// 	});
-	// }
-
-	// const response = await resolve(event);
-	// return response;
+	const response = await resolve(event);
+	return response;
 };

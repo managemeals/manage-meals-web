@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { AlertType } from '$lib/types';
+	import type { TAlert } from '$lib/types';
 
-	export let variant: AlertType;
+	export let variant: TAlert;
 </script>
 
 {#if variant === 'success'}

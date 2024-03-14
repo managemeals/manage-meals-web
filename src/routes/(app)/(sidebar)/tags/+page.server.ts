@@ -4,7 +4,6 @@ import type { ITag } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies }) => {
-	console.log('tags load');
 	try {
 		const tagsRes = await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').get('/tags');
 		return {

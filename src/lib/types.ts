@@ -98,5 +98,12 @@ export interface IEnhanceFailRes extends IEnhanceRes {
 export interface IPaginated<T> {
 	page: number;
 	total: number;
+	perPage: number;
 	data: T;
+}
+
+export interface ISidebarLink {
+	href: string;
+	icon: string;
+	title: string;
 }

@@ -1,10 +1,19 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
-	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import SearchInput from '$lib/components/SearchInput.svelte';
+	import { sidebarLinks } from '$lib/stores';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	onMount(() => {
+		$sidebarLinks = data.tags.map((tag) => ({
+			href: `/tags/${tag.slug}`,
+			icon: 'category',
+			title: tag.name
+		}));
+	});
 </script>
 
 <svelte:head>

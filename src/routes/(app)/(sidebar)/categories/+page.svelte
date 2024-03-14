@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import SearchInput from '$lib/components/SearchInput.svelte';
 	import type { PageData } from './$types';
@@ -17,15 +18,17 @@
 		<SearchInput />
 	</div>
 
-	<ul>
-		{#each data.categories as category}
-			<li>{category.name}</li>
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
+		{#each data.recipes.data as recipe}
+			<RecipeCard {recipe} />
 		{/each}
-	</ul>
+	</div>
 
-	<div class="flex flex-wrap gap-4">
-		{#each { length: 200 } as _, i}
-			<RecipeCard />
-		{/each}
+	<div class="flex justify-center py-5">
+		<Pagination
+			total={data.recipes.total}
+			page={data.recipes.page}
+			perPage={data.recipes.perPage}
+		/>
 	</div>
 </div>

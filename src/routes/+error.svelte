@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import { page } from '$app/stores';
-	import SkilletIcon from '~icons/material-symbols/skillet-outline-rounded';
+	import Icon from '$lib/components/Icon.svelte';
 </script>
 
 <svelte:head>
@@ -10,7 +10,7 @@
 
 <div class="flex justify-center items-center pt-20">
 	<a href="/" class="flex justify-center items-center gap-4">
-		<SkilletIcon style="font-size: 2.4rem; color: #f97316;" />
+		<Icon icon="house" />
 		<div class="text-2xl font-bold">
 			Manage<span class="text-orange-500">Meals</span>
 		</div>

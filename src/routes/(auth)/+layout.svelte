@@ -1,12 +1,12 @@
 <script lang="ts">
-	import SkilletIcon from '~icons/material-symbols/skillet-outline-rounded';
+	import Icon from '$lib/components/Icon.svelte';
 </script>
 
 <div class="flex justify-center items-center h-screen bg-slate-100 px-2">
 	<div class="2xl:basis-1/2 xl:basis-3/4">
 		<div class="flex justify-center items-center pb-10">
 			<a href="/" class="flex justify-center items-center gap-4">
-				<SkilletIcon style="font-size: 2.4rem; color: #f97316;" />
+				<Icon icon="cooking-pot" color="#f97316" width={3} />
 				<div class="text-2xl font-bold">
 					Manage<span class="text-orange-500">Meals</span>
 				</div></a

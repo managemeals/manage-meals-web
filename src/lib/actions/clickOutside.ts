@@ -2,8 +2,8 @@
  * Dispatch an event when a user clicks outside node
  * or any of the optional extraNodes.
  */
-export const clickOutside = (node, extraNodes) => {
-	const handleClick = (event) => {
+export const clickOutside = (node: any, extraNodes: any) => {
+	const handleClick = (event: any) => {
 		if (!node || node.contains(event.target) || event.defaultPrevented) {
 			return;
 		}

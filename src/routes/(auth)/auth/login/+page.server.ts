@@ -7,7 +7,7 @@ import {
 } from '$env/static/private';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import axios from 'axios';
 
 export const actions = {
@@ -59,12 +59,7 @@ export const actions = {
 			return fail(500, failObj);
 		}
 
-		const successObj: IEnhanceRes = {
-			message: 'You have been logged in.',
-			messageType: 'success'
-		};
-
-		return successObj;
+		return redirect(303, '/categories');
 	},
 	verify: async ({ request }) => {
 		const data = await request.formData();

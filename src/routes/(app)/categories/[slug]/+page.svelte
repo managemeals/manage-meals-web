@@ -9,14 +9,11 @@
 </script>
 
 <svelte:head>
-	<title>Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.category.name} - Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-3">
-	<div class="flex gap-5 items-center">
-		<h1 class="text-lg font-semibold">All Recipes</h1>
-		<SearchInput />
-	</div>
+	<h1>{data.category.name}</h1>
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
 		{#each data.recipes.data as recipe}

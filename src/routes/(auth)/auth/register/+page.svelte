@@ -5,6 +5,8 @@
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
+
+	let submitting = false;
 </script>
 
 <svelte:head>
@@ -24,7 +26,16 @@
 		</Alert>
 	</div>
 {/if}
-<form method="post" use:enhance>
+<form
+	method="post"
+	use:enhance={() => {
+		submitting = true;
+		return async ({ update }) => {
+			await update();
+			submitting = false;
+		};
+	}}
+>
 	<div class="pb-5 last:pb-0">
 		<label for="name" class="font-semibold pb-2 block">Name</label>
 		<input

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
+	import { page as storePage } from '$app/stores';
 
 	export let page: number;
 	export let total: number;
@@ -34,7 +35,7 @@
 			</div>
 			{#each { length: pages } as _, i}
 				<a
-					href={`?page=${i + 1}`}
+					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (i + 1).toString() }).toString()}`}
 					class={`border py-2 px-4 ${i + 1 === page ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
 					>{i + 1}</a
 				>
@@ -53,7 +54,7 @@
 				</div>
 			{:else}
 				<a
-					href={`?page=${page - 1}`}
+					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (page - 1).toString() }).toString()}`}
 					class="border p-2 rounded-l flex justify-center items-center hover:bg-gray-100"
 				>
 					<span class="sr-only">Previous</span>
@@ -61,21 +62,21 @@
 				</a>
 			{/if}
 			<a
-				href="?page=1"
+				href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: '1' }).toString()}`}
 				class={`border py-2 px-4 ${page < 2 ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
 				>1</a
 			>
 			<div class="border py-2 px-4">...</div>
 			{#each middleItems as middleItem}
 				<a
-					href={`?page=${middleItem}`}
+					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: middleItem.toString() }).toString()}`}
 					class={`border py-2 px-4 ${page === middleItem ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
 					>{middleItem}</a
 				>
 			{/each}
 			<div class="border py-2 px-4">...</div>
 			<a
-				href={`?page=${pages}`}
+				href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: pages.toString() }).toString()}`}
 				class={`border py-2 px-4 ${page >= pages ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
 				>{pages}</a
 			>
@@ -86,7 +87,7 @@
 				</div>
 			{:else}
 				<a
-					href={`?page=${page + 1}`}
+					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (page + 1).toString() }).toString()}`}
 					class="border p-2 rounded-r flex justify-center items-center hover:bg-gray-100"
 				>
 					<span class="sr-only">Next</span>

@@ -102,8 +102,89 @@ export interface IPaginated<T> {
 	data: T;
 }
 
-export interface ISidebarLink {
+export interface ILink {
 	href: string;
-	icon: string;
 	title: string;
+}
+
+export interface IIconLink extends ILink {
+	icon: string;
+}
+
+interface ISearchFacetCountsCount {
+	count: number;
+	highlighted: string;
+	value: string;
+}
+
+interface ISearchFacetCountsStats {
+	total_values: number;
+}
+
+interface ISearchFacetCounts {
+	counts: ISearchFacetCountsCount[];
+	field_name: string;
+	sampled: boolean;
+	stats: ISearchFacetCountsStats;
+}
+
+export interface ISearchRecipe {
+	categories: string[];
+	createdByUuid: string;
+	description: string;
+	id: string;
+	imageUrl: string;
+	ingredients: string[];
+	rating: number;
+	slug: string;
+	tags: string[];
+	title: string;
+}
+
+interface ISearchHitsTextMatchInfo {
+	best_field_score: string;
+	best_field_weight: number;
+	fields_matched: number;
+	score: string;
+	tokens_matched: number;
+}
+
+interface ISearchHitsHighlightField {
+	matched_tokens: string[];
+	snippet: string;
+}
+
+interface ISearchHitsHighlight {
+	[key: string]: ISearchHitsHighlightField;
+}
+
+interface ISearchHitsHighlights {
+	field: string;
+	matched_tokens: string[];
+	snippet: string;
+}
+
+export interface ISearchHits<T> {
+	document: T;
+	highlight: ISearchHitsHighlight;
+	highlights: ISearchHitsHighlights[];
+	text_match: number;
+	text_match_info: ISearchHitsTextMatchInfo;
+}
+
+interface ISearchRequestParams {
+	collection_name: string;
+	per_page: number;
+	q: string;
+}
+
+export interface ISearch<T> {
+	facet_counts: ISearchFacetCounts[];
+	found: number;
+	hits: ISearchHits<T>[];
+	out_of: number;
+	page: number;
+	request_params: ISearchRequestParams;
+	search_cutoff: boolean;
+	search_time_ms: number;
 }

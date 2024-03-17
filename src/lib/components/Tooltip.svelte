@@ -4,4 +4,6 @@
 	export let y: number;
 </script>
 
-{title}
+<div style={`top: ${y}px; left: ${x}px`} class="absolute bg-red-300 p-5 rounded border z-50">
+	{title}
+</div>

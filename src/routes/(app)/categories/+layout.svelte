@@ -2,7 +2,6 @@
 	import { sidebarLinks } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
-	import type { TIcon } from '$lib/types';
 
 	export let data: LayoutData;
 
@@ -20,12 +19,12 @@
 			},
 			{
 				href: '/categories/uncategorized',
-				icon: 'category',
+				icon: 'clock',
 				title: 'Uncategorized'
 			},
 			...data.categories.map((category) => ({
 				href: `/categories/${category.slug}`,
-				icon: 'category' as TIcon,
+				icon: 'gear',
 				title: category.name
 			}))
 		];

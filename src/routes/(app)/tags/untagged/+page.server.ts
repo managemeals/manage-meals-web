@@ -9,9 +9,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	}
 
 	try {
-		const recipesRes = await apiClient(cookies.getAll()).get(
-			`/recipes?page=${page}&sort=-createdAt`
-		);
+		const recipesRes = await apiClient(cookies.getAll()).get(`/recipes?page=${page}&tags=[]`);
 		return {
 			recipes: recipesRes.data as IPaginated<IRecipe[]>
 		};

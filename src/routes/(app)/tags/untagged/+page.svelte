@@ -8,11 +8,11 @@
 </script>
 
 <svelte:head>
-	<title>Uncategorized - Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>Untagged - Tags - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-3">
-	<h1>Uncategorized</h1>
+	<h1>Untagged</h1>
 
 	{#if !data.recipes.total}
 		<h2>Nothing here</h2>

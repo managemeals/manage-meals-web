@@ -87,7 +87,6 @@ export type TAlert = 'success' | 'warning' | 'error';
 export interface IEnhanceRes extends IKeyVal {
 	message?: string;
 	messageType?: TAlert;
-	messageTypeExtra?: IKeyVal;
 }
 
 export interface IEnhanceFailRes extends IEnhanceRes {
@@ -187,4 +186,15 @@ export interface ISearch<T> {
 	request_params: ISearchRequestParams;
 	search_cutoff: boolean;
 	search_time_ms: number;
+}
+
+export interface ICookie {
+	name: string;
+	value: string;
+}
+
+export interface IAPIError {
+	statusCode: number;
+	error: string;
+	message: string;
 }

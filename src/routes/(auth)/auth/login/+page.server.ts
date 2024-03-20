@@ -6,15 +6,30 @@ import {
 	PASSWORD_MIN_LENGTH
 } from '$env/static/private';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
-import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
+import type { IAPIError, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ url }) => {
+	const callback = url.searchParams.get('callback');
+
+	let callbackMessage = '';
+	if (callback === 'subscription') {
+		callbackMessage = 'Subscription successfully created. You can now login.';
+	}
+
+	return {
+		callbackMessage
+	};
+};
 
 export const actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const email = data.get('email') as string;
 		const password = data.get('password') as string;
+		const gotoPath = data.get('goto') as string;
 
 		const failObj: IEnhanceFailRes = { inputs: { email, password }, errors: {} };
 
@@ -48,18 +63,29 @@ export const actions = {
 			failObj.messageType = 'error';
 			failObj.message =
 				'There was an error logging in, please check if email and password are correct.';
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			if (axios.isAxiosError(e) && (e as any).response.data.message === 'Email not verified') {
-				failObj.messageTypeExtra = {};
-				failObj.messageTypeExtra.emailVerifyWarning = true;
-				failObj.messageType = 'warning';
-				failObj.message =
-					"Email not verified, please check your email for a link to verify. Didn't receive a verify email?";
+
+			if (axios.isAxiosError(e)) {
+				if (
+					((e as AxiosError<IAPIError>)?.response?.data.message || '').startsWith(
+						'Email not verified'
+					)
+				) {
+					failObj.messageType = 'warning';
+					failObj.message = (e as AxiosError<IAPIError>)?.response?.data.message;
+				} else if (
+					((e as AxiosError<IAPIError>)?.response?.data.message || '').startsWith(
+						'User does not have a subscription'
+					)
+				) {
+					failObj.messageType = 'warning';
+					failObj.message = (e as AxiosError<IAPIError>)?.response?.data.message;
+				}
 			}
+
 			return fail(500, failObj);
 		}
 
-		return redirect(303, '/categories');
+		return redirect(303, gotoPath || '/categories');
 	},
 	verify: async ({ request }) => {
 		const data = await request.formData();

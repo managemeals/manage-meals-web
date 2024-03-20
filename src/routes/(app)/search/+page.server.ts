@@ -1,4 +1,3 @@
-import { COOKIE_ACCESS_TOKEN } from '$env/static/private';
 import apiClient from '$lib/server/api/client';
 import type { ISearch, ISearchRecipe } from '$lib/types';
 import type { PageServerLoad } from './$types';
@@ -17,9 +16,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	}
 
 	try {
-		const searchRes = await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').get(
-			`/search?q=${q}&c=recipes&p=${page}`
-		);
+		const searchRes = await apiClient(cookies.getAll()).get(`/search?q=${q}&c=recipes&p=${page}`);
 		return {
 			q,
 			search: searchRes.data as ISearch<ISearchRecipe>

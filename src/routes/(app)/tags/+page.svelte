@@ -1,19 +1,10 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
-	import SearchInput from '$lib/components/SearchInput.svelte';
-	import { sidebarLinks } from '$lib/stores';
-	import { onMount } from 'svelte';
+	import Pagination from '$lib/components/Pagination.svelte';
+	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	onMount(() => {
-		$sidebarLinks = data.tags.map((tag) => ({
-			href: `/tags/${tag.slug}`,
-			icon: 'category',
-			title: tag.name
-		}));
-	});
 </script>
 
 <svelte:head>
@@ -21,14 +12,22 @@
 </svelte:head>
 
 <div class="p-3">
-	<div class="flex gap-5 items-center">
+	<div class="flex justify-between items-center mb-4">
 		<h1 class="text-lg font-semibold">All Recipes</h1>
-		<SearchInput />
+		<div class="text-sm text-gray-600">{data.recipes.total} recipes</div>
 	</div>
 
-	<ul>
-		{#each data.tags as tag}
-			<li>{tag.name}</li>
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
+		{#each data.recipes.data as recipe}
+			<RecipeCard {recipe} />
 		{/each}
-	</ul>
+	</div>
+
+	<div class="flex justify-center py-5">
+		<Pagination
+			total={data.recipes.total}
+			page={data.recipes.page}
+			perPage={data.recipes.perPage}
+		/>
+	</div>
 </div>

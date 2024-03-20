@@ -1,4 +1,3 @@
-import { COOKIE_ACCESS_TOKEN } from '$env/static/private';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail } from '@sveltejs/kit';
@@ -24,7 +23,7 @@ export const actions = {
 		}
 
 		try {
-			await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').post('/help/contact', {
+			await apiClient(cookies.getAll()).post('/help/contact', {
 				subject,
 				message
 			});

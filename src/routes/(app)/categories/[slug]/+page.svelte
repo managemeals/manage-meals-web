@@ -2,7 +2,6 @@
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
-	import SearchInput from '$lib/components/SearchInput.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

@@ -80,6 +80,7 @@
 	<div class="pb-5 last:pb-0">
 		<button
 			type="submit"
+			disabled={submitting}
 			class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>Register</button
 		>

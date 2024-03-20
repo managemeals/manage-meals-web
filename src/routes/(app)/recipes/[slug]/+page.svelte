@@ -10,50 +10,63 @@
 	<title>{data.recipe.data.title} - Recipes - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-10 pt-0">
+<div class="p-5 pt-0">
 	<div
 		style={`background-image: url("${data.recipe.data.image}")`}
 		class="bg-center bg-no-repeat bg-cover w-full h-96 relative"
 	>
-		<div class="bg-slate-100 flex absolute bottom-0 right-0 opacity-90 items-center gap-4 p-1">
-			<div class="border-r-2 border-gray-300 px-1">
-				<Icon icon="house" />
+		<div class="bg-slate-100 flex absolute bottom-0 right-0 opacity-90 items-center">
+			<div class="border-r-2 border-gray-300">
+				<Icon icon="clock" width={1.8} />
 			</div>
-			<div class="border-r-2 border-gray-300 px-1">
-				<div class="uppercase text-sm text-gray-600">Prep time</div>
-				<div>20 minutes</div>
-			</div>
-			<div class="border-r-2 border-gray-300 px-1">
-				<div>Prep time</div>
-				<div>20 minutes</div>
-			</div>
-			<div class="px-1">
-				<div>Prep time</div>
-				<div>20 minutes</div>
-			</div>
+			{#if data.recipe.data.cook_time}
+				<div class="border-r-2 border-gray-300">
+					<div class="uppercase text-sm text-gray-600">Prep time</div>
+					<div>{data.recipe.data.prep_time} minutes</div>
+				</div>
+			{/if}
+			{#if data.recipe.data.cook_time}
+				<div class="border-r-2 border-gray-300">
+					<div class="uppercase text-sm text-gray-600">Cook time</div>
+					<div>{data.recipe.data.cook_time} minutes</div>
+				</div>
+			{/if}
+			{#if data.recipe.data.total_time}
+				<div class="">
+					<div class="uppercase text-sm text-gray-600">Total time</div>
+					<div>{data.recipe.data.total_time} minutes</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 
-	<h1 class="font-semibold text-orange-500 text-2xl">{data.recipe.data.title}</h1>
+	<div class="pt-5">
+		<h1 class="font-semibold text-orange-500 text-2xl mb-4">{data.recipe.data.title}</h1>
 
-	<h2>{data.recipe.data.description}</h2>
+		<h2 class="mb-4">{data.recipe.data.description}</h2>
 
-	<div class="flex">
 		<div>
-			<h3 class="text-orange-500 text-lg uppercase font-semibold">Ingredients</h3>
-			<ul class="list-disc list-inside">
-				{#each data.recipe.data.ingredients as ingredient}
-					<li>{ingredient}</li>
-				{/each}
-			</ul>
+			<span class="font-semibold text-orange-500 uppercase">Yield:</span>
+			{data.recipe.data.yields}
 		</div>
-		<div>
-			<h3 class="text-orange-500 text-lg uppercase font-semibold">Directions</h3>
-			<ol class="list-decimal list-inside">
-				{#each data.recipe.data.instructions_list as instruction}
-					<li>{instruction}</li>
-				{/each}
-			</ol>
+
+		<div class="flex gap-5 mt-5">
+			<div class="basis-1/3">
+				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-2">Ingredients</h3>
+				<ul class="list-disc list-inside">
+					{#each data.recipe.data.ingredients as ingredient}
+						<li class="mb-3 last:mb-0">{ingredient}</li>
+					{/each}
+				</ul>
+			</div>
+			<div class="basis-2/3">
+				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-2">Directions</h3>
+				<ol class="list-decimal list-inside">
+					{#each data.recipe.data.instructions_list as instruction}
+						<li class="mb-3 last:mb-0">{instruction}</li>
+					{/each}
+				</ol>
+			</div>
 		</div>
 	</div>
 </div>

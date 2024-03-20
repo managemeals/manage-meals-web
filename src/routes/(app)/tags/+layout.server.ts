@@ -1,15 +1,15 @@
 import apiClient from '$lib/server/api/client';
-import type { ICategory } from '$lib/types';
+import type { ITag } from '$lib/types';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ cookies }) => {
 	try {
-		const categoriesRes = await apiClient(cookies.getAll()).get('/categories');
+		const tagsRes = await apiClient(cookies.getAll()).get('/tags');
 		return {
-			categories: categoriesRes.data as ICategory[]
+			tags: tagsRes.data as ITag[]
 		};
 	} catch (e) {
 		console.log(e);
-		throw new Error('Error loading categories');
+		throw new Error('Error loading tags');
 	}
 };

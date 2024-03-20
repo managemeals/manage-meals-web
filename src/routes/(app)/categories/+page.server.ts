@@ -1,4 +1,3 @@
-import { COOKIE_ACCESS_TOKEN } from '$env/static/private';
 import apiClient from '$lib/server/api/client';
 import type { IPaginated, IRecipe } from '$lib/types';
 import type { PageServerLoad } from './$types';
@@ -10,9 +9,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	}
 
 	try {
-		const recipesRes = await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').get(
-			`/recipes?page=${page}`
-		);
+		const recipesRes = await apiClient(cookies.getAll()).get(`/recipes?page=${page}`);
 		return {
 			recipes: recipesRes.data as IPaginated<IRecipe[]>
 		};

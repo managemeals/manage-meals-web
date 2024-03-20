@@ -8,15 +8,11 @@
 </script>
 
 <svelte:head>
-	<title>Uncategorized - Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>Most Recent - Tags - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-3">
-	<h1>Uncategorized</h1>
-
-	{#if !data.recipes.total}
-		<h2>Nothing here</h2>
-	{/if}
+	<h1>Most Recent</h1>
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
 		{#each data.recipes.data as recipe}
@@ -24,13 +20,11 @@
 		{/each}
 	</div>
 
-	{#if data.recipes.total}
-		<div class="flex justify-center py-5">
-			<Pagination
-				total={data.recipes.total}
-				page={data.recipes.page}
-				perPage={data.recipes.perPage}
-			/>
-		</div>
-	{/if}
+	<div class="flex justify-center py-5">
+		<Pagination
+			total={data.recipes.total}
+			page={data.recipes.page}
+			perPage={data.recipes.perPage}
+		/>
+	</div>
 </div>

@@ -1,5 +1,5 @@
 import apiClient from '$lib/server/api/client';
-import type { ICategory, IPaginated, IRecipe } from '$lib/types';
+import type { IPaginated, IRecipe, ITag } from '$lib/types';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -11,21 +11,21 @@ export const load: PageServerLoad = async ({ cookies, url, params }) => {
 		page = '1';
 	}
 
-	let category: ICategory;
+	let tag: ITag;
 	try {
-		const categoryRes = await apiClient(cookies.getAll()).get(`/categories/${slug}`);
-		category = categoryRes.data;
+		const tagRes = await apiClient(cookies.getAll()).get(`/tags/${slug}`);
+		tag = tagRes.data;
 	} catch (e) {
 		console.log(e);
-		throw error(404, 'Category not found');
+		throw error(404, 'Tag not found');
 	}
 
 	try {
 		const recipesRes = await apiClient(cookies.getAll()).get(
-			`/recipes?page=${page}&categories=${category.uuid}`
+			`/recipes?page=${page}&tags=${tag.uuid}`
 		);
 		return {
-			category,
+			tag,
 			recipes: recipesRes.data as IPaginated<IRecipe[]>
 		};
 	} catch (e) {

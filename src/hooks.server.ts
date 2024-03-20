@@ -8,14 +8,26 @@ import apiClient, { apiClientUnauthed } from '$lib/server/api/client';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
+	if (event.url.pathname === '/logout') {
+		return await resolve(event);
+	}
+
 	let accessToken = event.cookies.get(COOKIE_ACCESS_TOKEN) || '';
 	let refreshToken = event.cookies.get(COOKIE_REFRESH_TOKEN) || '';
 
 	if (!accessToken && !refreshToken) {
-		return await resolve(event);
+		if (event.url.pathname !== '/'! && !event.url.pathname.startsWith('/auth')) {
+			return new Response('Redirect', {
+				status: 307,
+				headers: { Location: `/auth/login?goto=${event.url.pathname}` }
+			});
+		} else {
+			return await resolve(event);
+		}
 	}
 
-	// If the access token has expired, but not the refresh token
+	// If the access token has expired, but not the refresh token, then refresh
+	// the tokens
 	if (!accessToken && refreshToken) {
 		try {
 			const res = await apiClientUnauthed.post('/auth/refresh-token', {
@@ -33,12 +45,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 		} catch (e) {
 			console.log(e);
-			return await resolve(event);
+			return new Response('Redirect', { status: 307, headers: { Location: '/logout' } });
 		}
 	}
 
 	try {
-		const res = await apiClient(accessToken).get('/settings/user');
+		const res = await apiClient([
+			{ name: COOKIE_ACCESS_TOKEN, value: accessToken },
+			{ name: COOKIE_REFRESH_TOKEN, value: refreshToken }
+		]).get('/settings/user');
 		event.locals.user = res.data;
 	} catch (e) {
 		console.log(e);

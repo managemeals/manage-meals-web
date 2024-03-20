@@ -1,4 +1,5 @@
-import { API_URL } from '$env/static/private';
+import { API_URL, COOKIE_ACCESS_TOKEN } from '$env/static/private';
+import type { ICookie } from '$lib/types';
 import axios, { type AxiosInstance } from 'axios';
 
 const apiClientUnauthed = axios.create({
@@ -12,7 +13,10 @@ const apiClientUnauthed = axios.create({
 
 export { apiClientUnauthed };
 
-const apiClient = (token: string): AxiosInstance => {
+const apiClient = (cookies: ICookie[]): AxiosInstance => {
+	const accessToken = cookies.find((c) => c.name === COOKIE_ACCESS_TOKEN);
+	// const refreshToken = cookies.find((c) => c.name === COOKIE_REFRESH_TOKEN);
+
 	const apiClientAuthed = axios.create({
 		baseURL: API_URL,
 		timeout: 5000,
@@ -24,13 +28,37 @@ const apiClient = (token: string): AxiosInstance => {
 
 	apiClientAuthed.interceptors.request.use(
 		(config) => {
-			config.headers.Authorization = `Bearer ${token}`;
+			config.headers.Authorization = `Bearer ${accessToken?.value}`;
 			return config;
 		},
 		(error) => {
 			return Promise.reject(error);
 		}
 	);
+
+	// apiClientAuthed.interceptors.response.use(
+	// 	(response) => {
+	// 		return response;
+	// 	},
+	// 	async (error) => {
+	// 		const originalConfig = error.config;
+
+	// 		if (error.response && error.response.status === 401 && !originalConfig._retry) {
+	// 			originalConfig._retry = true;
+
+	// 			try {
+	// 				const refreshRes = await apiClientUnauthed.post('/auth/refresh-token', {
+	// 					token: refreshToken
+	// 				});
+	// 				apiClientAuthed.defaults.headers.common['Authorization'] = refreshRes.data.accessToken;
+	// 			} catch (error2) {
+	// 				return Promise.reject(error2);
+	// 			}
+	// 		}
+
+	// 		return Promise.reject(error);
+	// 	}
+	// );
 
 	return apiClientAuthed;
 };

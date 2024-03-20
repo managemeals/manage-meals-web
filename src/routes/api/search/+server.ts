@@ -1,6 +1,5 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { COOKIE_ACCESS_TOKEN } from '$env/static/private';
 import apiClient from '$lib/server/api/client';
 import type { ISearch, ISearchRecipe } from '$lib/types';
 
@@ -11,9 +10,7 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 	}
 
 	try {
-		const searchRes = await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').get(
-			`/search?q=${q}&c=recipes&p=1`
-		);
+		const searchRes = await apiClient(cookies.getAll()).get(`/search?q=${q}&c=recipes&p=1`);
 		return json(searchRes.data as ISearch<ISearchRecipe>);
 	} catch (e) {
 		console.log(e);

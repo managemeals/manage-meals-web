@@ -46,7 +46,7 @@
 			title: 'Search'
 		},
 		{
-			href: '/settings',
+			href: '/settings/user',
 			icon: 'gear',
 			title: 'Settings'
 		}

@@ -1,4 +1,3 @@
-import { COOKIE_ACCESS_TOKEN } from '$env/static/private';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
@@ -20,7 +19,7 @@ export const actions = {
 
 		let slug = '';
 		try {
-			const res = await apiClient(cookies.get(COOKIE_ACCESS_TOKEN) || '').post('/categories', {
+			const res = await apiClient(cookies.getAll()).post('/categories', {
 				name
 			});
 			slug = res.data.slug;

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
-	import Icon from '$lib/components/Icon.svelte';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeSearchCard from '$lib/components/RecipeSearchCard.svelte';
+	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -14,7 +14,7 @@
 
 <div class="p-5 pt-10">
 	<div class="flex justify-center">
-		<div class="basis-3/4">
+		<div class="basis-full lg:basis-3/4">
 			<form action="/search" method="get">
 				<div
 					class="flex rounded border-2 [&:not(:focus-within)]:hover:border-gray-300 relative ring ring-transparent focus-within:ring-orange-500 focus-within:border-transparent"
@@ -27,9 +27,9 @@
 						value={data.q || ''}
 						class="rounded-l p-4 outline-none w-full"
 					/>
-					<button type="submit" class="rounded-r px-4">
+					<button type="submit" class="rounded-r px-4 hover:bg-gray-50">
 						<span class="sr-only">Search</span>
-						<Icon icon="magnifying-glass" width={1.8} color="#000" />
+						<Icon icon="ph:magnifying-glass" width="1.8rem" color="#000" />
 					</button>
 				</div>
 			</form>
@@ -42,7 +42,7 @@
 			</div>
 		{/each}
 	</div>
-	<div class="flex justify-center py-5" class:hidden={(data.search?.found || 0) === 0}>
+	<div class="flex justify-center py-5">
 		<Pagination
 			total={data.search?.found || 0}
 			page={data.search?.page || 1}

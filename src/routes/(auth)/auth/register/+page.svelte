@@ -15,9 +15,9 @@
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Register</h1>
-<div class="pb-5 flex flex-col items-center">
+<div class="flex flex-col items-center gap-2 md:flex-row md:gap-10 md:justify-center">
 	<div class="flex items-end gap-1">
-		<div class="font-bold text-3xl">£2.90</div>
+		<div class="font-bold text-3xl md:text-5xl">£2.90</div>
 		<div class="text-gray-600">/month</div>
 	</div>
 	<ul class="pt-3">

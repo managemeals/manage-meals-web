@@ -1,6 +1,13 @@
 <script lang="ts">
+	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
 </script>
+
+{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+	<div class="text-white bg-indigo-700 p-1 font-bold fixed top-0 left-0 right-0">
+		DEMO MODE - <span class="text-sm">Create operations are disabled</span>
+	</div>
+{/if}
 
 <div class="flex justify-center items-center h-screen bg-slate-100 px-2">
 	<div class="basis-full 2xl:basis-1/2 xl:basis-3/4">

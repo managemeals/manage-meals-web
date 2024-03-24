@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { clickOutside } from '$lib/actions/clickOutside';
-	import Icon from '$lib/components/Icon.svelte';
 	import type { ISearch, ISearchRecipe } from '$lib/types';
+	import Icon from '@iconify/svelte';
 	import { debounce } from 'lodash-es';
 
 	let searchResults: ISearch<ISearchRecipe> | undefined;
@@ -77,9 +77,9 @@
 			placeholder="Search"
 			class="rounded-l p-2 outline-none bg-orange-600 text-white placeholder-white placeholder-opacity-40 w-full"
 		/>
-		<button type="submit" class="rounded-r bg-orange-600 px-3">
+		<button type="submit" class="rounded-r bg-orange-600 px-3 hover:bg-orange-700">
 			<span class="sr-only">Search</span>
-			<Icon icon="magnifying-glass" width={1.4} color="#fff" />
+			<Icon icon="ph:magnifying-glass" width="1.4rem" color="#fff" />
 		</button>
 		<div
 			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded"

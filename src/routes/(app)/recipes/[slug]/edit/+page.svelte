@@ -129,7 +129,7 @@
 				placeholder="Description"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 				value={form?.inputs?.data?.description ?? data.recipe.data.description ?? ''}
-				rows="4"
+				rows="6"
 			></textarea>
 			{#if form?.errors?.data?.description}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.description}</div>
@@ -439,7 +439,7 @@
 
 		<div class="pb-5 last:pb-0">
 			<div class="flex flex-col sm:flex-row gap-5">
-				<div class="grow">
+				<div class="basis-1/3 sm:pr-2.5">
 					<label for="data.nutrients.unsaturatedFatContent" class="font-semibold pb-2 block"
 						>Unsaturated fat</label
 					>

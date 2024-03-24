@@ -6,4 +6,4 @@
 	<title>{PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<h1 class="text-3xl font-bold">Marketing</h1>
+<h1 class="text-3xl font-bold">Coming soon...</h1>

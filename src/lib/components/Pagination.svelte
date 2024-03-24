@@ -26,7 +26,7 @@
 	$: setMiddleItems(page, pages);
 </script>
 
-<div class="overflow-auto">
+<div class="overflow-auto" class:hidden={!total}>
 	{#if pages <= 6}
 		<div class="flex">
 			<div class="border p-2 rounded-l flex justify-center items-center opacity-30">

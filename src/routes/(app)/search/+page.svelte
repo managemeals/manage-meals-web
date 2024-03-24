@@ -42,7 +42,7 @@
 			</div>
 		{/each}
 	</div>
-	<div class="flex justify-center py-5">
+	<div class="flex justify-center py-5" class:hidden={(data.search?.found || 0) === 0}>
 		<Pagination
 			total={data.search?.found || 0}
 			page={data.search?.page || 1}

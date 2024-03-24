@@ -110,6 +110,10 @@ export interface IIconLink extends ILink {
 	icon: string;
 }
 
+export interface ISidebarLink extends IIconLink {
+	isCustom?: boolean;
+}
+
 interface ISearchFacetCountsCount {
 	count: number;
 	highlighted: string;
@@ -197,4 +201,15 @@ export interface IAPIError {
 	statusCode: number;
 	error: string;
 	message: string;
+}
+
+export interface ISubscriptionUpcomingPayment {
+	chargeDate: string;
+	amount: number;
+}
+
+export interface IPatchUserReq {
+	name: string;
+	email: string;
+	password?: string;
 }

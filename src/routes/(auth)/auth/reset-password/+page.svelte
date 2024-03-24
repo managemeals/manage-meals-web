@@ -13,11 +13,7 @@
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Reset Password</h1>
-<p class="text-center pb-5">
-	Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur nesciunt nihil quos illo,
-	architecto magnam consequatur aspernatur, voluptas, ex provident commodi similique magni adipisci
-	quasi dolorum eligendi esse corrupti a.
-</p>
+<p class="text-center pb-5">Please choose a new password.</p>
 {#if form?.message}
 	<div class="py-4">
 		<Alert variant={form?.messageType || 'error'}>
@@ -34,7 +30,7 @@
 			id="password"
 			name="password"
 			placeholder="Password"
-			class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
+			class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 		/>
 		{#if form?.errors?.password}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.password}</div>
@@ -43,11 +39,11 @@
 	<div class="pb-5 last:pb-0">
 		<button
 			type="submit"
-			class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>Reset</button
 		>
 	</div>
 </form>
-<p class="pt-2" class:hidden={!form?.message || form?.messageType !== 'success'}>
+<p class="pt-5" class:hidden={!form?.message || form?.messageType !== 'success'}>
 	Please <a href="/auth/login" class="hover:underline text-blue-500">click here</a> to login.
 </p>

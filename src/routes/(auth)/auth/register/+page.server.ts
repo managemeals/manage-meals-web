@@ -10,7 +10,7 @@ export const actions = {
 		const email = data.get('email') as string;
 		const password = data.get('password') as string;
 
-		const failObj: IEnhanceFailRes = { inputs: { email, password }, errors: {} };
+		const failObj: IEnhanceFailRes = { inputs: { name, email }, errors: {} };
 
 		if (!name) {
 			failObj.errors.name = 'Name is empty';

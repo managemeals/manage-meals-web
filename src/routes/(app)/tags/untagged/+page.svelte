@@ -11,11 +11,16 @@
 	<title>Untagged - Tags - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-3">
-	<h1>Untagged</h1>
+<div class="p-5">
+	<div class="mb-5">
+		<div class="flex items-center gap-3">
+			<h1 class="text-2xl font-bold">Untagged</h1>
+			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+		</div>
+	</div>
 
 	{#if !data.recipes.total}
-		<h2>Nothing here</h2>
+		<h2 class="italic">No recipes with this tag</h2>
 	{/if}
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">

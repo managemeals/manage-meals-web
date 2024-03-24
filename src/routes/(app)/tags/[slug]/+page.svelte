@@ -2,6 +2,7 @@
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
+	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -11,8 +12,21 @@
 	<title>{data.tag.name} - Tags - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-3">
-	<h1>{data.tag.name}</h1>
+<div class="p-5">
+	<div class="flex justify-between items-center mb-5">
+		<div class="flex items-center gap-3">
+			<h1 class="text-2xl font-bold">{data.tag.name}</h1>
+			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+		</div>
+		<a href={`/tags/${data.tag.slug}/edit`} title="Edit" class="hover:bg-gray-200 p-1 rounded">
+			<span class="sr-only">Edit</span>
+			<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
+		</a>
+	</div>
+
+	{#if !data.recipes.total}
+		<h2 class="italic">No recipes with this tag</h2>
+	{/if}
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
 		{#each data.recipes.data as recipe}

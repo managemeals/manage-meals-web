@@ -10,22 +10,26 @@
 			{
 				href: '/tags',
 				icon: 'house',
-				title: 'All Recipes'
+				title: 'All Recipes',
+				isCustom: false
 			},
 			{
 				href: '/tags/recent',
 				icon: 'clock',
-				title: 'Most Recent'
+				title: 'Most Recent',
+				isCustom: false
 			},
 			{
 				href: '/tags/untagged',
-				icon: 'clock',
-				title: 'Untagged'
+				icon: 'tray',
+				title: 'Untagged',
+				isCustom: false
 			},
 			...data.tags.map((tag) => ({
 				href: `/tags/${tag.slug}`,
 				icon: 'tag',
-				title: tag.name
+				title: tag.name,
+				isCustom: true
 			}))
 		];
 

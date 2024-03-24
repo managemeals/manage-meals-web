@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import type { IIconLink, ILink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
+	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 
 	const LG_BREAKPOINT = 1024;
 
@@ -16,11 +17,15 @@
 
 	let showAddDropdown = false;
 
-	$: if (clientW && clientW < LG_BREAKPOINT) {
-		showSidebar = false;
-	} else {
-		showSidebar = true;
-	}
+	const handleWidthChange = (w: number) => {
+		if (w && w < LG_BREAKPOINT) {
+			showSidebar = false;
+		} else {
+			showSidebar = true;
+		}
+	};
+
+	$: handleWidthChange(clientW);
 
 	const closeSidebar = () => {
 		if (clientW >= LG_BREAKPOINT) {
@@ -68,14 +73,14 @@
 	];
 </script>
 
+<div class="w-screen z-10" bind:clientWidth={clientW}></div>
 <nav
 	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-30 px-3"
-	bind:clientWidth={clientW}
 >
 	<div class="flex items-center gap-3">
 		<button
 			on:click={() => (showSidebar = !showSidebar)}
-			class="p-1 rounded hover:bg-red-600"
+			class="p-1 rounded hover:bg-orange-600"
 			class:hidden={!$hasSidebar}
 			bind:this={sidebarBtnEl}
 		>
@@ -90,6 +95,11 @@
 			</div>
 			<div>Manage<span class="text-white">Meals</span></div>
 		</a>
+		{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+			<div class="text-white bg-indigo-700 p-1 font-bold">
+				DEMO MODE - <span class="text-sm">Create operations are disabled</span>
+			</div>
+		{/if}
 	</div>
 	<div class="flex items-center gap-4">
 		<div class="hidden md:block">
@@ -98,7 +108,7 @@
 		<div class="relative">
 			<button
 				on:click={() => (showAddDropdown = !showAddDropdown)}
-				class="p-1 rounded hover:bg-red-600"
+				class="p-1 rounded hover:bg-orange-600"
 				bind:this={addBtnEl}
 				title="Add"
 			>
@@ -135,7 +145,7 @@
 		{#each leftNavLinks as leftNavLink}
 			<a
 				href={leftNavLink.href}
-				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith(leftNavLink.href) ? ' bg-gray-200' : ''}`}
+				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) ? ' bg-gray-200' : ''}`}
 				title={leftNavLink.title}
 				on:click={closeSidebar}
 			>
@@ -169,10 +179,10 @@
 		{#each $sidebarLinks as sidebarLink}
 			<a
 				href={sidebarLink.href}
-				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 p-2${$page.url.pathname === sidebarLink.href ? ' bg-gray-100' : ''}`}
+				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2${$page.url.pathname === sidebarLink.href ? ' bg-gray-100' : ''}`}
 				on:click={closeSidebar}
 			>
-				<Icon icon={sidebarLink.icon} width={1.5} color="#64748b" />
+				<Icon icon={sidebarLink.icon} width={1.5} color="#6b7280" />
 				<span>{sidebarLink.title}</span>
 			</a>
 		{/each}
@@ -181,7 +191,7 @@
 
 <main class={`relative pt-16 pl-16 transition-all${showSidebar && $hasSidebar ? ' lg:pl-96' : ''}`}>
 	<div
-		class={`absolute top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && $hasSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
+		class={`absolute h-screen top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && $hasSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
 	></div>
 	<slot />
 </main>

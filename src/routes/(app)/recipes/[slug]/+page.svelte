@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
-	import Icon from '$lib/components/Icon.svelte';
+	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -17,7 +17,7 @@
 	>
 		<div class="bg-slate-100 flex absolute bottom-0 right-0 opacity-90 items-center">
 			<div class="border-r-2 border-gray-300">
-				<Icon icon="clock" width={1.8} />
+				<Icon icon="ph:clock" width="1.8rem" />
 			</div>
 			{#if data.recipe.data.cook_time}
 				<div class="border-r-2 border-gray-300">
@@ -41,7 +41,17 @@
 	</div>
 
 	<div class="pt-5">
-		<h1 class="font-semibold text-orange-500 text-2xl mb-4">{data.recipe.data.title}</h1>
+		<div class="flex items-center justify-between mb-5">
+			<h1 class="font-semibold text-orange-500 text-2xl">{data.recipe.data.title}</h1>
+			<a
+				href={`/recipes/${data.recipe.slug}/edit`}
+				title="Edit"
+				class="hover:bg-gray-200 p-1 rounded"
+			>
+				<span class="sr-only">Edit</span>
+				<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
+			</a>
+		</div>
 
 		<h2 class="mb-4">{data.recipe.data.description}</h2>
 

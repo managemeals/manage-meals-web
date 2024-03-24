@@ -11,11 +11,16 @@
 	<title>Uncategorized - Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-3">
-	<h1>Uncategorized</h1>
+<div class="p-5">
+	<div class="mb-5">
+		<div class="flex items-center gap-3">
+			<h1 class="text-2xl font-bold">Uncategorized</h1>
+			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+		</div>
+	</div>
 
 	{#if !data.recipes.total}
-		<h2>Nothing here</h2>
+		<h2 class="italic">No recipes in this category</h2>
 	{/if}
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
@@ -24,13 +29,11 @@
 		{/each}
 	</div>
 
-	{#if data.recipes.total}
-		<div class="flex justify-center py-5">
-			<Pagination
-				total={data.recipes.total}
-				page={data.recipes.page}
-				perPage={data.recipes.perPage}
-			/>
-		</div>
-	{/if}
+	<div class="flex justify-center py-5">
+		<Pagination
+			total={data.recipes.total}
+			page={data.recipes.page}
+			perPage={data.recipes.perPage}
+		/>
+	</div>
 </div>

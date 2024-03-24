@@ -6,12 +6,12 @@
 		$sidebarLinks = [
 			{
 				href: '/help/faq',
-				icon: 'gear',
+				icon: 'question',
 				title: 'FAQ'
 			},
 			{
 				href: '/help/contact',
-				icon: 'gear',
+				icon: 'envelope',
 				title: 'Contact'
 			}
 		];

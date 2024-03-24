@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
-import type { IIconLink } from './types';
+import type { ISidebarLink } from './types';
 
-export const sidebarLinks = writable<IIconLink[]>([]);
+export const sidebarLinks = writable<ISidebarLink[]>([]);
 
 export const hasSidebar = writable(true);

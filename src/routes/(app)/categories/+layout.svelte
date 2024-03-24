@@ -10,22 +10,26 @@
 			{
 				href: '/categories',
 				icon: 'house',
-				title: 'All Recipes'
+				title: 'All Recipes',
+				isCustom: false
 			},
 			{
 				href: '/categories/recent',
 				icon: 'clock',
-				title: 'Most Recent'
+				title: 'Most Recent',
+				isCustom: false
 			},
 			{
 				href: '/categories/uncategorized',
-				icon: 'clock',
-				title: 'Uncategorized'
+				icon: 'tray',
+				title: 'Uncategorized',
+				isCustom: false
 			},
 			...data.categories.map((category) => ({
 				href: `/categories/${category.slug}`,
-				icon: 'gear',
-				title: category.name
+				icon: 'folder',
+				title: category.name,
+				isCustom: true
 			}))
 		];
 

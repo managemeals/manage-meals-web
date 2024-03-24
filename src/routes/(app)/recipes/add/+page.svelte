@@ -40,11 +40,13 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="font-semibold text-2xl mb-2">Add Recipe</h1>
-	<p class="mb-2">
-		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe nostrum magni fugiat neque
-		ducimus, quidem, accusantium ipsum enim amet numquam dolor natus expedita perferendis laborum
-		animi. Quibusdam, odio beatae! Possimus!
+	<h1 class="text-2xl font-bold mb-5">Add Recipe</h1>
+	<p class="mb-3">
+		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve
+		the recipe from the site and add it to your collection. It works with all popular recipe
+		websites, and many smaller ones. If it's not working for your URL, please
+		<a href="/help/contact" class="hover:underline text-blue-500">contact us</a> and we will add support
+		for it.
 	</p>
 	{#if form?.message}
 		<div class="py-4">
@@ -63,24 +65,25 @@
 			};
 		}}
 	>
-		<div class="pb-4 last:pb-0">
+		<div class="pb-5 last:pb-0">
 			<label for="url" class="font-semibold pb-2 block">URL</label>
 			<input
 				type="text"
 				id="url"
 				name="url"
 				value={form?.inputs?.url ?? ''}
-				placeholder="URL"
-				class="block border-2 border-gray-200 rounded w-full p-3 bg-slate-50 focus:border-red-400 outline-none hover:border-gray-300"
+				placeholder="https://www.bbcgoodfood.com/recipes/chicken-leek-brown-rice-stir-fry"
+				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 			/>
 			{#if form?.errors?.url}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.url}</div>
 			{/if}
 		</div>
-		<div class="pb-4 last:pb-0">
-			<label for="categories" class="font-semibold pb-2 block">Categories</label>
+		<div class="pb-5 last:pb-0">
+			<label for="categories" class="font-semibold block">Categories</label>
+			<p class="text-sm text-gray-500">Optionally choose any categories to add the recipe to</p>
 			<input type="hidden" id="categories" name="categories" bind:value={selectedCategoriesValue} />
-			<div class="flex gap-2">
+			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.categories as category}
 					<div>
 						<button
@@ -94,10 +97,11 @@
 				{/each}
 			</div>
 		</div>
-		<div class="pb-4 last:pb-0">
-			<label for="tags" class="font-semibold pb-2 block">Tags</label>
+		<div class="pb-5 last:pb-0">
+			<label for="tags" class="font-semibold block">Tags</label>
+			<p class="text-sm text-gray-500">Optionally choose any tags to tag the recipe with</p>
 			<input type="hidden" id="tags" name="tags" bind:value={selectedTagsValue} />
-			<div class="flex gap-2">
+			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.tags as tag}
 					<div>
 						<button
@@ -111,11 +115,11 @@
 				{/each}
 			</div>
 		</div>
-		<div class="pb-4 last:pb-0">
+		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
 				disabled={submitting}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-300"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				<span class:hidden={!submitting}>
 					<Icon icon="ph:circle-notch" color="#fff" width="1.5rem" class="animate-spin" />

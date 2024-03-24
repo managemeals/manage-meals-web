@@ -44,6 +44,7 @@
 	"type": "module",
 	"dependencies": {
 		"axios": "^1.6.7",
+		"date-fns": "^3.6.0",
 		"lodash-es": "^4.17.21"
 	}
 }

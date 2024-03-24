@@ -19,14 +19,14 @@ export const actions = {
 
 		let slug = '';
 		try {
-			const res = await apiClient(cookies.getAll()).post('/categories', {
+			const res = await apiClient(cookies.getAll()).post('/tags', {
 				name
 			});
 			slug = res.data.slug;
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error adding category, please try again.';
+			failObj.message = 'There was an error adding tag, please try again.';
 			return fail(500, failObj);
 		}
 

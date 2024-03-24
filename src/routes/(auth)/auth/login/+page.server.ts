@@ -31,7 +31,7 @@ export const actions = {
 		const password = data.get('password') as string;
 		const gotoPath = data.get('goto') as string;
 
-		const failObj: IEnhanceFailRes = { inputs: { email, password }, errors: {} };
+		const failObj: IEnhanceFailRes = { inputs: { email }, errors: {} };
 
 		if (!email) {
 			failObj.errors.email = 'Email is empty';

@@ -31,10 +31,10 @@
 	<input type="hidden" id="token" name="token" value={$page.url.searchParams.get('token')} />
 	<button
 		type="submit"
-		class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+		class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		class:hidden={form?.message && form?.messageType === 'success'}>Verify</button
 	>
 </form>
-<p class="pt-2" class:hidden={!form?.message || form?.messageType !== 'success'}>
+<p class="pt-5" class:hidden={!form?.message || form?.messageType !== 'success'}>
 	Please <a href="/auth/login" class="hover:underline text-blue-500">click here</a> to login.
 </p>

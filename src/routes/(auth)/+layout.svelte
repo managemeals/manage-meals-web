@@ -1,13 +1,15 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
+	import Icon from '@iconify/svelte';
 </script>
 
 <div class="flex justify-center items-center h-screen bg-slate-100 px-2">
-	<div class="2xl:basis-1/2 xl:basis-3/4">
+	<div class="basis-full 2xl:basis-1/2 xl:basis-3/4">
 		<div class="flex justify-center items-center pb-10">
-			<a href="/" class="flex justify-center items-center gap-4">
-				<Icon icon="cooking-pot" color="#f97316" width={3} />
-				<div class="text-2xl font-bold">
+			<a href="/" class="flex justify-center items-center gap-4 group">
+				<div class="transition-transform translate-y-0 group-hover:-translate-y-1">
+					<Icon icon="ph:cooking-pot" color="#f97316" width="3rem" />
+				</div>
+				<div class="text-3xl font-bold">
 					Manage<span class="text-orange-500">Meals</span>
 				</div></a
 			>

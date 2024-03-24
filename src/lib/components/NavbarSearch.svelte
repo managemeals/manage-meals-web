@@ -66,7 +66,7 @@
 	use:clickOutside={[]}
 	on:clickoutside={handleOutsideClick}
 >
-	<div class="flex rounded w-80 border border-orange-500 hover:border-orange-600 relative">
+	<div class="flex rounded w-96 border border-orange-500 hover:border-orange-600 relative">
 		<input
 			bind:value={searchInput}
 			on:keydown={handleKeydown}

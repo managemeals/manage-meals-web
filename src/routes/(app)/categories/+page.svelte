@@ -2,6 +2,7 @@
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
+	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -11,10 +12,12 @@
 	<title>Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-3">
-	<div class="flex justify-between items-center mb-4">
-		<h1 class="text-lg font-semibold">All Recipes</h1>
-		<div class="text-sm text-gray-600">{data.recipes.total} recipes</div>
+<div class="p-5">
+	<div class="mb-5">
+		<div class="flex items-center gap-3">
+			<h1 class="text-2xl font-bold">All Recipes</h1>
+			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+		</div>
 	</div>
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">

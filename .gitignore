@@ -6,5 +6,7 @@ node_modules
 .env
 .env.*
 !.env.example
+!.env.*.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+docker-compose.override.yaml

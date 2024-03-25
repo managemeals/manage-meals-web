@@ -1,0 +1,36 @@
+services:
+  manage-meals-web-01:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - ./.env.docker
+    networks:
+      - mmeals_net
+
+  manage-meals-web-02:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - ./.env.docker
+    networks:
+      - mmeals_net
+
+  manage-meals-web-lb:
+    image: haproxy:2.9
+    restart: unless-stopped
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    depends_on:
+      - manage-meals-web-01
+      - manage-meals-web-02
+    volumes:
+      - ./haproxy-web.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    env_file:
+      - ./.env.docker
+    networks:
+      - mmeals_net
+
+
+networks:
+  mmeals_net:
+    external: true

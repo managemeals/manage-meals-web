@@ -5,7 +5,10 @@ import {
 	COOKIE_REFRESH_TOKEN_EXPIRE_SEC
 } from '$env/static/private';
 import apiClient, { apiClientUnauthed } from '$lib/server/api/client';
+import { initLbShutdown } from '$lib/server/infra/health';
 import type { Handle } from '@sveltejs/kit';
+
+initLbShutdown();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname === '/logout') {
@@ -16,7 +19,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	let refreshToken = event.cookies.get(COOKIE_REFRESH_TOKEN) || '';
 
 	if (!accessToken && !refreshToken) {
-		if (event.url.pathname !== '/'! && !event.url.pathname.startsWith('/auth')) {
+		if (
+			event.url.pathname !== '/'! &&
+			!event.url.pathname.startsWith('/auth') &&
+			!event.url.pathname.startsWith('/infra')
+		) {
 			return new Response('Redirect', {
 				status: 307,
 				headers: { Location: `/auth/login?goto=${event.url.pathname}` }

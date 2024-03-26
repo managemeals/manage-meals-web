@@ -54,6 +54,11 @@
 			href: '/settings/user',
 			icon: 'gear',
 			title: 'Settings'
+		},
+		{
+			href: '/help/faq',
+			icon: 'question',
+			title: 'Help'
 		}
 	];
 
@@ -88,18 +93,13 @@
 		</button>
 		<a
 			href="/categories"
-			class="text-white text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
+			class="text-white text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
 		>
 			<div class="transition-transform translate-y-0 group-hover:-translate-y-1">
 				<Icon icon="cooking-pot" color="#fff" width={2.2} />
 			</div>
 			<div>Manage<span class="text-white">Meals</span></div>
 		</a>
-		{#if PUBLIC_MOCK_INSTANCE === 'yes'}
-			<div class="text-white bg-indigo-700 p-1 font-bold">
-				DEMO MODE - <span class="text-sm">Create operations are disabled</span>
-			</div>
-		{/if}
 	</div>
 	<div class="flex items-center gap-4">
 		<div class="hidden md:block">
@@ -116,7 +116,7 @@
 			</button>
 			{#if addBtnEl}
 				<div
-					class="absolute right-0 top-full bg-white shadow-lg w-60 flex flex-col rounded"
+					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-60 flex flex-col rounded"
 					class:hidden={!showAddDropdown}
 					use:clickOutside={[addBtnEl]}
 					on:clickoutside={() => {
@@ -139,7 +139,10 @@
 </nav>
 
 <div
-	class="fixed h-[calc(100vh-4rem)] top-16 w-16 flex flex-col justify-between items-center border-r-2 z-20 bg-white"
+	class={`
+		fixed h-[calc(100vh-4rem)] top-16 w-16 flex flex-col items-center border-r-2 z-20 bg-white transition-transform
+		${showSidebar ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}
+	`.trim()}
 >
 	<nav class="h-full flex flex-col items-center overflow-y-auto w-full">
 		{#each leftNavLinks as leftNavLink}
@@ -153,16 +156,6 @@
 			</a>
 		{/each}
 	</nav>
-	<nav class="flex flex-col items-center w-full">
-		<a
-			href="/help/faq"
-			class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/help') ? ' bg-gray-200' : ''}`}
-			title="Help"
-			on:click={closeSidebar}
-		>
-			<Icon icon="question" color="#f97316" width={2} />
-		</a>
-	</nav>
 </div>
 
 {#if sidebarBtnEl}
@@ -174,7 +167,11 @@
 			}
 			showSidebar = false;
 		}}
-		class={`fixed h-[calc(100vh-4rem)] top-16 w-80 border-r-2 left-16 z-10 overflow-y-auto bg-white transition-transform${showSidebar && $hasSidebar ? ' translate-x-0' : ' -translate-x-full'}`}
+		class={`
+			fixed h-[calc(100vh-4rem)] top-16 w-60 sm:w-80 border-r-2 left-16 z-10
+			overflow-y-auto bg-white transition-transform
+			${showSidebar && $hasSidebar ? 'translate-x-0' : '-translate-x-96 sm:-translate-x-80'}
+		`.trim()}
 	>
 		{#each $sidebarLinks as sidebarLink}
 			<a
@@ -189,9 +186,16 @@
 	</nav>
 {/if}
 
-<main class={`relative pt-16 pl-16 transition-all${showSidebar && $hasSidebar ? ' lg:pl-96' : ''}`}>
+<main
+	class={`relative pt-16 pl-0 sm:pl-16 transition-all${showSidebar && $hasSidebar ? ' lg:pl-96' : ''}`}
+>
 	<div
-		class={`absolute h-screen top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && $hasSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
+		class={`absolute h-full top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && $hasSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
 	></div>
+	{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+		<div class="text-white bg-indigo-700 p-1 font-bold">
+			DEMO MODE - <span class="text-sm">Create operations are disabled</span>
+		</div>
+	{/if}
 	<slot />
 </main>

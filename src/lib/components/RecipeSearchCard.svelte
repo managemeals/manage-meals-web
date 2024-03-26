@@ -7,10 +7,13 @@
 	const descMaxLength = 100;
 </script>
 
-<a href={`/recipes/${recipe.document.slug}`} class="border rounded flex items-center hover:shadow">
+<a
+	href={`/recipes/${recipe.document.slug}`}
+	class="border rounded flex flex-col md:flex-row md:items-center hover:shadow"
+>
 	<div
 		style={`background-image: url("${recipe.document.imageUrl}")`}
-		class="bg-center bg-no-repeat bg-cover h-32 basis-44 shrink-0"
+		class="bg-center bg-no-repeat bg-cover h-32 basis-44 shrink-0 w-full"
 	></div>
 	<div class="p-3">
 		<h3 class="mb-1">{@html recipe.highlight.title.snippet}</h3>

@@ -39,7 +39,7 @@
 	<title>Add Recipe - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5">
+<div class="p-5 container">
 	<h1 class="text-2xl font-bold mb-5">Add Recipe</h1>
 	<p class="mb-3">
 		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve

@@ -38,7 +38,7 @@
 	<title>Add Tag - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5">
+<div class="p-5 container">
 	<h1 class="text-2xl font-bold mb-5">Add Tag</h1>
 	{#if form?.message}
 		<div class="py-4">

@@ -33,14 +33,14 @@
 					</button>
 				</div>
 			</form>
-		</div>
-	</div>
-	<div class="mt-5">
-		{#each data.search?.hits || [] as hit}
-			<div class="mb-4 last:mb-0">
-				<RecipeSearchCard recipe={hit} />
+			<div class="mt-5">
+				{#each data.search?.hits || [] as hit}
+					<div class="mb-4 last:mb-0">
+						<RecipeSearchCard recipe={hit} />
+					</div>
+				{/each}
 			</div>
-		{/each}
+		</div>
 	</div>
 	<div class="flex justify-center py-5">
 		<Pagination

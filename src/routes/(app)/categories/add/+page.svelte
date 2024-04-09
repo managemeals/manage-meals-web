@@ -35,10 +35,10 @@
 </script>
 
 <svelte:head>
-	<title>Add Category - {PUBLIC_MAIN_TITLE}</title>
+	<title>Add Category - Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5 container">
+<div class="p-5">
 	<h1 class="text-2xl font-bold mb-5">Add Category</h1>
 	{#if form?.message}
 		<div class="py-4">

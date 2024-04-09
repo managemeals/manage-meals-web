@@ -82,7 +82,7 @@
 			<Icon icon="ph:magnifying-glass" width="1.4rem" color="#fff" />
 		</button>
 		<div
-			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded"
+			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded max-h-96"
 			class:hidden={!searchResults || !searchResults.found}
 		>
 			{#each searchResults?.hits || [] as hit, i}

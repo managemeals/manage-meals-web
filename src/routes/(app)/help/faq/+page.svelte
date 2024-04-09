@@ -6,7 +6,7 @@
 	<title>FAQ - Help - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5 container">
+<div class="p-5">
 	<h1 class="text-xl font-bold mb-5">FAQ</h1>
 
 	<div class="mb-5 last:mb-0">

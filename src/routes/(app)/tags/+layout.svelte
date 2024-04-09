@@ -10,7 +10,7 @@
 			{
 				href: '/tags',
 				icon: 'house',
-				title: 'All Recipes',
+				title: 'All Tags',
 				isCustom: false
 			},
 			{

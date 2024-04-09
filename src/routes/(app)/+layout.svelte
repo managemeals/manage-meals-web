@@ -109,7 +109,7 @@
 			href="/categories"
 			class="text-white text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
 		>
-			<div class="transition-transform translate-y-0 group-hover:-translate-y-1">
+			<div class="transition-transform translate-y-0 group-hover:lg:-translate-y-1">
 				<Icon icon="cooking-pot" color="#fff" width={2.2} />
 			</div>
 			<div>Manage<span class="text-white">Meals</span></div>
@@ -130,7 +130,7 @@
 			</button>
 			{#if addBtnEl}
 				<div
-					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-60 flex flex-col rounded"
+					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-60 flex flex-col rounded border border-slate-200"
 					class:hidden={!showAddDropdown}
 					use:clickOutside={[addBtnEl]}
 					on:clickoutside={() => {
@@ -211,5 +211,7 @@
 			DEMO MODE - <span class="text-sm">Create operations are disabled</span>
 		</div>
 	{/if}
-	<slot />
+	<div class="container mx-auto">
+		<slot />
+	</div>
 </main>

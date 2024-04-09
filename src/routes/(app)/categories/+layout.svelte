@@ -10,7 +10,7 @@
 			{
 				href: '/categories',
 				icon: 'house',
-				title: 'All Recipes',
+				title: 'All Categories',
 				isCustom: false
 			},
 			{

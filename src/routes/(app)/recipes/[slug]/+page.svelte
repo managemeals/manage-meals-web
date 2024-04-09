@@ -11,7 +11,7 @@
 	<title>{data.recipe.data.title} - Recipes - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="container mx-auto">
+<div>
 	<div class="sm:px-5">
 		<div
 			style={`background-image: url("${data.recipe.data.image}")`}

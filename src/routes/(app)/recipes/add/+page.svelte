@@ -36,10 +36,10 @@
 </script>
 
 <svelte:head>
-	<title>Add Recipe - {PUBLIC_MAIN_TITLE}</title>
+	<title>Add Recipe - Recipes - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5 container">
+<div class="p-5">
 	<h1 class="text-2xl font-bold mb-5">Add Recipe</h1>
 	<p class="mb-3">
 		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve
@@ -87,7 +87,7 @@
 				{#each data.categories as category}
 					<div>
 						<button
-							class={`p-2 border rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-slate-100'}`}
 							type="button"
 							on:click={() => {
 								handleAddCategory(category);
@@ -105,7 +105,7 @@
 				{#each data.tags as tag}
 					<div>
 						<button
-							class={`p-2 border rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-slate-100'}`}
 							type="button"
 							on:click={() => {
 								handleAddTag(tag);

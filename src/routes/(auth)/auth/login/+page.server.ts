@@ -10,6 +10,7 @@ import type { IAPIError, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import axios, { AxiosError } from 'axios';
 import type { PageServerLoad } from './$types';
+import { getErrorMessage } from '$lib/errors';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const callback = url.searchParams.get('callback');
@@ -109,7 +110,7 @@ export const actions = {
 			});
 		} catch (e) {
 			console.log(e);
-			failObj.message = 'There was an error sending verify email, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 

@@ -28,7 +28,7 @@
 {#if PUBLIC_MOCK_INSTANCE === 'yes'}
 	<div class="mb-5 border-2 border-indigo-700 p-2">
 		For the demo, please login using the email <strong>demo@example.com</strong> with the password
-		<strong>secret</strong>
+		<strong>secret</strong>.
 	</div>
 {/if}
 {#if form?.message}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import { page } from '$app/stores';
-	import Icon from '$lib/components/Icon.svelte';
+	import Icon from '@iconify/svelte';
 </script>
 
 <svelte:head>
@@ -10,8 +10,8 @@
 
 <div class="flex justify-center items-center pt-20">
 	<a href="/" class="flex justify-center items-center gap-4">
-		<Icon icon="house" />
-		<div class="text-2xl font-bold">
+		<Icon icon="ph:cooking-pot" color="#f97316" width="3rem" />
+		<div class="text-3xl font-bold">
 			Manage<span class="text-orange-500">Meals</span>
 		</div>
 	</a>

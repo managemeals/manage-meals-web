@@ -2,6 +2,7 @@ import apiClient from '$lib/server/api/client';
 import type { ICategory, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getErrorMessage } from '$lib/errors';
 
 export const load: PageServerLoad = async ({ cookies, params }) => {
 	const { slug } = params;
@@ -41,7 +42,7 @@ export const actions = {
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error updating category, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 
@@ -63,7 +64,7 @@ export const actions = {
 			console.log(e);
 			const failObj: IEnhanceRes = {
 				deleteMessageType: 'error',
-				deleteMessage: 'There was an error deleting category, please try again.'
+				deleteMessage: getErrorMessage(e)
 			};
 			return fail(500, failObj);
 		}

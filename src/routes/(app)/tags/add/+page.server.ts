@@ -1,3 +1,4 @@
+import { getErrorMessage } from '$lib/errors';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail } from '@sveltejs/kit';
@@ -26,7 +27,7 @@ export const actions = {
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error adding tag, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 

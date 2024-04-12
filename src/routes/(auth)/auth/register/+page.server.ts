@@ -1,4 +1,5 @@
 import { PASSWORD_MIN_LENGTH } from '$env/static/private';
+import { getErrorMessage } from '$lib/errors';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
@@ -39,7 +40,7 @@ export const actions = {
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error registering, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 

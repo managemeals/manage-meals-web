@@ -2,6 +2,7 @@ import apiClient from '$lib/server/api/client';
 import type { ICategory, IEnhanceFailRes, ITag } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getErrorMessage } from '$lib/errors';
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	try {
@@ -44,7 +45,7 @@ export const actions = {
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error adding recipe, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 

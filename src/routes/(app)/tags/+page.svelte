@@ -21,7 +21,7 @@
 </svelte:head>
 
 <div class="p-5">
-	<div class="flex flex-col xl:flex-row gap-3">
+	<div class="flex flex-col xl:flex-row gap-3 mb-5">
 		<div class="flex items-center gap-3">
 			<h1 class="text-2xl font-bold">All Tags</h1>
 			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
@@ -127,9 +127,11 @@
 		</div>
 	</div>
 
-	<div
-		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 mt-5"
-	>
+	{#if !data.recipes.total}
+		<p class="italic">No recipes</p>
+	{/if}
+
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
 		{#each data.recipes.data as recipe}
 			<RecipeCard {recipe} />
 		{/each}

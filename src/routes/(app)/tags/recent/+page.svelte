@@ -19,6 +19,10 @@
 		</div>
 	</div>
 
+	{#if !data.recipes.total}
+		<p class="italic">No recipes</p>
+	{/if}
+
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
 		{#each data.recipes.data as recipe}
 			<RecipeCard {recipe} />

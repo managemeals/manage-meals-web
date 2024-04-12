@@ -2,6 +2,7 @@ import apiClient from '$lib/server/api/client';
 import type { ICategory, IEnhanceFailRes, IEnhanceRes, IRecipe, ITag } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getErrorMessage } from '$lib/errors';
 
 export const load: PageServerLoad = async ({ cookies, params }) => {
 	const { slug } = params;
@@ -92,7 +93,7 @@ export const actions = {
 			console.log(e);
 			const failObj: IEnhanceFailRes = { inputs: {}, errors: {} };
 			failObj.messageType = 'error';
-			failObj.message = 'There was an error saving recipe, please try again.';
+			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 
@@ -107,7 +108,7 @@ export const actions = {
 			console.log(e);
 			const failObj: IEnhanceRes = {
 				deleteMessageType: 'error',
-				deleteMessage: 'There was an error deleting recipe, please try again.'
+				deleteMessage: getErrorMessage(e)
 			};
 			return fail(500, failObj);
 		}

@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="p-5 pt-10">
-	<form action="/search" method="get">
+	<form action="/search" method="get" class="mb-5">
 		<div
 			class="flex rounded border-2 [&:not(:focus-within)]:hover:border-gray-300 relative ring ring-transparent focus-within:ring-orange-500 focus-within:border-transparent"
 		>
@@ -31,7 +31,10 @@
 			</button>
 		</div>
 	</form>
-	<div class="mt-5">
+	{#if data.q && (!data.search?.hits || !data.search?.hits.length)}
+		<p class="italic">No results found</p>
+	{/if}
+	<div>
 		{#each data.search?.hits || [] as hit}
 			<div class="mb-4 last:mb-0">
 				<RecipeSearchCard recipe={hit} />

@@ -101,7 +101,7 @@
 		>
 			<Icon
 				icon="list"
-				color={!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? '#fdba74' : '#fff'}
+				color={!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? '#fb923c' : '#fff'}
 				width={1.5}
 			/>
 		</button>

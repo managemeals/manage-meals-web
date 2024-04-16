@@ -24,7 +24,7 @@
 				<h1 class="font-bold text-4xl">Recipe Manager</h1>
 				<h2 class="pt-5 text-lg">
 					ManageMeals is a simple, easy-to-use platform to manage recipes. Import recipes by URL and
-					organize them without the ads or unnecessary text.
+					organize them without any ads or unnecessary text.
 				</h2>
 				<div class="flex gap-5 pt-8">
 					<a

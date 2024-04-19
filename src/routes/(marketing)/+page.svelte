@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>{PUBLIC_MAIN_TITLE}</title>
+	<title>{PUBLIC_MAIN_TITLE} - Recipe Manager</title>
 </svelte:head>
-
-<!-- relative px-3 py-20 pb-40 before:absolute before:bg-slate-100 before:top-[-50rem] before:-right-60 overflow-hidden
-		before:-left-60 before:h-[90rem] before:-rotate-6 before:border-b before:-z-10 -->
 
 <header
 	class={`
@@ -27,12 +27,21 @@
 					organize them without any ads or unnecessary text.
 				</h2>
 				<div class="flex gap-5 pt-8">
-					<a
-						href="/auth/register"
-						class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
-					>
-						Register
-					</a>
+					{#if data && data.user}
+						<a
+							href="/categories"
+							class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
+						>
+							Open App
+						</a>
+					{:else}
+						<a
+							href="/auth/register"
+							class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
+						>
+							Register
+						</a>
+					{/if}
 					<a
 						href="https://demo.managemeals.com/auth/login"
 						target="_blank"
@@ -59,6 +68,17 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:money" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Free</h4>
+				</div>
+				<p class="pt-3">
+					ManageMeals is completely free. Simply register and start organizing your favorite
+					recipes.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:layout" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Easy, Simple Interface</h4>
 				</div>
@@ -78,14 +98,6 @@
 					Powerful and fast search that finds what you're looking for almost instantly. Can handle
 					spelling mistakes.
 				</p>
-			</div>
-
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:megaphone" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">No Ads</h4>
-				</div>
-				<p class="pt-3">The low monthly price of £2.90 means there are no ads on ManageMeals.</p>
 			</div>
 
 			<div>
@@ -118,10 +130,10 @@
 					<h4 class="text-xl font-semibold">Support</h4>
 				</div>
 				<p class="pt-3">
-					Unlimited support. If you're having any problems, found a recipe website that's not
-					currently supported, have a feature request, or anything else, then please send an email
-					to <a href="mailto:hello@managemeals.com" class="hover:underline text-blue-500"
-						>hello@managemeals.com</a
+					If you're having any problems, found a recipe website that's not currently supported, have
+					a feature request, or anything else, then please send an email to <a
+						href="mailto:support@managemeals.com"
+						class="hover:underline text-blue-500">support@managemeals.com</a
 					>. We reply quickly.
 				</p>
 			</div>
@@ -177,42 +189,35 @@
 
 <section class="px-3 py-20 bg-slate-100">
 	<div class="container mx-auto">
-		<h3 class="text-3xl font-bold text-center pb-10">Pricing</h3>
-		<div class="flex flex-col items-center gap-2 md:flex-row md:gap-10 md:justify-center pb-3">
-			<div class="flex items-end gap-1">
-				<div class="font-bold text-3xl md:text-5xl">£2.90</div>
-				<div class="text-gray-600">/month</div>
+		<h3 class="text-3xl font-bold text-center pb-10">How it works</h3>
+		<div class="flex flex-col lg:flex-row gap-5">
+			<div class="basis-2/5">
+				<div class="pt-5">
+					<ol class="list-decimal list-inside">
+						<li class="mb-3 last:mb-0">Copy the URL of a recipe you want to save.</li>
+						<li class="mb-3 last:mb-0">
+							Paste the URL into the <span class="font-semibold">Add Recipe</span> form.
+						</li>
+						<li class="mb-3 last:mb-0">
+							Optionally choose any categories or tags to apply to the recipe. This can also be done
+							later.
+						</li>
+						<li class="mb-3 last:mb-0">Click <span class="font-semibold">Add</span>.</li>
+						<li class="mb-3 last:mb-0">
+							ManageMeals fetches the recipe data from the URL and saves it.
+						</li>
+					</ol>
+				</div>
 			</div>
-			<ul class="pt-3 text-lg">
-				<li class="flex items-center gap-2 pb-1 last:pb-0">
-					<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-					<div>All available features, and all future ones</div>
-				</li>
-				<li class="flex items-center gap-2 pb-1 last:pb-0">
-					<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-					<div>Unlimited recipes</div>
-				</li>
-				<li class="flex items-center gap-2 pb-1 last:pb-0">
-					<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-					<div>Unlimited support</div>
-				</li>
-				<li class="flex items-center gap-2 pb-1 last:pb-0">
-					<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-					<div>Cancel anytime</div>
-				</li>
-				<li class="flex items-center gap-2 pb-1 last:pb-0">
-					<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-					<div>No ads</div>
-				</li>
-			</ul>
-		</div>
-		<div class="flex justify-center mt-5">
-			<a
-				href="/auth/register"
-				class="bg-orange-500 rounded px-5 py-3 text-white hover:bg-orange-600 shadow"
-			>
-				Register
-			</a>
+			<div class="basis-3/5">
+				<video controls muted>
+					<source
+						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmrecording.mov"
+						type="video/mp4"
+					/>
+					Your browser does not support the video tag.
+				</video>
+			</div>
 		</div>
 	</div>
 </section>
@@ -222,20 +227,21 @@
 		<h3 class="text-3xl font-bold text-center pb-10">Demo</h3>
 		<div class="flex flex-col lg:flex-row gap-5">
 			<div class="grow">
-				<p>
-					You can try out ManageMeals on the <a
-						href="https://demo.managemeals.com/auth/login"
-						class="hover:underline text-blue-500"
-						target="_blank">demo website</a
-					>. The demo has a collection of a 1000 fake recipes.
-				</p>
-				<p class="mt-1 italic">
-					Create actions are disabled in the demo, such as creating recipes, categories and tags.
-					The demo might also be a bit slow at times, depending on traffic. It's not running on the
-					same powerful hardware as the main platform, so it's not a good indicator of how fast the
-					platform is.
-				</p>
-				<p class="mt-5">Below you can see a recording of how importing a recipe by URL works.</p>
+				<div class="pt-5">
+					<p>
+						You can try out ManageMeals on the <a
+							href="https://demo.managemeals.com/auth/login"
+							class="hover:underline text-blue-500"
+							target="_blank">demo website</a
+						>. The demo has a collection of a 1000 fake recipes.
+					</p>
+					<p class="mt-1 italic">
+						Create actions are disabled in the demo, such as creating recipes, categories and tags.
+						The demo might also be a bit slow at times, depending on traffic. It's not running on
+						the same powerful hardware as the main platform, so it's not a good indicator of how
+						fast the platform is.
+					</p>
+				</div>
 			</div>
 			<div>
 				<div class="bg-white p-5 shadow border rounded">
@@ -252,17 +258,6 @@
 					<div class="font-semibold mt-2">Login password</div>
 					<div>secret</div>
 				</div>
-			</div>
-		</div>
-		<div class="flex pt-5">
-			<div class="basis-full lg:basis-2/3">
-				<video controls muted>
-					<source
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmrecording.mov"
-						type="video/mp4"
-					/>
-					Your browser does not support the video tag.
-				</video>
 			</div>
 		</div>
 	</div>

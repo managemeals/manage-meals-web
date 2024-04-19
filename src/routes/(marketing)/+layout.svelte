@@ -21,7 +21,7 @@
 		</div>
 		<div class="flex gap-5">
 			{#if data && data.user}
-				<a href="/categories" class="hover:underline">Go to app</a>
+				<a href="/categories" class="hover:underline">Open App</a>
 			{:else}
 				<a href="/auth/login" class="hover:underline">Login</a>
 				<a href="/auth/register" class="hover:underline">Register</a>
@@ -41,12 +41,22 @@
 			<p>ManageMeals is a simple, easy-to-use platform to manage recipes.</p>
 		</div>
 		<div class="flex flex-col md:flex-row gap-10">
-			<div>
-				<h5 class="font-semibold mb-1">Support</h5>
-				<div class="flex flex-col gap-1">
-					<a href="mailto:hello@managemeals.com" class="hover:underline text-blue-500"
-						>hello@managemeals.com</a
-					>
+			<div class="flex flex-col gap-1">
+				<div>
+					<h5 class="font-semibold mb-1">Contact</h5>
+					<div class="flex flex-col gap-1">
+						<a href="mailto:hello@managemeals.com" class="hover:underline text-blue-500"
+							>hello@managemeals.com</a
+						>
+					</div>
+				</div>
+				<div>
+					<h5 class="font-semibold mb-1">Support</h5>
+					<div class="flex flex-col gap-1">
+						<a href="mailto:support@managemeals.com" class="hover:underline text-blue-500"
+							>support@managemeals.com</a
+						>
+					</div>
 				</div>
 			</div>
 			<div>

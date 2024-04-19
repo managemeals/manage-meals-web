@@ -15,34 +15,7 @@
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Register</h1>
-<div class="flex flex-col items-center gap-2 md:flex-row md:gap-10 md:justify-center pb-3">
-	<div class="flex items-end gap-1">
-		<div class="font-bold text-3xl md:text-5xl">£2.90</div>
-		<div class="text-gray-600">/month</div>
-	</div>
-	<ul class="pt-3">
-		<li class="flex items-center gap-2 pb-1 last:pb-0">
-			<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-			<div>All available features, and all future ones</div>
-		</li>
-		<li class="flex items-center gap-2 pb-1 last:pb-0">
-			<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-			<div>Unlimited recipes</div>
-		</li>
-		<li class="flex items-center gap-2 pb-1 last:pb-0">
-			<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-			<div>Unlimited support</div>
-		</li>
-		<li class="flex items-center gap-2 pb-1 last:pb-0">
-			<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-			<div>Cancel anytime</div>
-		</li>
-		<li class="flex items-center gap-2 pb-1 last:pb-0">
-			<Icon icon="ph:check-circle" color="#22c55e" width="1rem" />
-			<div>No ads</div>
-		</li>
-	</ul>
-</div>
+
 {#if form?.message}
 	<div class="py-4">
 		<Alert variant={form?.messageType || 'error'}>
@@ -102,12 +75,6 @@
 		{/if}
 	</div>
 	<div class="pb-5 last:pb-0">
-		<p class="pb-5">
-			When you click <span class="font-semibold">Register</span> you'll be taken to a payment
-			website where you setup Direct debit. There is no immediate payment, you'll be notified couple
-			of days before the first payment is taken. You can keep track of upcoming payments in
-			<span class="font-semibold">Settings</span>.
-		</p>
 		<button
 			type="submit"
 			disabled={submitting}

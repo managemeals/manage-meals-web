@@ -2,7 +2,7 @@ import { PASSWORD_MIN_LENGTH } from '$env/static/private';
 import { getErrorMessage } from '$lib/errors';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -29,23 +29,17 @@ export const actions = {
 			return fail(400, failObj);
 		}
 
-		let userUuid = '';
 		try {
-			const res = await apiClientUnauthed.post('/auth/register', {
+			await apiClientUnauthed.post('/auth/register', {
 				name,
 				email,
 				password
 			});
-			userUuid = res.data.uuid || '';
 		} catch (e) {
 			console.log(e);
 			failObj.messageType = 'error';
 			failObj.message = getErrorMessage(e);
 			return fail(500, failObj);
-		}
-
-		if (userUuid) {
-			return redirect(303, `/auth/subscription/mandate?uuid=${userUuid}`);
 		}
 
 		const successObj: IEnhanceRes = {

@@ -4,7 +4,7 @@ import axios, { type AxiosInstance } from 'axios';
 
 const apiClientUnauthed = axios.create({
 	baseURL: API_URL,
-	timeout: 5000,
+	timeout: 30000,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ const apiClient = (cookies: ICookie[]): AxiosInstance => {
 
 	const apiClientAuthed = axios.create({
 		baseURL: API_URL,
-		timeout: 5000,
+		timeout: 30000,
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json'

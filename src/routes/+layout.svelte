@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 	import '../app.css';
+	import '../print.css';
 </script>
 
 <svelte:head>

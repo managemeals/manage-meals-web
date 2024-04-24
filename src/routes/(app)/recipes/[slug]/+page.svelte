@@ -144,7 +144,7 @@
 			</div>
 		</div>
 
-		{#if data.recipe.data.nutrients && Object.keys(data.recipe.data.nutrients).length}
+		{#if data.recipe.data.nutrients && Object.keys(data.recipe.data.nutrients).length && !Object.values(data.recipe.data.nutrients).every((k) => k === '')}
 			<div class="mb-5">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Nutrition</h3>
 				<div class="overflow-auto">

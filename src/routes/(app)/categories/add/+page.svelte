@@ -22,7 +22,7 @@
 					{
 						href: `/categories/${form?.slug}`,
 						title: form?.name,
-						icon: 'folder',
+						icon: 'ph:folder',
 						isCustom: true
 					}
 				].sort((a, b) => a.title.localeCompare(b.title))

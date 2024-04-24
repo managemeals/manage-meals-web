@@ -1,0 +1,22 @@
+@media print {
+
+  nav,
+  div.bg-center,
+  div.fixed.top-16.w-16,
+  a[title="Edit"] {
+    display: none !important;
+  }
+
+  main {
+    padding-left: 0 !important;
+  }
+
+  .text-orange-500, .text-blue-500 {
+    color: #000;
+  }
+
+  svg {
+    color: #000 !important;
+  }
+
+}

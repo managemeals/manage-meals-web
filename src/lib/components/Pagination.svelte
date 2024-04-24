@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
 	import { page as storePage } from '$app/stores';
+	import Icon from '@iconify/svelte';
 
 	export let page: number;
 	export let total: number;
@@ -31,7 +31,7 @@
 		<div class="flex">
 			<div class="border p-2 rounded-l flex justify-center items-center opacity-30">
 				<span class="sr-only">Previous</span>
-				<Icon icon="caret-left" />
+				<Icon icon="ph:caret-left" width="1rem" />
 			</div>
 			{#each { length: pages } as _, i}
 				<a
@@ -42,7 +42,7 @@
 			{/each}
 			<div class="border p-2 rounded-r flex justify-center items-center opacity-30">
 				<span class="sr-only">Next</span>
-				<Icon icon="caret-right" />
+				<Icon icon="ph:caret-right" width="1rem" />
 			</div>
 		</div>
 	{:else}
@@ -50,7 +50,7 @@
 			{#if page < 2}
 				<div class="border p-2 rounded-l flex justify-center items-center opacity-30">
 					<span class="sr-only">Previous</span>
-					<Icon icon="caret-left" />
+					<Icon icon="ph:caret-left" width="1rem" />
 				</div>
 			{:else}
 				<a
@@ -58,7 +58,7 @@
 					class="border p-2 rounded-l flex justify-center items-center hover:bg-gray-100"
 				>
 					<span class="sr-only">Previous</span>
-					<Icon icon="caret-left" />
+					<Icon icon="ph:caret-left" width="1rem" />
 				</a>
 			{/if}
 			<a
@@ -83,7 +83,7 @@
 			{#if page >= pages}
 				<div class="border p-2 rounded-r flex justify-center items-center opacity-30">
 					<span class="sr-only">Next</span>
-					<Icon icon="caret-right" />
+					<Icon icon="ph:caret-right" width="1rem" />
 				</div>
 			{:else}
 				<a
@@ -91,7 +91,7 @@
 					class="border p-2 rounded-r flex justify-center items-center hover:bg-gray-100"
 				>
 					<span class="sr-only">Next</span>
-					<Icon icon="caret-right" />
+					<Icon icon="ph:caret-right" width="1rem" />
 				</a>
 			{/if}
 		</div>

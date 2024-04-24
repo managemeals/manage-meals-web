@@ -6,17 +6,17 @@
 		$sidebarLinks = [
 			{
 				href: '/settings/user',
-				icon: 'user',
+				icon: 'ph:user',
 				title: 'User'
 			},
 			// {
 			// 	href: '/settings/subscription',
-			// 	icon: 'credit-card',
+			// 	icon: 'ph:credit-card',
 			// 	title: 'Subscription'
 			// },
 			{
 				href: '/settings/logout',
-				icon: 'sign-out',
+				icon: 'ph:sign-out',
 				title: 'Logout'
 			}
 		];

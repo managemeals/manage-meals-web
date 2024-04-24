@@ -9,25 +9,25 @@
 		$sidebarLinks = [
 			{
 				href: '/tags',
-				icon: 'house',
+				icon: 'ph:house',
 				title: 'All Tags',
 				isCustom: false
 			},
 			{
 				href: '/tags/recent',
-				icon: 'clock',
+				icon: 'ph:clock',
 				title: 'Most Recent',
 				isCustom: false
 			},
 			{
 				href: '/tags/untagged',
-				icon: 'tray',
+				icon: 'ph:tray',
 				title: 'Untagged',
 				isCustom: false
 			},
 			...data.tags.map((tag) => ({
 				href: `/tags/${tag.slug}`,
-				icon: 'tag',
+				icon: 'ph:tag',
 				title: tag.name,
 				isCustom: true
 			}))

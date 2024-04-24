@@ -9,25 +9,25 @@
 		$sidebarLinks = [
 			{
 				href: '/categories',
-				icon: 'house',
+				icon: 'ph:house',
 				title: 'All Categories',
 				isCustom: false
 			},
 			{
 				href: '/categories/recent',
-				icon: 'clock',
+				icon: 'ph:clock',
 				title: 'Most Recent',
 				isCustom: false
 			},
 			{
 				href: '/categories/uncategorized',
-				icon: 'tray',
+				icon: 'ph:tray',
 				title: 'Uncategorized',
 				isCustom: false
 			},
 			...data.categories.map((category) => ({
 				href: `/categories/${category.slug}`,
-				icon: 'folder',
+				icon: 'ph:folder',
 				title: category.name,
 				isCustom: true
 			}))

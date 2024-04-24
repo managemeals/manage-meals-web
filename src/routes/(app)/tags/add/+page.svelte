@@ -22,7 +22,7 @@
 					{
 						href: `/tags/${form?.slug}`,
 						title: form?.name,
-						icon: 'tag',
+						icon: 'ph:tag',
 						isCustom: true
 					}
 				].sort((a, b) => a.title.localeCompare(b.title))

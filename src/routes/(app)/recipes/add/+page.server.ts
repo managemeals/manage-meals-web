@@ -1,5 +1,5 @@
 import apiClient from '$lib/server/api/client';
-import type { ICategory, IEnhanceFailRes, ITag } from '$lib/types';
+import type { ICategory, IEnhanceFailRes, IEnhanceRes, ITag } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getErrorMessage } from '$lib/errors';
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
+	add: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const url = data.get('url') as string;
 		const categories = data.get('categories') as string;
@@ -50,5 +50,73 @@ export const actions = {
 		}
 
 		return redirect(303, `/recipes/${slug}`);
+	},
+
+	addcategory: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const name = data.get('name') as string;
+
+		const failObj: IEnhanceFailRes = { inputs: { addCategoryName: name }, errors: {} };
+
+		if (!name) {
+			failObj.errors.addCategoryName = 'Name is empty';
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/categories', {
+				name
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.addCategoryMessageType = 'error';
+			failObj.addCategoryMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			addCategorySlug: slug as string
+		};
+
+		return successObj;
+	},
+
+	addtag: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const name = data.get('name') as string;
+
+		const failObj: IEnhanceFailRes = { inputs: { addTagName: name }, errors: {} };
+
+		if (!name) {
+			failObj.errors.addTagName = 'Name is empty';
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/tags', {
+				name
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.addTagMessageType = 'error';
+			failObj.addTagMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			addTagSlug: slug as string
+		};
+
+		return successObj;
 	}
 };

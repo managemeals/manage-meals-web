@@ -50,6 +50,9 @@
 					>
 						{#each data.categories as category}
 							<a
+								on:click={() => {
+									showCategoriesDropdown = false;
+								}}
 								href={`?${new URLSearchParams({
 									...Object.fromEntries($storePage.url.searchParams),
 									page: '1',
@@ -100,6 +103,9 @@
 					>
 						{#each data.tags as tag}
 							<a
+								on:click={() => {
+									showTagsDropdown = false;
+								}}
 								href={`?${new URLSearchParams({
 									...Object.fromEntries($storePage.url.searchParams),
 									page: '1',

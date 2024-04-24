@@ -55,6 +55,7 @@ export const actions = {
 
 		return successObj;
 	},
+
 	delete: async ({ cookies, params }) => {
 		const { slug } = params;
 

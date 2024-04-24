@@ -5,12 +5,15 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import Icon from '@iconify/svelte';
 	import type { ICategory, ITag } from '$lib/types';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let form: ActionData;
 
 	export let data: PageData;
 
 	let submitting = false;
+	let showAddCategoryModal = false;
+	let showAddTagModal = false;
 
 	let selectedCategories: string[] = [];
 	let selectedTags: string[] = [];
@@ -33,6 +36,14 @@
 			selectedTags = [...selectedTags, tag.uuid];
 		}
 	};
+
+	$: if (form?.addCategorySlug) {
+		showAddCategoryModal = false;
+	}
+
+	$: if (form?.addTagSlug) {
+		showAddTagModal = false;
+	}
 </script>
 
 <svelte:head>
@@ -43,8 +54,7 @@
 	<h1 class="text-2xl font-bold mb-5">Add Recipe</h1>
 	<p class="mb-3">
 		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve
-		the recipe from the site and add it to your collection. It works with all popular recipe
-		websites, and many smaller ones. If it's not working for your URL, please
+		the recipe from the site and add it to your collection. If it's not working for your URL, please
 		<a href="/help/contact" class="hover:underline text-blue-500">contact us</a> and we will add support
 		for it.
 	</p>
@@ -57,6 +67,7 @@
 	{/if}
 	<form
 		method="post"
+		action="?/add"
 		use:enhance={() => {
 			submitting = true;
 			return async ({ update }) => {
@@ -79,8 +90,21 @@
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.url}</div>
 			{/if}
 		</div>
-		<div class="pb-5 last:pb-0">
-			<label for="categories" class="font-semibold block">Categories</label>
+		<div class="pb-5 last:pb-0 -mt-1">
+			<label for="categories" class="font-semibold flex items-center gap-2">
+				<span>Categories</span>
+				<button
+					type="button"
+					title="Add Category"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showAddCategoryModal = true;
+					}}
+				>
+					<span class="sr-only">Add Category</span>
+					<Icon icon="ph:plus" color="#000" width="1.5rem" />
+				</button>
+			</label>
 			<p class="text-sm text-gray-500">Optionally choose any categories to add the recipe to</p>
 			<input type="hidden" id="categories" name="categories" bind:value={selectedCategoriesValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
@@ -97,8 +121,21 @@
 				{/each}
 			</div>
 		</div>
-		<div class="pb-5 last:pb-0">
-			<label for="tags" class="font-semibold block">Tags</label>
+		<div class="pb-5 last:pb-0 -mt-1">
+			<label for="tags" class="font-semibold flex items-center gap-2">
+				<span>Tags</span>
+				<button
+					type="button"
+					title="Add Tag"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showAddTagModal = true;
+					}}
+				>
+					<span class="sr-only">Add Tag</span>
+					<Icon icon="ph:plus" color="#000" width="1.5rem" />
+				</button>
+			</label>
 			<p class="text-sm text-gray-500">Optionally choose any tags to tag the recipe with</p>
 			<input type="hidden" id="tags" name="tags" bind:value={selectedTagsValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
@@ -129,3 +166,77 @@
 		</div>
 	</form>
 </div>
+
+<Modal bind:show={showAddCategoryModal}>
+	<div class="text-xl font-semibold mb-5">Add Category</div>
+	{#if form?.addCategoryMessage}
+		<div class="py-4">
+			<Alert variant={form?.addCategoryMessageType || 'error'}>
+				{form?.addCategoryMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/addcategory" use:enhance>
+		<div class="pb-5 last:pb-0">
+			<label for="name" class="font-semibold pb-2 block">Name</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				value={form?.inputs?.addCategoryName ?? ''}
+				placeholder="Name"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.addCategoryName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.addCategoryName}</div>
+			{/if}
+		</div>
+		<div class="pb-5 last:pb-0">
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				>Add</button
+			>
+		</div>
+	</form>
+</Modal>
+
+<Modal bind:show={showAddTagModal}>
+	<div class="text-xl font-semibold mb-5">Add Tag</div>
+	{#if form?.addTagMessage}
+		<div class="py-4">
+			<Alert variant={form?.addTagMessageType || 'error'}>
+				{form?.addTagMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/addtag" use:enhance>
+		<div class="pb-5 last:pb-0">
+			<label for="name" class="font-semibold pb-2 block">Name</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				value={form?.inputs?.addTagName ?? ''}
+				placeholder="Name"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.addTagName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.addTagName}</div>
+			{/if}
+		</div>
+		<div class="pb-5 last:pb-0">
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				>Add</button
+			>
+		</div>
+	</form>
+</Modal>

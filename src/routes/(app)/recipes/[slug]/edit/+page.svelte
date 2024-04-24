@@ -266,7 +266,7 @@
 						id="data.nutrients.calories"
 						name="data.nutrients.calories"
 						value={form?.inputs?.data?.nutrients?.calories ??
-							data.recipe.data.nutrients.calories ??
+							data.recipe.data.nutrients?.calories ??
 							''}
 						placeholder="Calories"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -284,7 +284,7 @@
 						id="data.nutrients.carbohydrateContent"
 						name="data.nutrients.carbohydrateContent"
 						value={form?.inputs?.data?.nutrients?.carbohydrateContent ??
-							data.recipe.data.nutrients.carbohydrateContent ??
+							data.recipe.data.nutrients?.carbohydrateContent ??
 							''}
 						placeholder="Carbohydrate"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -304,7 +304,7 @@
 						id="data.nutrients.cholesterolContent"
 						name="data.nutrients.cholesterolContent"
 						value={form?.inputs?.data?.nutrients?.cholesterolContent ??
-							data.recipe.data.nutrients.cholesterolContent ??
+							data.recipe.data.nutrients?.cholesterolContent ??
 							''}
 						placeholder="Cholesterol"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -327,7 +327,7 @@
 						id="data.nutrients.fatContent"
 						name="data.nutrients.fatContent"
 						value={form?.inputs?.data?.nutrients?.fatContent ??
-							data.recipe.data.nutrients.fatContent ??
+							data.recipe.data.nutrients?.fatContent ??
 							''}
 						placeholder="Fat"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -343,7 +343,7 @@
 						id="data.nutrients.fiberContent"
 						name="data.nutrients.fiberContent"
 						value={form?.inputs?.data?.nutrients?.fiberContent ??
-							data.recipe.data.nutrients.fiberContent ??
+							data.recipe.data.nutrients?.fiberContent ??
 							''}
 						placeholder="Fiber"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -362,7 +362,7 @@
 						id="data.nutrients.proteinContent"
 						name="data.nutrients.proteinContent"
 						value={form?.inputs?.data?.nutrients?.proteinContent ??
-							data.recipe.data.nutrients.proteinContent ??
+							data.recipe.data.nutrients?.proteinContent ??
 							''}
 						placeholder="Protein"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -387,7 +387,7 @@
 						id="data.nutrients.saturatedFatContent"
 						name="data.nutrients.saturatedFatContent"
 						value={form?.inputs?.data?.nutrients?.saturatedFatContent ??
-							data.recipe.data.nutrients.saturatedFatContent ??
+							data.recipe.data.nutrients?.saturatedFatContent ??
 							''}
 						placeholder="Saturated fat"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -405,7 +405,7 @@
 						id="data.nutrients.sodiumContent"
 						name="data.nutrients.sodiumContent"
 						value={form?.inputs?.data?.nutrients?.sodiumContent ??
-							data.recipe.data.nutrients.sodiumContent ??
+							data.recipe.data.nutrients?.sodiumContent ??
 							''}
 						placeholder="Sodium"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -423,7 +423,7 @@
 						id="data.nutrients.sugarContent"
 						name="data.nutrients.sugarContent"
 						value={form?.inputs?.data?.nutrients?.sugarContent ??
-							data.recipe.data.nutrients.sugarContent ??
+							data.recipe.data.nutrients?.sugarContent ??
 							''}
 						placeholder="Sugar"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
@@ -448,7 +448,7 @@
 						id="data.nutrients.unsaturatedFatContent"
 						name="data.nutrients.unsaturatedFatContent"
 						value={form?.inputs?.data?.nutrients?.unsaturatedFatContent ??
-							data.recipe.data.nutrients.unsaturatedFatContent ??
+							data.recipe.data.nutrients?.unsaturatedFatContent ??
 							''}
 						placeholder="Unsaturated fat"
 						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"

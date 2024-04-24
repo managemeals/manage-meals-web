@@ -5,9 +5,15 @@
 
 	let dialog: HTMLDialogElement;
 
-	$: if (dialog && show) {
-		dialog.showModal();
-	}
+	const handleShow = (d: HTMLDialogElement, s: boolean) => {
+		if (dialog && show) {
+			dialog.showModal();
+		} else if (dialog && !show) {
+			dialog.close();
+		}
+	};
+
+	$: handleShow(dialog, show);
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -19,7 +25,7 @@
 	on:click|self={() => {
 		dialog.close();
 	}}
-	class="rounded shadow max-w-3xl"
+	class="rounded shadow max-w-3xl w-full"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/actions/clickOutside';
-	import Icon from '$lib/components/Icon.svelte';
 	import { sidebarLinks } from '$lib/stores';
 	import { page } from '$app/stores';
 	import type { IIconLink, ILink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
 	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
+	import Icon from '@iconify/svelte';
 
 	const LG_BREAKPOINT = 1024;
 	const SM_BREAKPOINT = 640;
@@ -45,27 +45,27 @@
 	const leftNavLinks: IIconLink[] = [
 		{
 			href: '/categories',
-			icon: 'folder',
+			icon: 'ph:folder',
 			title: 'Categories'
 		},
 		{
 			href: '/tags',
-			icon: 'tag',
+			icon: 'ph:tag',
 			title: 'Tags'
 		},
 		{
 			href: '/search',
-			icon: 'magnifying-glass',
+			icon: 'ph:magnifying-glass',
 			title: 'Search'
 		},
 		{
 			href: '/settings/user',
-			icon: 'gear',
+			icon: 'ph:gear',
 			title: 'Settings'
 		},
 		{
 			href: '/help/faq',
-			icon: 'question',
+			icon: 'ph:question',
 			title: 'Help'
 		}
 	];
@@ -100,9 +100,9 @@
 			bind:this={sidebarBtnEl}
 		>
 			<Icon
-				icon="list"
+				icon="ph:list"
 				color={!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? '#fb923c' : '#fff'}
-				width={1.5}
+				width="1.5rem"
 			/>
 		</button>
 		<a
@@ -110,7 +110,7 @@
 			class="text-white text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
 		>
 			<div class="transition-transform translate-y-0 group-hover:lg:-translate-y-1">
-				<Icon icon="cooking-pot" color="#fff" width={2.2} />
+				<Icon icon="ph:cooking-pot" color="#fff" width="2.2rem" />
 			</div>
 			<div>Manage<span class="text-white">Meals</span></div>
 		</a>
@@ -126,7 +126,7 @@
 				bind:this={addBtnEl}
 				title="Add"
 			>
-				<Icon icon="plus" color="#fff" width={2} />
+				<Icon icon="ph:plus" color="#fff" width="2rem" />
 			</button>
 			{#if addBtnEl}
 				<div
@@ -166,7 +166,7 @@
 				title={leftNavLink.title}
 				on:click={handleCloseSidebar}
 			>
-				<Icon icon={leftNavLink.icon} color="#f97316" width={2} />
+				<Icon icon={leftNavLink.icon} color="#f97316" width="2rem" />
 			</a>
 		{/each}
 	</nav>
@@ -193,7 +193,7 @@
 				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2${$page.url.pathname === sidebarLink.href ? ' bg-gray-100' : ''}`}
 				on:click={handleCloseSidebar}
 			>
-				<Icon icon={sidebarLink.icon} width={1.5} color="#6b7280" />
+				<Icon icon={sidebarLink.icon} width="1.5rem" color="#6b7280" />
 				<span>{sidebarLink.title}</span>
 			</a>
 		{/each}

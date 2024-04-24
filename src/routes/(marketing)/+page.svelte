@@ -119,8 +119,8 @@
 					<h4 class="text-xl font-semibold">Fast</h4>
 				</div>
 				<p class="pt-3">
-					ManageMeals strives to be as fast as possible. There should be very little delay (close to
-					none) between clicking a recipe and seeing its detail page.
+					ManageMeals strives to be as fast as possible when navigating the app. No waiting around,
+					only recipes.
 				</p>
 			</div>
 
@@ -147,6 +147,18 @@
 					Recipes are imported by URL. ManageMeals supports hundreds of recipe websites, all of the
 					most popular ones and many smaller ones. If you find a recipe website that's not
 					supported, then please contact us and we'll add support for it.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:robot" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">AI</h4>
+				</div>
+				<p class="pt-3">
+					While there is direct support for hundreds of recipe websites, not all websites have a
+					predefined structure. This is where AI comes in. It will attempt to retrieve recipes from
+					any website, for example blogs.
 				</p>
 			</div>
 
@@ -181,6 +193,18 @@
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Browser extension to easily import recipes
 					while browsing the web.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:share-network" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Sharing (coming soon)</h4>
+				</div>
+				<p class="pt-3">
+					<span class="italic">Work in progress</span>. Share recipes with friends and family, or
+					share a whole meal plan. Ideal for personal trainers or nutritionists who want to share a
+					meal plan with their clients.
 				</p>
 			</div>
 		</div>

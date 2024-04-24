@@ -1,9 +1,16 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import type { LayoutData } from './$types';
+	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 
 	export let data: LayoutData;
 </script>
+
+{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+	<div class="text-white bg-indigo-700 p-1 font-bold">
+		DEMO MODE - <span class="text-sm">Create operations are disabled</span>
+	</div>
+{/if}
 
 <nav class="bg-slate-100 px-3 py-5">
 	<div

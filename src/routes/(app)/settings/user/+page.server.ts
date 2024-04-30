@@ -3,6 +3,15 @@ import { getErrorMessage } from '$lib/errors';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes, IEnhanceRes, IPatchUserReq } from '$lib/types';
 import { fail } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ parent }) => {
+	const parentData = await parent();
+
+	return {
+		user: parentData.user
+	};
+};
 
 export const actions = {
 	default: async ({ request, cookies }) => {

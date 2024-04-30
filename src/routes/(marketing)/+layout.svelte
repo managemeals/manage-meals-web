@@ -1,9 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import type { LayoutData } from './$types';
 	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
-
-	export let data: LayoutData;
 </script>
 
 {#if PUBLIC_MOCK_INSTANCE === 'yes'}
@@ -27,12 +24,7 @@
 			</a>
 		</div>
 		<div class="flex gap-5">
-			{#if data && data.user}
-				<a href="/categories" class="hover:underline">Open App</a>
-			{:else}
-				<a href="/auth/login" class="hover:underline">Login</a>
-				<a href="/auth/register" class="hover:underline">Register</a>
-			{/if}
+			<a href="/categories" class="hover:underline">Open App</a>
 		</div>
 	</div>
 </nav>

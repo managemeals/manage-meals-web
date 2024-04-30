@@ -7,10 +7,10 @@
 <svelte:head>
 	<script
 		async
-		src="https://umami.hilmarp.com/script.js"
+		src="https://umami.meganice.online/script.js"
 		data-website-id={PUBLIC_MOCK_INSTANCE === 'yes'
-			? '71d20502-c9f7-4b47-94ce-e580015c5f7b'
-			: '200a0003-82fd-4134-81ae-0ada0b65750b'}
+			? 'bfe1bea5-5243-4965-a619-dd2ed703e9b7'
+			: 'd8293365-5239-4532-97cd-a3eaf328de48'}
 	></script>
 </svelte:head>
 

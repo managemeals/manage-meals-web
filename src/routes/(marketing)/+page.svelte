@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
-	import type { PageData } from './$types';
-
-	export let data: PageData;
 </script>
 
 <svelte:head>
@@ -27,21 +24,12 @@
 					organize them without any ads or unnecessary text.
 				</h2>
 				<div class="flex gap-5 pt-8">
-					{#if data && data.user}
-						<a
-							href="/categories"
-							class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
-						>
-							Open App
-						</a>
-					{:else}
-						<a
-							href="/auth/register"
-							class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
-						>
-							Register
-						</a>
-					{/if}
+					<a
+						href="/auth/register"
+						class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
+					>
+						Register
+					</a>
 					<a
 						href="https://demo.managemeals.com/auth/login"
 						target="_blank"

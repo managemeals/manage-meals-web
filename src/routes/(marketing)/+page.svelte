@@ -5,6 +5,23 @@
 
 <svelte:head>
 	<title>{PUBLIC_MAIN_TITLE} - Recipe Manager</title>
+	<meta
+		name="description"
+		content="ManageMeals is a simple, easy-to-use platform to manage recipes. Import recipes by URL and organize them without any ads or unnecessary text."
+	/>
+	<meta property="og:title" content={`${PUBLIC_MAIN_TITLE} - Recipe Manager`} />
+	<meta
+		property="og:image"
+		content="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot6.png"
+	/>
+	<meta property="og:image:width" content="1694" />
+	<meta property="og:image:height" content="1281" />
+	<meta
+		property="og:description"
+		content="ManageMeals is a simple, easy-to-use platform to manage recipes. Import recipes by URL and organize them without any ads or unnecessary text."
+	/>
+	<meta property="og:url" content="https://managemeals.com/" />
+	<meta property="og:type" content="website" />
 </svelte:head>
 
 <header
@@ -41,8 +58,8 @@
 			</div>
 			<div class="basis-3/5">
 				<img
-					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot3.png"
-					alt="Screenshot"
+					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot6.png"
+					alt="App screenshot"
 					class="transition-transform shadow scale-100 hover:lg:scale-105"
 				/>
 			</div>

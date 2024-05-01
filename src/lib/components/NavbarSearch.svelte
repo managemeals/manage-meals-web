@@ -5,20 +5,22 @@
 	import Icon from '@iconify/svelte';
 	import { debounce } from 'lodash-es';
 
-	let searchResults: ISearch<ISearchRecipe> | undefined;
-
-	let searchInput = '';
-
-	let selectedSearchResultIndex = -1;
-
 	const descMaxLength = 70;
 
+	let searchResults: ISearch<ISearchRecipe> | undefined;
+	let searchInput = '';
+	let selectedSearchResultIndex = -1;
+	let isSearching = false;
+
 	const handleInput = debounce(async () => {
+		isSearching = true;
 		try {
 			const res = await fetch(`/api/search?q=${searchInput}`);
 			searchResults = await res.json();
 		} catch (e) {
 			searchResults = undefined;
+		} finally {
+			isSearching = false;
 		}
 	}, 300);
 
@@ -79,7 +81,12 @@
 		/>
 		<button type="submit" class="rounded-r bg-orange-600 px-3 hover:bg-orange-700">
 			<span class="sr-only">Search</span>
-			<Icon icon="ph:magnifying-glass" width="1.4rem" color="#fff" />
+			<span class:hidden={isSearching}>
+				<Icon icon="ph:magnifying-glass" width="1.4rem" color="#fff" />
+			</span>
+			<span class:hidden={!isSearching}>
+				<Icon icon="ph:circle-notch" color="#fff" width="1.4rem" class="animate-spin" />
+			</span>
 		</button>
 		<div
 			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded max-h-96"

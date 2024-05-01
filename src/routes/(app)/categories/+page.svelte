@@ -41,7 +41,7 @@
 				</button>
 				{#if categoriesBtnEl}
 					<div
-						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10"
+						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10 max-h-96 overflow-auto"
 						class:hidden={!showCategoriesDropdown}
 						use:clickOutside={[categoriesBtnEl]}
 						on:clickoutside={() => {
@@ -72,9 +72,12 @@
 								})
 									.toString()
 									.trim()}`}
-								class={`block w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100' : ''}`}
+								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100' : ''}`}
 							>
-								{category.name}
+								<span>{category.name}</span>
+								<span class:hidden={!data.selectedCategoriesSlugs.includes(category.slug)}>
+									<Icon icon="ph:x" color="#000" width="1.1rem" />
+								</span>
 							</a>
 						{/each}
 					</div>
@@ -94,7 +97,7 @@
 				</button>
 				{#if tagsBtnEl}
 					<div
-						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10"
+						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10 max-h-96 overflow-auto"
 						class:hidden={!showTagsDropdown}
 						use:clickOutside={[tagsBtnEl]}
 						on:clickoutside={() => {
@@ -122,9 +125,12 @@
 								})
 									.toString()
 									.trim()}`}
-								class={`block w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100' : ''}`}
+								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100' : ''}`}
 							>
-								{tag.name}
+								<span>{tag.name}</span>
+								<span class:hidden={!data.selectedTagsSlugs.includes(tag.slug)}>
+									<Icon icon="ph:x" color="#000" width="1.1rem" />
+								</span>
 							</a>
 						{/each}
 					</div>

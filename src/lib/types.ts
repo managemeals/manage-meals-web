@@ -1,7 +1,10 @@
+export type SubscriptionType = 'FREE' | 'PREMIUM';
+
 export interface IUser {
 	uuid: string;
 	name: string;
 	email: string;
+	subscriptionType: SubscriptionType;
 }
 
 export interface ITag {

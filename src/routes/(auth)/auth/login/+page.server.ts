@@ -9,21 +9,7 @@ import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IAPIError, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import axios, { AxiosError } from 'axios';
-import type { PageServerLoad } from './$types';
 import { getErrorMessage } from '$lib/errors';
-
-export const load: PageServerLoad = async ({ url }) => {
-	const callback = url.searchParams.get('callback');
-
-	let callbackMessage = '';
-	if (callback === 'subscription') {
-		callbackMessage = 'Subscription successfully created. You can now login.';
-	}
-
-	return {
-		callbackMessage
-	};
-};
 
 export const actions = {
 	login: async ({ request, cookies }) => {
@@ -69,13 +55,6 @@ export const actions = {
 				if (
 					((e as AxiosError<IAPIError>)?.response?.data.message || '').startsWith(
 						'Email not verified'
-					)
-				) {
-					failObj.messageType = 'warning';
-					failObj.message = (e as AxiosError<IAPIError>)?.response?.data.message;
-				} else if (
-					((e as AxiosError<IAPIError>)?.response?.data.message || '').startsWith(
-						'User does not have a subscription'
 					)
 				) {
 					failObj.messageType = 'warning';

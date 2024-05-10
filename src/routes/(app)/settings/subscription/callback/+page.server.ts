@@ -1,20 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
-import { apiClientUnauthed } from '$lib/server/api/client';
+import apiClient from '$lib/server/api/client';
 import type { PageServerLoad } from './$types';
 import axios, { AxiosError } from 'axios';
 import type { IAPIError } from '$lib/types';
 
-export const load: PageServerLoad = async ({ url }) => {
-	const uuid = url.searchParams.get('uuid');
-
-	if (!uuid) {
-		throw error(400, 'Missing UUID');
-	}
-
+export const load: PageServerLoad = async ({ cookies }) => {
 	try {
-		await apiClientUnauthed.post('/auth/subscription', {
-			uuid
-		});
+		await apiClient(cookies.getAll()).post('/subscriptions', {});
 	} catch (e) {
 		console.log(e);
 		if (
@@ -26,5 +18,5 @@ export const load: PageServerLoad = async ({ url }) => {
 		throw new Error('Error creating subscription');
 	}
 
-	return redirect(303, '/auth/login?callback=subscription');
+	return redirect(303, '/settings/subscription/success');
 };

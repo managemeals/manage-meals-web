@@ -2,12 +2,10 @@
 	import { PUBLIC_MAIN_TITLE, PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
-	import type { ActionData, PageData } from './$types';
+	import type { ActionData } from './$types';
 	import { page } from '$app/stores';
 
 	export let form: ActionData;
-
-	export let data: PageData;
 
 	let verifyForm: HTMLFormElement;
 </script>
@@ -15,14 +13,6 @@
 <svelte:head>
 	<title>Login - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
-
-{#if data.callbackMessage}
-	<div class="pb-5">
-		<Alert variant="success">
-			{data.callbackMessage}
-		</Alert>
-	</div>
-{/if}
 
 <h1 class="text-center font-bold text-2xl pb-5">Login</h1>
 {#if PUBLIC_MOCK_INSTANCE === 'yes'}
@@ -44,14 +34,6 @@
 					class="hover:underline text-blue-500 disabled:no-underline disabled:opacity-60"
 					>click here</button
 				> to resend.
-			{:else if form?.message.startsWith('User does not have a subscription')}
-				User does not have a subscription. Please
-				<a
-					data-sveltekit-preload-data="off"
-					href={`/auth/subscription/mandate?uuid=${form.message.split('|')[1]}`}
-					class="hover:underline text-blue-500 disabled:no-underline disabled:opacity-60"
-					>click here</a
-				> to set up a subscription.
 			{:else}
 				{form?.message}
 			{/if}

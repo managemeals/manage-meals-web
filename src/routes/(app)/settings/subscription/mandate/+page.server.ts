@@ -1,20 +1,14 @@
-import { error, redirect } from '@sveltejs/kit';
-import { apiClientUnauthed } from '$lib/server/api/client';
+import { redirect } from '@sveltejs/kit';
+import apiClient from '$lib/server/api/client';
 import axios, { AxiosError } from 'axios';
 import type { IAPIError } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ url }) => {
-	const uuid = url.searchParams.get('uuid');
-
-	if (!uuid) {
-		throw error(400, 'Missing UUID');
-	}
-
+export const load: PageServerLoad = async ({ cookies }) => {
 	let authorisationUrl = '';
 	let hasMandate = false;
 	try {
-		const res = await apiClientUnauthed.get(`/auth/mandate?uuid=${uuid}`);
+		const res = await apiClient(cookies.getAll()).get('/subscriptions/mandate');
 		authorisationUrl = res.data.authorisationUrl;
 	} catch (e) {
 		console.log(e);
@@ -29,7 +23,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	}
 
 	if (hasMandate) {
-		return redirect(303, `/auth/subscription/callback?uuid=${uuid}`);
+		return redirect(303, '/settings/subscription/callback');
 	}
 
 	return redirect(303, authorisationUrl);

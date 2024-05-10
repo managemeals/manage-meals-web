@@ -18,18 +18,32 @@
 </svelte:head>
 
 <div class="p-5">
-	<div class="flex items-center justify-between">
-		<h1 class="text-xl font-bold mb-5">Subscription</h1>
+	<div class="flex items-center justify-between mb-5">
+		<h1 class="text-xl font-bold">Subscription</h1>
 		<button
 			type="button"
-			class="p-2 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+			class="p-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500"
+			disabled={data.user.subscriptionType === 'FREE'}
 			on:click={() => {
 				showCancelModal = true;
 			}}>Cancel subscription</button
 		>
 	</div>
 
-	<h3 class="font-semibold text-lg mb-3">Upcoming Payments</h3>
+	{#if form?.message}
+		<div class="py-4">
+			<Alert variant={form?.messageType || 'error'}>
+				{form?.message}
+			</Alert>
+		</div>
+	{/if}
+	<p class="mb-5">
+		Subscription type: <span class="font-semibold">{data.user.subscriptionType}</span>
+	</p>
+	<h3 class="font-semibold text-lg my-3">Upcoming Payments</h3>
+	{#if data.upcomingPayments.length === 0}
+		<div class="italic">No upcoming payments</div>
+	{/if}
 	<div>
 		{#each data.upcomingPayments as payment}
 			<div class="mb-3 last:mb-0">
@@ -40,19 +54,32 @@
 			</div>
 		{/each}
 	</div>
+
+	{#if data.user.subscriptionType === 'FREE'}
+		<div class="mt-10">
+			<a
+				data-sveltekit-preload-data="off"
+				href="/settings/subscription/mandate"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600"
+				>Sign up for Premium</a
+			>
+		</div>
+	{/if}
 </div>
 
 <Modal bind:show={showCancelModal}>
 	<div class="text-xl font-semibold">Cancel subscription</div>
-	{#if form?.message}
-		<div class="py-2">
-			<Alert variant={form?.messageType || 'error'}>
-				{form?.message}
-			</Alert>
-		</div>
-	{/if}
-	<p class="py-3 pb-5">Clicking the button below will cancel your subscription and logout.</p>
-	<form method="post" action="?/cancel" use:enhance>
+	<p class="py-3 pb-5">Clicking the button below will cancel your subscription.</p>
+	<form
+		method="post"
+		action="?/cancel"
+		use:enhance={() => {
+			return async ({ update }) => {
+				await update();
+				showCancelModal = false;
+			};
+		}}
+	>
 		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
 			Cancel subscription
 		</button>

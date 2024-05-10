@@ -169,6 +169,17 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:printer" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Print</h4>
+				</div>
+				<p class="pt-3">
+					Recipes have printer friendly styles. Hitting Ctrl+P (CMD+P) on a recipe will show a
+					compact version of the recipe, with no images or colors, ready to be printed.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:calendar-blank" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Meal Planner (coming soon)</h4>
 				</div>

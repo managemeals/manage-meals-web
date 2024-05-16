@@ -9,11 +9,11 @@
 				icon: 'ph:user',
 				title: 'User'
 			},
-			{
-				href: '/settings/subscription',
-				icon: 'ph:credit-card',
-				title: 'Subscription'
-			},
+			// {
+			// 	href: '/settings/subscription',
+			// 	icon: 'ph:credit-card',
+			// 	title: 'Subscription'
+			// },
 			{
 				href: '/settings/logout',
 				icon: 'ph:sign-out',

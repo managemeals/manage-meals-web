@@ -142,7 +142,7 @@
 				type="text"
 				id="data.canonical_url"
 				name="data.canonical_url"
-				value={form?.inputs?.data?.title ?? data.recipe.data.canonical_url}
+				value={form?.inputs?.data?.canonical_url ?? data.recipe.data.canonical_url}
 				placeholder="Canonical URL"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 			/>

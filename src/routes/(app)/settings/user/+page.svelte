@@ -56,6 +56,9 @@
 						placeholder="Email"
 						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
 					/>
+					<p class="text-sm text-gray-500 pt-1">
+						Changing your email will send a verification email
+					</p>
 					{#if form?.errors?.email}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.email}</div>
 					{/if}

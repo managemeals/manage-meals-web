@@ -3,8 +3,67 @@
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 	import { format } from 'date-fns';
+	import Toggle from '$lib/components/Toggle.svelte';
+	import { onMount } from 'svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import Alert from '$lib/components/Alert.svelte';
 
 	export let data: PageData;
+
+	let toggleWakelock = false;
+	let hasWakeLock = false;
+	let wakeLock: WakeLockSentinel | undefined;
+	let showWakeLockModal = false;
+	let wakeLockError = '';
+	let hasWakeLockListener = false;
+
+	const handleWakeLockRelease = () => {
+		toggleWakelock = false;
+	};
+
+	const handleWakeLockToggle = async (toggled: boolean) => {
+		wakeLockError = '';
+		if (toggled) {
+			try {
+				wakeLock = await navigator.wakeLock.request('screen');
+				if (!hasWakeLockListener) {
+					wakeLock.addEventListener('release', handleWakeLockRelease);
+					hasWakeLockListener = true;
+				}
+			} catch (e) {
+				wakeLockError = `${(e as Error).name}, ${(e as Error).message}`;
+				showWakeLockModal = true;
+				toggleWakelock = false;
+			}
+		} else {
+			if (wakeLock) {
+				try {
+					wakeLock.removeEventListener('release', handleWakeLockRelease);
+					hasWakeLockListener = false;
+				} catch (e) {
+					console.error(e);
+				}
+				try {
+					await wakeLock.release();
+					wakeLock = undefined;
+				} catch (e) {
+					console.error(e);
+				}
+			}
+		}
+	};
+
+	onMount(() => {
+		if ('wakeLock' in navigator) {
+			hasWakeLock = true;
+		}
+
+		return async () => {
+			await handleWakeLockToggle(false);
+		};
+	});
+
+	$: handleWakeLockToggle(toggleWakelock);
 </script>
 
 <svelte:head>
@@ -125,6 +184,12 @@
 			</div>
 		{/if}
 
+		{#if hasWakeLock}
+			<div class="mb-3">
+				<Toggle label="Prevent screen from turning off" bind:checked={toggleWakelock} />
+			</div>
+		{/if}
+
 		<div class="flex flex-col md:flex-row gap-5 mb-5">
 			<div class="basis-1/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
@@ -234,3 +299,7 @@
 		</div>
 	</div>
 </div>
+
+<Modal bind:show={showWakeLockModal}>
+	<Alert variant="error">{wakeLockError}</Alert>
+</Modal>

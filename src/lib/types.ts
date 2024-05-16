@@ -216,3 +216,7 @@ export interface IPatchUserReq {
 	email: string;
 	password?: string;
 }
+
+export interface ITabItem {
+	title: string;
+}

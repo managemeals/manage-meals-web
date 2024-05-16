@@ -35,11 +35,11 @@
 </script>
 
 <svelte:head>
-	<title>Add Category - Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>Create Category - Categories - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-2xl font-bold mb-5">Add Category</h1>
+	<h1 class="text-2xl font-bold mb-5">Create Category</h1>
 	{#if form?.message}
 		<div class="py-4">
 			<Alert variant={form?.messageType || 'error'}>
@@ -66,7 +66,7 @@
 			<button
 				type="submit"
 				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-				>Add</button
+				>Create</button
 			>
 		</div>
 	</form>

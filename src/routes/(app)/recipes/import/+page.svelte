@@ -12,8 +12,8 @@
 	export let data: PageData;
 
 	let submitting = false;
-	let showAddCategoryModal = false;
-	let showAddTagModal = false;
+	let showCreateCategoryModal = false;
+	let showCreateTagModal = false;
 
 	let selectedCategories: string[] = [];
 	let selectedTags: string[] = [];
@@ -37,21 +37,21 @@
 		}
 	};
 
-	$: if (form?.addCategorySlug) {
-		showAddCategoryModal = false;
+	$: if (form?.createCategorySlug) {
+		showCreateCategoryModal = false;
 	}
 
-	$: if (form?.addTagSlug) {
-		showAddTagModal = false;
+	$: if (form?.createTagSlug) {
+		showCreateTagModal = false;
 	}
 </script>
 
 <svelte:head>
-	<title>Add Recipe - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<title>Import Recipe - Recipes - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-2xl font-bold mb-5">Add Recipe</h1>
+	<h1 class="text-2xl font-bold mb-5">Import Recipe</h1>
 	<p class="mb-3">
 		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve
 		the recipe from the site and add it to your collection. If it's not working for your URL, please
@@ -67,7 +67,7 @@
 	{/if}
 	<form
 		method="post"
-		action="?/add"
+		action="?/import"
 		use:enhance={() => {
 			submitting = true;
 			return async ({ update }) => {
@@ -95,13 +95,13 @@
 				<span>Categories</span>
 				<button
 					type="button"
-					title="Add Category"
+					title="Create Category"
 					class="hover:bg-gray-200 p-1 rounded"
 					on:click={() => {
-						showAddCategoryModal = true;
+						showCreateCategoryModal = true;
 					}}
 				>
-					<span class="sr-only">Add Category</span>
+					<span class="sr-only">Create Category</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
@@ -126,13 +126,13 @@
 				<span>Tags</span>
 				<button
 					type="button"
-					title="Add Tag"
+					title="Create Tag"
 					class="hover:bg-gray-200 p-1 rounded"
 					on:click={() => {
-						showAddTagModal = true;
+						showCreateTagModal = true;
 					}}
 				>
-					<span class="sr-only">Add Tag</span>
+					<span class="sr-only">Create Tag</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
@@ -161,81 +161,81 @@
 				<span class:hidden={!submitting}>
 					<Icon icon="ph:circle-notch" color="#fff" width="1.5rem" class="animate-spin" />
 				</span>
-				<span class:hidden={submitting}>Add</span>
+				<span class:hidden={submitting}>Import</span>
 			</button>
 		</div>
 	</form>
 </div>
 
-<Modal bind:show={showAddCategoryModal}>
-	<div class="text-xl font-semibold mb-5">Add Category</div>
-	{#if form?.addCategoryMessage}
+<Modal bind:show={showCreateCategoryModal}>
+	<div class="text-xl font-semibold mb-5">Create Category</div>
+	{#if form?.createCategoryMessage}
 		<div class="py-4">
-			<Alert variant={form?.addCategoryMessageType || 'error'}>
-				{form?.addCategoryMessage}
+			<Alert variant={form?.createCategoryMessageType || 'error'}>
+				{form?.createCategoryMessage}
 			</Alert>
 		</div>
 	{/if}
-	<form method="post" action="?/addcategory" use:enhance>
+	<form method="post" action="?/createcategory" use:enhance>
 		<div class="pb-5 last:pb-0">
 			<label for="name" class="font-semibold pb-2 block">Name</label>
 			<input
 				type="text"
 				id="name"
 				name="name"
-				value={form?.inputs?.addCategoryName ?? ''}
+				value={form?.inputs?.createCategoryName ?? ''}
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
 				outline-none hover:border-slate-300
 				`.trim()}
 			/>
-			{#if form?.errors?.addCategoryName}
-				<div class="text-sm pt-1 text-red-500">{form?.errors?.addCategoryName}</div>
+			{#if form?.errors?.createCategoryName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.createCategoryName}</div>
 			{/if}
 		</div>
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
 				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-				>Add</button
+				>Create</button
 			>
 		</div>
 	</form>
 </Modal>
 
-<Modal bind:show={showAddTagModal}>
-	<div class="text-xl font-semibold mb-5">Add Tag</div>
-	{#if form?.addTagMessage}
+<Modal bind:show={showCreateTagModal}>
+	<div class="text-xl font-semibold mb-5">Create Tag</div>
+	{#if form?.createTagMessage}
 		<div class="py-4">
-			<Alert variant={form?.addTagMessageType || 'error'}>
-				{form?.addTagMessage}
+			<Alert variant={form?.createTagMessageType || 'error'}>
+				{form?.createTagMessage}
 			</Alert>
 		</div>
 	{/if}
-	<form method="post" action="?/addtag" use:enhance>
+	<form method="post" action="?/createtag" use:enhance>
 		<div class="pb-5 last:pb-0">
 			<label for="name" class="font-semibold pb-2 block">Name</label>
 			<input
 				type="text"
 				id="name"
 				name="name"
-				value={form?.inputs?.addTagName ?? ''}
+				value={form?.inputs?.createTagName ?? ''}
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
 				outline-none hover:border-slate-300
 				`.trim()}
 			/>
-			{#if form?.errors?.addTagName}
-				<div class="text-sm pt-1 text-red-500">{form?.errors?.addTagName}</div>
+			{#if form?.errors?.createTagName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.createTagName}</div>
 			{/if}
 		</div>
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
 				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-				>Add</button
+				>Create</button
 			>
 		</div>
 	</form>

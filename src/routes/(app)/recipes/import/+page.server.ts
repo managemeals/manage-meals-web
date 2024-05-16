@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions = {
-	add: async ({ request, cookies }) => {
+	import: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const url = data.get('url') as string;
 		const categories = data.get('categories') as string;
@@ -52,14 +52,14 @@ export const actions = {
 		return redirect(303, `/recipes/${slug}`);
 	},
 
-	addcategory: async ({ request, cookies }) => {
+	createcategory: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const name = data.get('name') as string;
 
-		const failObj: IEnhanceFailRes = { inputs: { addCategoryName: name }, errors: {} };
+		const failObj: IEnhanceFailRes = { inputs: { createCategoryName: name }, errors: {} };
 
 		if (!name) {
-			failObj.errors.addCategoryName = 'Name is empty';
+			failObj.errors.createCategoryName = 'Name is empty';
 		}
 
 		if (Object.keys(failObj.errors).length) {
@@ -74,26 +74,26 @@ export const actions = {
 			slug = res.data.slug;
 		} catch (e) {
 			console.log(e);
-			failObj.addCategoryMessageType = 'error';
-			failObj.addCategoryMessage = getErrorMessage(e);
+			failObj.createCategoryMessageType = 'error';
+			failObj.createCategoryMessage = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 
 		const successObj: IEnhanceRes = {
-			addCategorySlug: slug as string
+			createCategorySlug: slug as string
 		};
 
 		return successObj;
 	},
 
-	addtag: async ({ request, cookies }) => {
+	createtag: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const name = data.get('name') as string;
 
-		const failObj: IEnhanceFailRes = { inputs: { addTagName: name }, errors: {} };
+		const failObj: IEnhanceFailRes = { inputs: { createTagName: name }, errors: {} };
 
 		if (!name) {
-			failObj.errors.addTagName = 'Name is empty';
+			failObj.errors.createTagName = 'Name is empty';
 		}
 
 		if (Object.keys(failObj.errors).length) {
@@ -108,13 +108,13 @@ export const actions = {
 			slug = res.data.slug;
 		} catch (e) {
 			console.log(e);
-			failObj.addTagMessageType = 'error';
-			failObj.addTagMessage = getErrorMessage(e);
+			failObj.createTagMessageType = 'error';
+			failObj.createTagMessage = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 
 		const successObj: IEnhanceRes = {
-			addTagSlug: slug as string
+			createTagSlug: slug as string
 		};
 
 		return successObj;

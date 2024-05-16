@@ -25,6 +25,12 @@
 				title: 'Untagged',
 				isCustom: false
 			},
+			{
+				href: '/tags/create',
+				icon: 'ph:plus',
+				title: 'Create',
+				isCustom: false
+			},
 			...data.tags.map((tag) => ({
 				href: `/tags/${tag.slug}`,
 				icon: 'ph:tag',

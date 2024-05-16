@@ -11,12 +11,12 @@
 	const SM_BREAKPOINT = 640;
 
 	let sidebarBtnEl: HTMLButtonElement;
-	let addBtnEl: HTMLButtonElement;
+	let createBtnEl: HTMLButtonElement;
 
 	let clientW: number;
 	let showSidebar = true;
 
-	let showAddDropdown = false;
+	let showCreateDropdown = false;
 
 	const handleWidthChange = (w: number) => {
 		if (w && w < LG_BREAKPOINT) {
@@ -70,18 +70,18 @@
 		}
 	];
 
-	const addLinks: ILink[] = [
+	const createLinks: ILink[] = [
 		{
-			href: '/recipes/add',
-			title: 'Add Recipe'
+			href: '/recipes/import',
+			title: 'Import Recipe'
 		},
 		{
-			href: '/categories/add',
-			title: 'Add Category'
+			href: '/categories/create',
+			title: 'Create Category'
 		},
 		{
-			href: '/tags/add',
-			title: 'Add Tag'
+			href: '/tags/create',
+			title: 'Create Tag'
 		}
 	];
 </script>
@@ -121,29 +121,29 @@
 		</div>
 		<div class="relative">
 			<button
-				on:click={() => (showAddDropdown = !showAddDropdown)}
+				on:click={() => (showCreateDropdown = !showCreateDropdown)}
 				class="p-1 rounded hover:bg-orange-600"
-				bind:this={addBtnEl}
-				title="Add"
+				bind:this={createBtnEl}
+				title="Create"
 			>
 				<Icon icon="ph:plus" color="#fff" width="2rem" />
 			</button>
-			{#if addBtnEl}
+			{#if createBtnEl}
 				<div
 					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-60 flex flex-col rounded border border-slate-200"
-					class:hidden={!showAddDropdown}
-					use:clickOutside={[addBtnEl]}
+					class:hidden={!showCreateDropdown}
+					use:clickOutside={[createBtnEl]}
 					on:clickoutside={() => {
-						showAddDropdown = false;
+						showCreateDropdown = false;
 					}}
 				>
-					{#each addLinks as addLink}
+					{#each createLinks as createLink}
 						<a
-							href={addLink.href}
+							href={createLink.href}
 							class="block w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b"
 							on:click={() => {
-								showAddDropdown = false;
-							}}>{addLink.title}</a
+								showCreateDropdown = false;
+							}}>{createLink.title}</a
 						>
 					{/each}
 				</div>

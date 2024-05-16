@@ -25,6 +25,12 @@
 				title: 'Uncategorized',
 				isCustom: false
 			},
+			{
+				href: '/categories/create',
+				icon: 'ph:plus',
+				title: 'Create',
+				isCustom: false
+			},
 			...data.categories.map((category) => ({
 				href: `/categories/${category.slug}`,
 				icon: 'ph:folder',

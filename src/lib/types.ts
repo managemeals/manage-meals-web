@@ -109,6 +109,11 @@ export interface ILink {
 	title: string;
 }
 
+export interface IIconHelpLink extends ILink {
+	icon: string;
+	help: string;
+}
+
 export interface IIconLink extends ILink {
 	icon: string;
 }

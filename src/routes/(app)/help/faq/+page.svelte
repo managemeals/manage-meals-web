@@ -12,11 +12,11 @@
 	<div class="mb-5 last:mb-0">
 		<h3 class="font-semibold text-lg mb-1">Does it work with any recipe website?</h3>
 		<p>
-			It can retrieve recipe data from all the most popular recipe websites, for example BBC Good
-			Food and Allrecipes. There is also support for hundreds more, and if there is not direct
-			support it will try to guess the structure of the recipe data. If that doesn't work it will
-			result in an error. However, an error doesn't mean we can't support it. If you'd like to
-			request support for a recipe website, please
+			It can import recipe data from all the most popular recipe websites, for example BBC Good Food
+			and Allrecipes. There is also support for hundreds more, and if there is not direct support it
+			will try to guess the structure of the recipe data. If that doesn't work it will result in an
+			error. However, an error doesn't mean we can't support it. If you'd like to request support
+			for a recipe website, please
 			<a href="/help/contact" class="hover:underline text-blue-500">contact us</a> and we will add support
 			for it.
 		</p>

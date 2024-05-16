@@ -162,7 +162,7 @@
 				</div>
 				<p class="pt-3">
 					While there is direct support for hundreds of recipe websites, not all websites have a
-					predefined structure. This is where AI comes in. It will attempt to retrieve recipes from
+					predefined structure. This is where AI comes in. It will attempt to import recipes from
 					any website, for example blogs.
 				</p>
 			</div>

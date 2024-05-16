@@ -53,7 +53,7 @@
 <div class="p-5">
 	<h1 class="text-2xl font-bold mb-5">Import Recipe</h1>
 	<p class="mb-3">
-		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to retrieve
+		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to import
 		the recipe from the site and add it to your collection. If it's not working for your URL, please
 		<a href="/help/contact" class="hover:underline text-blue-500">contact us</a> and we will add support
 		for it.

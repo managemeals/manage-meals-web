@@ -286,16 +286,18 @@
 				<Icon icon="ph:calendar-blank" width="1.4rem" />
 				<div title={data.recipe.createdAt}>{format(data.recipe.createdAt, 'd MMM yyyy')}</div>
 			</div>
-			<div class="flex items-center gap-1">
-				<Icon icon="ph:arrow-square-out" width="1.4rem" color="#3b82f6" />
-				<a
-					href={data.recipe.data.canonical_url}
-					target="_blank"
-					class="text-blue-500 hover:underline"
-				>
-					{data.recipe.data.host}
-				</a>
-			</div>
+			{#if data.recipe.data.canonical_url}
+				<div class="flex items-center gap-1">
+					<Icon icon="ph:arrow-square-out" width="1.4rem" color="#3b82f6" />
+					<a
+						href={data.recipe.data.canonical_url}
+						target="_blank"
+						class="text-blue-500 hover:underline"
+					>
+						{data.recipe.data.host ? data.recipe.data.host : data.recipe.data.canonical_url}
+					</a>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

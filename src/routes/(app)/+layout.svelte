@@ -2,7 +2,7 @@
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { sidebarLinks } from '$lib/stores';
 	import { page } from '$app/stores';
-	import type { IIconLink, ILink } from '$lib/types';
+	import type { IIconHelpLink, IIconLink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
 	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
@@ -70,18 +70,18 @@
 		}
 	];
 
-	const createLinks: ILink[] = [
+	const createLinks: IIconHelpLink[] = [
 		{
 			href: '/recipes/import',
-			title: 'Import Recipe'
+			title: 'Import',
+			icon: 'ph:link',
+			help: 'Import a recipe by URL'
 		},
 		{
-			href: '/categories/create',
-			title: 'Create Category'
-		},
-		{
-			href: '/tags/create',
-			title: 'Create Tag'
+			href: '/recipes/create',
+			title: 'Create',
+			icon: 'ph:pencil',
+			help: 'Create a recipe manually'
 		}
 	];
 </script>
@@ -126,11 +126,12 @@
 				bind:this={createBtnEl}
 				title="Create"
 			>
+				<span class="sr-only">Create</span>
 				<Icon icon="ph:plus" color="#fff" width="2rem" />
 			</button>
 			{#if createBtnEl}
 				<div
-					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-60 flex flex-col rounded border border-slate-200"
+					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-64 flex flex-col rounded border border-slate-200"
 					class:hidden={!showCreateDropdown}
 					use:clickOutside={[createBtnEl]}
 					on:clickoutside={() => {
@@ -140,11 +141,19 @@
 					{#each createLinks as createLink}
 						<a
 							href={createLink.href}
-							class="block w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b"
+							class="w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b flex items-center gap-3"
 							on:click={() => {
 								showCreateDropdown = false;
-							}}>{createLink.title}</a
+							}}
 						>
+							<div class="hidden sm:block">
+								<Icon icon={createLink.icon} color="#000" width="1.6rem" />
+							</div>
+							<div>
+								<div>{createLink.title}</div>
+								<div class="text-sm text-gray-500">{createLink.help}</div>
+							</div>
+						</a>
 					{/each}
 				</div>
 			{/if}

@@ -12,6 +12,13 @@
 
 	export let form: ActionData;
 
+	let showCreateCategoryModal = false;
+	let showCreateTagModal = false;
+	let showDeleteModal = false;
+	let showChangeImageModal = false;
+
+	let changeImageSubmitting = false;
+
 	let selectedCategories: string[] = [];
 	let selectedTags: string[] = [];
 
@@ -39,7 +46,13 @@
 		}
 	};
 
-	let showDeleteModal = false;
+	$: if (form?.createCategorySlug) {
+		showCreateCategoryModal = false;
+	}
+
+	$: if (form?.createTagSlug) {
+		showCreateTagModal = false;
+	}
 </script>
 
 <svelte:head>
@@ -69,6 +82,24 @@
 		</div>
 	{/if}
 
+	<div class="pb-5">
+		<div class="font-semibold pb-2">Image</div>
+		<div class="flex flex-col md:flex-row gap-5">
+			<div class="basis-1/2 xl:basis-1/3">
+				<img src={data.recipe.data.image} alt="Recipe" />
+			</div>
+			<div>
+				<button
+					type="submit"
+					class="py-3 px-5 border rounded hover:bg-gray-100"
+					on:click={() => {
+						showChangeImageModal = true;
+					}}>Change image</button
+				>
+			</div>
+		</div>
+	</div>
+
 	<form method="post" action="?/edit" use:enhance>
 		<div class="pb-5 last:pb-0">
 			<label for="data.title" class="font-semibold pb-2 block">Title</label>
@@ -85,8 +116,21 @@
 			{/if}
 		</div>
 
-		<div class="pb-5 last:pb-0">
-			<label for="categories" class="font-semibold block">Categories</label>
+		<div class="pb-5 last:pb-0 -mt-1">
+			<label for="categories" class="font-semibold flex items-center gap-2">
+				<span>Categories</span>
+				<button
+					type="button"
+					title="Create Category"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showCreateCategoryModal = true;
+					}}
+				>
+					<span class="sr-only">Create Category</span>
+					<Icon icon="ph:plus" color="#000" width="1.5rem" />
+				</button>
+			</label>
 			<input type="hidden" id="categories" name="categories" bind:value={selectedCategoriesValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.categories as category}
@@ -103,8 +147,21 @@
 			</div>
 		</div>
 
-		<div class="pb-5 last:pb-0">
-			<label for="tags" class="font-semibold block">Tags</label>
+		<div class="pb-5 last:pb-0 -mt-1">
+			<label for="tags" class="font-semibold flex items-center gap-2">
+				<span>Tags</span>
+				<button
+					type="button"
+					title="Create Tag"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showCreateTagModal = true;
+					}}
+				>
+					<span class="sr-only">Create Tag</span>
+					<Icon icon="ph:plus" color="#000" width="1.5rem" />
+				</button>
+			</label>
 			<input type="hidden" id="tags" name="tags" bind:value={selectedTagsValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.tags as tag}
@@ -486,5 +543,148 @@
 		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
 			Delete
 		</button>
+	</form>
+</Modal>
+
+<Modal bind:show={showCreateCategoryModal}>
+	<div class="text-xl font-semibold mb-5">Create Category</div>
+	{#if form?.createCategoryMessage}
+		<div class="py-4">
+			<Alert variant={form?.createCategoryMessageType || 'error'}>
+				{form?.createCategoryMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/createcategory" use:enhance>
+		<div class="pb-5 last:pb-0">
+			<label for="name" class="font-semibold pb-2 block">Name</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				value={form?.inputs?.createCategoryName ?? ''}
+				placeholder="Name"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.createCategoryName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.createCategoryName}</div>
+			{/if}
+		</div>
+		<div class="pb-5 last:pb-0">
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				>Create</button
+			>
+		</div>
+	</form>
+</Modal>
+
+<Modal bind:show={showCreateTagModal}>
+	<div class="text-xl font-semibold mb-5">Create Tag</div>
+	{#if form?.createTagMessage}
+		<div class="py-4">
+			<Alert variant={form?.createTagMessageType || 'error'}>
+				{form?.createTagMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/createtag" use:enhance>
+		<div class="pb-5 last:pb-0">
+			<label for="name" class="font-semibold pb-2 block">Name</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				value={form?.inputs?.createTagName ?? ''}
+				placeholder="Name"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.createTagName}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.createTagName}</div>
+			{/if}
+		</div>
+		<div class="pb-5 last:pb-0">
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				>Create</button
+			>
+		</div>
+	</form>
+</Modal>
+
+<Modal bind:show={showChangeImageModal}>
+	<div class="text-xl font-semibold mb-3">Change Image</div>
+	<p class="mb-5">Please specify either a URL <span class="font-bold">or</span> a file.</p>
+	{#if form?.changeImageMessage}
+		<div class="py-4">
+			<Alert variant={form?.changeImageMessageType || 'error'}>
+				{form?.changeImageMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form
+		method="post"
+		action="?/changeimage"
+		enctype="multipart/form-data"
+		use:enhance={() => {
+			changeImageSubmitting = true;
+			return async ({ update }) => {
+				await update();
+				changeImageSubmitting = false;
+			};
+		}}
+	>
+		<div class="pb-5 last:pb-0">
+			<label for="url" class="font-semibold pb-2 block">URL</label>
+			<input
+				type="text"
+				id="url"
+				name="url"
+				value={form?.inputs?.changeImageUrl ?? ''}
+				placeholder="URL"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.changeImageUrl}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.changeImageUrl}</div>
+			{/if}
+		</div>
+
+		<div class="pb-5 last:pb-0">
+			<label for="file" class="font-semibold pb-2 block">File</label>
+			<input
+				type="file"
+				id="file"
+				name="file"
+				value={form?.inputs?.changeImageFile ?? ''}
+				placeholder="File"
+				class={`
+				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				outline-none hover:border-slate-300
+				`.trim()}
+			/>
+			{#if form?.errors?.changeImageFile}
+				<div class="text-sm pt-1 text-red-500">{form?.errors?.changeImageFile}</div>
+			{/if}
+		</div>
+
+		<div class="pb-5 last:pb-0">
+			<button
+				type="submit"
+				disabled={changeImageSubmitting}
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				>Save</button
+			>
+		</div>
 	</form>
 </Modal>

@@ -99,6 +99,7 @@ export const actions = {
 
 		return redirect(303, `/recipes/${slug}`);
 	},
+
 	delete: async ({ cookies, params }) => {
 		const { slug } = params;
 
@@ -114,5 +115,131 @@ export const actions = {
 		}
 
 		return redirect(303, '/categories');
+	},
+
+	createcategory: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const name = data.get('name') as string;
+
+		const failObj: IEnhanceFailRes = { inputs: { createCategoryName: name }, errors: {} };
+
+		if (!name) {
+			failObj.errors.createCategoryName = 'Name is empty';
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/categories', {
+				name
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.createCategoryMessageType = 'error';
+			failObj.createCategoryMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			createCategorySlug: slug as string
+		};
+
+		return successObj;
+	},
+
+	createtag: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const name = data.get('name') as string;
+
+		const failObj: IEnhanceFailRes = { inputs: { createTagName: name }, errors: {} };
+
+		if (!name) {
+			failObj.errors.createTagName = 'Name is empty';
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/tags', {
+				name
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.createTagMessageType = 'error';
+			failObj.createTagMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			createTagSlug: slug as string
+		};
+
+		return successObj;
+	},
+
+	changeimage: async ({ request, cookies, params }) => {
+		const { slug } = params;
+
+		const data = await request.formData();
+		const url = data.get('url') as string;
+		const file = data.get('file') as File;
+
+		const failObj: IEnhanceFailRes = { inputs: { changeImageUrl: url }, errors: {} };
+
+		if (!url && (!file || !file.name)) {
+			failObj.changeImageMessage = 'URL and File are empty';
+			failObj.changeImageMessageType = 'error';
+			return fail(400, failObj);
+		}
+
+		if (url && file && file.name) {
+			failObj.changeImageMessage = 'Please specify either a URL or a file, not both';
+			failObj.changeImageMessageType = 'warning';
+			return fail(400, failObj);
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		if (file && file.name) {
+			try {
+				const formData = new FormData();
+				formData.append('file', file);
+				await apiClient(cookies.getAll()).patch(`/recipes/${slug}/image/file`, formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				});
+			} catch (e) {
+				console.log(e);
+				failObj.changeImageMessageType = 'error';
+				failObj.changeImageMessage = getErrorMessage(e);
+				return fail(500, failObj);
+			}
+		}
+
+		if (url) {
+			try {
+				await apiClient(cookies.getAll()).patch(`/recipes/${slug}/image/url`, {
+					url
+				});
+			} catch (e) {
+				console.log(e);
+				failObj.changeImageMessageType = 'error';
+				failObj.changeImageMessage = getErrorMessage(e);
+				return fail(500, failObj);
+			}
+		}
+
+		return redirect(303, `/recipes/${slug}`);
 	}
 };

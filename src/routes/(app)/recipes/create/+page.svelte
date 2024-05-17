@@ -76,7 +76,7 @@
 			{/if}
 		</div>
 
-		<div class="pb-5 last:pb-0">
+		<div class="pb-5 last:pb-0 -mt-1">
 			<label for="categories" class="font-semibold flex items-center gap-2">
 				<span>Categories</span>
 				<button
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 
-		<div class="pb-5 last:pb-0">
+		<div class="pb-5 last:pb-0 -mt-1">
 			<label for="tags" class="font-semibold flex items-center gap-2">
 				<span>Tags</span>
 				<button

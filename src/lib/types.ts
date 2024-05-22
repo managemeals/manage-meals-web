@@ -225,3 +225,36 @@ export interface IPatchUserReq {
 export interface ITabItem {
 	title: string;
 }
+
+export type ShortDay = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+
+export interface ICalendarDay {
+	dateNum: number;
+	day: ShortDay;
+	activeMonth: boolean;
+	isToday?: boolean;
+	fullDate: Date;
+}
+
+export interface IMealPlanType {
+	mealType: string;
+	categoryUuids: string[];
+	tagUuids: string[];
+	categories: ICategory[];
+	tags: ITag[];
+	recipe: IRecipe;
+	recipeUuid: string;
+}
+
+export interface IMealPlan {
+	uuid: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
+	date: string;
+	mealTypes: IMealPlanType[];
+}
+
+export interface IMealPlanCalendar extends IMealPlan {
+	calendarDate: ICalendarDay;
+}

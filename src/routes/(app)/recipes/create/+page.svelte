@@ -49,7 +49,7 @@
 	<title>Create Recipe - Recipes - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5">
+<div class="p-5 pb-20">
 	<h1 class="text-2xl font-bold mb-5">Create Recipe</h1>
 
 	{#if form?.message}

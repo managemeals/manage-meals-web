@@ -59,6 +59,11 @@
 			title: 'Search'
 		},
 		{
+			href: '/meal-plans',
+			icon: 'ph:calendar-dots',
+			title: 'Meal Plans'
+		},
+		{
 			href: '/settings/user',
 			icon: 'ph:gear',
 			title: 'Settings'
@@ -148,6 +153,9 @@
 						>
 							<div class="hidden sm:block">
 								<Icon icon={createLink.icon} color="#000" width="1.6rem" />
+							</div>
+							<div class="sm:hidden">
+								<Icon icon={createLink.icon} color="#000" width="1.2rem" />
 							</div>
 							<div>
 								<div>{createLink.title}</div>

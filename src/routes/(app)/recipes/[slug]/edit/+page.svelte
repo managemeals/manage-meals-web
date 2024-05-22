@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import type { ActionData, PageData } from './$types';
-	import type { ICategory, IRecipe, ITag } from '$lib/types';
+	import type { ICategory, ITag } from '$lib/types';
 	import Icon from '@iconify/svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';

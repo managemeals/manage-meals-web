@@ -181,7 +181,7 @@
 			<div>
 				<div class="flex items-center gap-2">
 					<Icon icon="ph:calendar-blank" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Meal Planner (coming soon)</h4>
+					<h4 class="text-xl font-semibold">Meal Plans (coming soon)</h4>
 				</div>
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Create a weekly/monthly meal plan from your

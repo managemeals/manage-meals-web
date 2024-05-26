@@ -1,6 +1,7 @@
 import {
 	addDays,
 	addMonths,
+	eachDayOfInterval,
 	endOfWeek,
 	format,
 	getDaysInMonth,
@@ -11,12 +12,22 @@ import {
 	subDays
 } from 'date-fns';
 import type { PageServerLoad } from './$types';
-import { WEEKDAYS } from '$lib/constants';
-import type { IEnhanceFailRes, IEnhanceRes, IMealPlan, IMealPlanCalendar } from '$lib/types';
+import { WEEKDAYS, WEEKDAYS_LOWER } from '$lib/constants';
+import type {
+	ICategory,
+	IEnhanceFailRes,
+	IEnhanceRes,
+	IMealPlan,
+	IMealPlanCalendar,
+	IMealPlanType,
+	ITag,
+	TDayMealPlanTypes
+} from '$lib/types';
 import { last } from 'lodash-es';
 import apiClient from '$lib/server/api/client';
 import { fail } from '@sveltejs/kit';
 import { getErrorMessage } from '$lib/errors';
+import axios from 'axios';
 
 export const load: PageServerLoad = async ({ cookies, url }) => {
 	const dateQ = url.searchParams.get('date');
@@ -133,11 +144,26 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 		});
 	} catch (e) {
 		console.log(e);
-		throw new Error('Error loading meal plans');
+		if (!axios.isAxiosError(e) || e.response?.data.message === 'Invalid Authorization header') {
+			throw new Error('Error loading meal plans');
+		}
 	}
 
 	// Meal plan at selected date
 	const dateMealPlan = mealPlans.find((mp) => isSameDay(mp.calendarDate.fullDate, date));
+
+	// Load categories and tags
+	let categories: ICategory[] = [];
+	let tags: ITag[] = [];
+	try {
+		const categoriesRes = await apiClient(cookies.getAll()).get('/categories');
+		const tagsRes = await apiClient(cookies.getAll()).get('/tags');
+		categories = categoriesRes.data as ICategory[];
+		tags = tagsRes.data as ITag[];
+	} catch (e) {
+		console.log(e);
+		throw new Error('Error loading tags/categories');
+	}
 
 	return {
 		date,
@@ -148,12 +174,14 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 		dateMealPlan,
 		today,
 		firstDateOfWeek,
-		lastDateOfWeek
+		lastDateOfWeek,
+		categories,
+		tags
 	};
 };
 
 export const actions = {
-	refresh: async ({ request, cookies }) => {
+	refreshday: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const uuid = data.get('uuid') as string;
 		const date = data.get('date') as string;
@@ -162,37 +190,13 @@ export const actions = {
 		const tagUuids = data.get('tagUuids') as string;
 
 		const failObj: IEnhanceFailRes = {
-			inputs: {
-				refreshUuid: uuid,
-				refreshDate: date,
-				refreshMealType: mealType,
-				refreshCategoryUuids: categoryUuids,
-				refreshTagUuids: tagUuids
-			},
+			inputs: {},
 			errors: {}
 		};
 
-		if (!uuid) {
-			failObj.errors.refresUuid = 'UUID is empty';
-		}
-
-		if (!date) {
-			failObj.errors.refreshName = 'Date is empty';
-		}
-
-		if (!mealType) {
-			failObj.errors.refreshMealType = 'Meal type is empty';
-		}
-
-		if (!categoryUuids) {
-			failObj.errors.refreshCategoryUuids = 'Categories is empty';
-		}
-
-		if (!tagUuids) {
-			failObj.errors.refreshTagUuids = 'Tags is empty';
-		}
-
-		if (Object.keys(failObj.errors).length) {
+		if (!uuid || !date || !mealType) {
+			failObj.refreshDayMessageType = 'error';
+			failObj.refreshDayMessage = 'Missing inputs';
 			return fail(400, failObj);
 		}
 
@@ -202,20 +206,200 @@ export const actions = {
 				mealTypes: [
 					{
 						mealType,
-						categoryUuids: categoryUuids.split(','),
-						tagUuids: tagUuids.split(',')
+						categoryUuids: categoryUuids.split(',').filter(Boolean),
+						tagUuids: tagUuids.split(',').filter(Boolean)
 					}
 				]
 			});
 		} catch (e) {
 			console.log(e);
-			failObj.refreshMessageType = 'error';
-			failObj.refreshMessage = getErrorMessage(e);
+			failObj.refreshDayMessageType = 'error';
+			failObj.refreshDayMessage = getErrorMessage(e);
 			return fail(500, failObj);
 		}
 
 		const successObj: IEnhanceRes = {
-			refreshUuid: uuid
+			refreshDayUuid: uuid
+		};
+
+		return successObj;
+	},
+
+	planday: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const obj = Object.fromEntries(data);
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!obj['date']) {
+			failObj.planDayMessageType = 'error';
+			failObj.planDayMessage = 'Date is empty';
+			return fail(400, failObj);
+		}
+
+		const mealTypes: IMealPlanType[] = [];
+		let i = 0;
+		const maxI = 1000;
+		for (;;) {
+			if (obj[`mealType${i}`] === undefined || i > maxI) {
+				break;
+			}
+			const mealType = obj[`mealType${i}`] as string;
+			const categoryUuids = ((obj[`categoryUuids${i}`] as string) || '').split(',').filter(Boolean);
+			const tagUuids = ((obj[`tagUuids${i}`] as string) || '').split(',').filter(Boolean);
+
+			mealTypes.push({
+				mealType,
+				categoryUuids,
+				tagUuids
+			});
+
+			if (!mealType) {
+				failObj.errors[`planDayMealType${i}`] = 'Meal type is empty';
+			}
+			i++;
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		let uuid = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/meal-plans', {
+				date: obj['date'],
+				mealTypes
+			});
+			uuid = res.data.uuid;
+		} catch (e) {
+			console.log(e);
+			failObj.planDayMessageType = 'error';
+			failObj.planDayMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			planDayUuid: uuid
+		};
+
+		return successObj;
+	},
+
+	planweek: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const obj = Object.fromEntries(data);
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!obj['dateFrom'] || !obj['dateTo']) {
+			failObj.planWeekMessageType = 'error';
+			failObj.planWeekMessage = 'Date is empty';
+			return fail(400, failObj);
+		}
+
+		const mealTypes: TDayMealPlanTypes = {
+			mon: [],
+			tue: [],
+			wed: [],
+			thu: [],
+			fri: [],
+			sat: [],
+			sun: []
+		};
+		for (const dayKey of WEEKDAYS_LOWER) {
+			let i = 0;
+			const maxI = 1000;
+			for (;;) {
+				if (obj[`mealType${dayKey}${i}`] === undefined || i > maxI) {
+					break;
+				}
+				const mealType = obj[`mealType${dayKey}${i}`] as string;
+				const categoryUuids = ((obj[`categoryUuids${dayKey}${i}`] as string) || '')
+					.split(',')
+					.filter(Boolean);
+				const tagUuids = ((obj[`tagUuids${dayKey}${i}`] as string) || '')
+					.split(',')
+					.filter(Boolean);
+
+				mealTypes[dayKey].push({
+					mealType,
+					categoryUuids,
+					tagUuids
+				});
+
+				if (!mealType) {
+					failObj.errors[`planWeekMealType${dayKey}${i}`] = 'Meal type is empty';
+				}
+				i++;
+			}
+		}
+
+		if (Object.keys(failObj.errors).length) {
+			return fail(400, failObj);
+		}
+
+		const dates = eachDayOfInterval({
+			start: new Date(obj['dateFrom'] as string),
+			end: new Date(obj['dateTo'] as string)
+		});
+
+		const promises = dates.map((d, i) => {
+			return apiClient(cookies.getAll()).post('/meal-plans', {
+				date: d.toISOString(),
+				mealTypes: mealTypes[WEEKDAYS_LOWER[i]]
+			});
+		});
+
+		let uuids: string[] = [];
+		try {
+			const res = await Promise.all(promises);
+			uuids = res.map((r) => r.data.uuid);
+		} catch (e) {
+			console.log(e);
+			failObj.planWeekMessageType = 'error';
+			failObj.planWeekMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			planWeekUuids: uuids
+		};
+
+		return successObj;
+	},
+
+	deleteday: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const uuid = data.get('uuid') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!uuid) {
+			failObj.deleteDayMessageType = 'error';
+			failObj.deleteDayMessage = 'Missing UUID';
+			return fail(400, failObj);
+		}
+
+		try {
+			await apiClient(cookies.getAll()).delete(`/meal-plans/${uuid}`);
+		} catch (e) {
+			console.log(e);
+			failObj.deleteDayMessageType = 'error';
+			failObj.deleteDayMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			deleteDayUuid: uuid
 		};
 
 		return successObj;

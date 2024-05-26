@@ -14,7 +14,7 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-xl font-bold mb-5">User Settings</h1>
+	<h1 class="text-2xl font-bold mb-5">User Settings</h1>
 	<div class="flex">
 		<div class="basis-full xl:basis-3/4">
 			{#if form?.message}

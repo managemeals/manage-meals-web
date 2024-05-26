@@ -1,10 +1,10 @@
-export type SubscriptionType = 'FREE' | 'PREMIUM';
+export type TSubscriptionType = 'FREE' | 'PREMIUM';
 
 export interface IUser {
 	uuid: string;
 	name: string;
 	email: string;
-	subscriptionType: SubscriptionType;
+	subscriptionType: TSubscriptionType;
 }
 
 export interface ITag {
@@ -226,11 +226,13 @@ export interface ITabItem {
 	title: string;
 }
 
-export type ShortDay = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+export type TShortDay = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+
+export type TShortDayLower = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
 export interface ICalendarDay {
 	dateNum: number;
-	day: ShortDay;
+	day: TShortDay;
 	activeMonth: boolean;
 	isToday?: boolean;
 	fullDate: Date;
@@ -240,10 +242,10 @@ export interface IMealPlanType {
 	mealType: string;
 	categoryUuids: string[];
 	tagUuids: string[];
-	categories: ICategory[];
-	tags: ITag[];
-	recipe: IRecipe;
-	recipeUuid: string;
+	categories?: ICategory[];
+	tags?: ITag[];
+	recipe?: IRecipe;
+	recipeUuid?: string;
 }
 
 export interface IMealPlan {
@@ -258,3 +260,5 @@ export interface IMealPlan {
 export interface IMealPlanCalendar extends IMealPlan {
 	calendarDate: ICalendarDay;
 }
+
+export type TDayMealPlanTypes = Record<TShortDayLower, IMealPlanType[]>;

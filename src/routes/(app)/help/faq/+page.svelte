@@ -7,7 +7,7 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-xl font-bold mb-5">FAQ</h1>
+	<h1 class="text-2xl font-bold mb-5">FAQ</h1>
 
 	<div class="mb-5 last:mb-0">
 		<h3 class="font-semibold text-lg mb-1">Does it work with any recipe website?</h3>

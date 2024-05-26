@@ -5,7 +5,7 @@
 </script>
 
 <div class="p-5">
-	<h1 class="text-xl font-bold mb-5">Subscription has been cancelled.</h1>
+	<h1 class="text-2xl font-bold mb-5">Subscription has been cancelled.</h1>
 	<p>
 		Your subscription has been cancelled. Your subscription type is now <span
 			class="text-orange-500 font-bold">{data.user.subscriptionType}</span

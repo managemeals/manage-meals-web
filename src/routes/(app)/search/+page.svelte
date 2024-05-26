@@ -12,7 +12,8 @@
 	<title>{data.q ? `${data.q} - ` : ''}Search - {PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
-<div class="p-5 pt-10">
+<div class="p-5">
+	<h1 class="text-2xl font-bold mb-5">Search</h1>
 	<form action="/search" method="get" class="mb-5">
 		<div
 			class="flex rounded border-2 [&:not(:focus-within)]:hover:border-gray-300 relative ring ring-transparent focus-within:ring-orange-500 focus-within:border-transparent"

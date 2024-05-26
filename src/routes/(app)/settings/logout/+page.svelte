@@ -7,7 +7,7 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-xl font-bold mb-5">Logout</h1>
+	<h1 class="text-2xl font-bold mb-5">Logout</h1>
 	<div>
 		<a
 			data-sveltekit-preload-data="off"

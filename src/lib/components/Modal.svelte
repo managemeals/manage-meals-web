@@ -37,6 +37,7 @@
 					dialog.close();
 				}}
 			>
+				<span class="sr-only">Close</span>
 				<Icon icon="ph:x" color="#000" width="1.4rem" />
 			</button>
 			<slot />

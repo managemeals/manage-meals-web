@@ -19,7 +19,7 @@
 
 <div class="p-5">
 	<div class="flex items-center justify-between mb-5">
-		<h1 class="text-xl font-bold">Subscription</h1>
+		<h1 class="text-2xl font-bold">Subscription</h1>
 		<button
 			type="button"
 			class="p-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500"

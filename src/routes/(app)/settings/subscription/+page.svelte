@@ -55,7 +55,20 @@
 		{/each}
 	</div>
 
-	{#if data.user.subscriptionType === 'FREE'}
+	{#if data.user.subscriptionType !== 'PREMIUM'}
+		<p class="mt-5">
+			Premium subscription is <span class="font-bold text-xl">£2.90</span> per month and gives you access
+			to more advanced features:
+		</p>
+
+		<ul class="list-disc list-inside mt-3">
+			<li>Meal Planner</li>
+			<li>Import recipes from YouTube videos</li>
+			<li>Import recipes from images (<span class="italic">coming soon</span>)</li>
+			<li>Shopping lists (<span class="italic">coming soon</span>)</li>
+			<li><span class="italic">And more features in the works</span></li>
+		</ul>
+
 		<div class="mt-10">
 			<a
 				data-sveltekit-preload-data="off"

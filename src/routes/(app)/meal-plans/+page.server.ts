@@ -29,7 +29,7 @@ import { fail } from '@sveltejs/kit';
 import { getErrorMessage } from '$lib/errors';
 import axios from 'axios';
 
-export const load: PageServerLoad = async ({ cookies, url }) => {
+export const load: PageServerLoad = async ({ cookies, url, parent }) => {
 	const dateQ = url.searchParams.get('date');
 
 	let date = new Date();
@@ -39,6 +39,8 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 			date = new Date();
 		}
 	}
+
+	const parentData = await parent();
 
 	const today = new Date();
 	const dateIsSameMonth = isSameMonth(date, today);
@@ -166,6 +168,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	}
 
 	return {
+		user: parentData.user,
 		date,
 		days: WEEKDAYS,
 		firstDayOfPreviousMonth,
@@ -220,6 +223,52 @@ export const actions = {
 
 		const successObj: IEnhanceRes = {
 			refreshDayUuid: uuid
+		};
+
+		return successObj;
+	},
+
+	selectday: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const uuid = data.get('uuid') as string;
+		const recipeUuid = data.get('recipeUuid') as string;
+		const date = data.get('date') as string;
+		const mealType = data.get('mealType') as string;
+		const categoryUuids = data.get('categoryUuids') as string;
+		const tagUuids = data.get('tagUuids') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!uuid || !recipeUuid || !date || !mealType) {
+			failObj.selectDayMessageType = 'error';
+			failObj.selectDayMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		try {
+			await apiClient(cookies.getAll()).patch(`/meal-plans/${uuid}`, {
+				date,
+				mealTypes: [
+					{
+						mealType,
+						categoryUuids: categoryUuids.split(',').filter(Boolean),
+						tagUuids: tagUuids.split(',').filter(Boolean),
+						recipeUuid
+					}
+				]
+			});
+		} catch (e) {
+			console.log(e);
+			failObj.selectDayMessageType = 'error';
+			failObj.selectDayMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			selectDayUuid: uuid
 		};
 
 		return successObj;

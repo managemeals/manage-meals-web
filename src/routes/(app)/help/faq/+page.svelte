@@ -40,4 +40,13 @@
 			your idea.
 		</p>
 	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">Do I have to have the Premium subscription?</h3>
+		<p>
+			No, Premium is only to unlock more advanced features like Meal Planning and importing recipes
+			from YouTube. All the basic features, like importing and organizing recipes, is available on
+			the free plan.
+		</p>
+	</div>
 </div>

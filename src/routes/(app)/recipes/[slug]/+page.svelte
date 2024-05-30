@@ -194,7 +194,7 @@
 			<div class="basis-1/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
 				<ul class="list-disc list-inside">
-					{#each data.recipe.data.ingredients as ingredient}
+					{#each data.recipe.data.ingredients || [] as ingredient}
 						<li class="mb-3 last:mb-0">{ingredient}</li>
 					{/each}
 				</ul>
@@ -202,7 +202,7 @@
 			<div class="basis-2/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Directions</h3>
 				<ol class="list-decimal list-inside">
-					{#each data.recipe.data.instructions_list as instruction}
+					{#each data.recipe.data.instructions_list || [] as instruction}
 						<li class="mb-3 last:mb-0">{instruction}</li>
 					{/each}
 				</ol>

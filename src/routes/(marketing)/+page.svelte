@@ -77,8 +77,21 @@
 					<h4 class="text-xl font-semibold">Free</h4>
 				</div>
 				<p class="pt-3">
-					ManageMeals is completely free. Simply register and start organizing your favorite
-					recipes.
+					The basic features of ManageMeals are completely free. Such as importing and organizing
+					recipes. Premium subscription is only for more advanced features, e.g. Meal Plans.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:seal-check" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Premium</h4>
+				</div>
+				<p class="pt-3">
+					More advanced features are unlocked with a Premium subscription. For example Meal Plans
+					and importing recipes from YouTube. Premium subscription is <span class="font-bold"
+						>£2.90</span
+					> per month.
 				</p>
 			</div>
 
@@ -169,6 +182,20 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:youtube-logo" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold flex gap-3 items-center">
+						<span>YouTube</span>
+						<span class="text-sm text-orange-500">Premium</span>
+					</h4>
+				</div>
+				<p class="pt-3">
+					Just like importing a recipe by URL. Simply paste the YouTube URL into the import form and
+					ManageMeals will save the recipe as text.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:printer" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Print</h4>
 				</div>
@@ -180,27 +207,27 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:calendar-dots" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold flex gap-3 items-center">
+						<span>Meal Plans</span>
+						<span class="text-sm text-orange-500">Premium</span>
+					</h4>
+				</div>
+				<p class="pt-3">
+					Create Meal Plans for a single day, or a whole week. Meal Types can be used to plan
+					multiple courses per day. Auto-generated based on some criteria, or manually selected
+					recipes.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:devices" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Cooking Mode</h4>
 				</div>
 				<p class="pt-3">
 					Prevent the screen from turning off by checking a box on the recipe detail page. No more
 					tapping the screen every couple of seconds.
-				</p>
-			</div>
-
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:calendar-dots" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold flex gap-3 items-center">
-						<span>Meal Plans</span>
-						<span class="text-sm text-purple-500">Premium</span>
-					</h4>
-				</div>
-				<p class="pt-3">
-					<span class="italic">Work in progress</span>. Create a weekly/monthly meal plan from your
-					recipes. Choose how many times you'd like to include specific categories and tags. For
-					example 2x times a week fish, 3x times a week vegan and 2x times a week meat.
 				</p>
 			</div>
 
@@ -243,30 +270,24 @@
 
 <section class="px-3 py-20 bg-slate-100">
 	<div class="container mx-auto">
-		<h3 class="text-3xl font-bold text-center pb-10">How it works</h3>
-		<div class="flex flex-col lg:flex-row gap-5">
-			<div class="basis-2/5">
-				<div class="pt-5">
-					<ol class="list-decimal list-inside">
-						<li class="mb-3 last:mb-0">Copy the URL of a recipe you want to save.</li>
-						<li class="mb-3 last:mb-0">
-							Paste the URL into the <span class="font-semibold">Add Recipe</span> form.
-						</li>
-						<li class="mb-3 last:mb-0">
-							Optionally choose any categories or tags to apply to the recipe. This can also be done
-							later.
-						</li>
-						<li class="mb-3 last:mb-0">Click <span class="font-semibold">Add</span>.</li>
-						<li class="mb-3 last:mb-0">
-							ManageMeals fetches the recipe data from the URL and saves it.
-						</li>
-					</ol>
-				</div>
-			</div>
-			<div class="basis-3/5">
+		<h3 class="text-3xl font-bold text-center pb-10">Screen Recordings</h3>
+		<div class="flex flex-col lg:flex-row gap-10">
+			<div class="basis-1/2 text-center">
+				<h5 class="text-xl font-bold pb-5">Importing a Recipe</h5>
 				<video controls muted>
 					<source
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmrecording.mov"
+						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmimport.mov"
+						type="video/mp4"
+					/>
+					Your browser does not support the video tag.
+				</video>
+			</div>
+
+			<div class="basis-1/2 text-center">
+				<h5 class="text-xl font-bold pb-5">Meal Planning</h5>
+				<video controls muted>
+					<source
+						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmmealplans.mov"
 						type="video/mp4"
 					/>
 					Your browser does not support the video tag.

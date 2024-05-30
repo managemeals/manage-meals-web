@@ -282,7 +282,7 @@
 				id="data.ingredients"
 				placeholder="Ingredients"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
-				value={form?.inputs?.data?.ingredients ?? data.recipe.data.ingredients.join('\n\n')}
+				value={form?.inputs?.data?.ingredients ?? (data.recipe.data.ingredients || []).join('\n\n')}
 				rows="12"
 			></textarea>
 			<p class="text-sm text-gray-500 pt-1">
@@ -302,7 +302,7 @@
 				placeholder="Instructions"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 				value={form?.inputs?.data?.instructions_list ??
-					data.recipe.data.instructions_list.join('\n\n')}
+					(data.recipe.data.instructions_list || []).join('\n\n')}
 				rows="12"
 			></textarea>
 			<p class="text-sm text-gray-500 pt-1">

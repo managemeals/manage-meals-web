@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte';
 
 	export let show = false;
+	export let disableOutsideClickClose = false;
 
 	let dialog: HTMLDialogElement;
 
@@ -23,7 +24,9 @@
 		show = false;
 	}}
 	on:click|self={() => {
-		dialog.close();
+		if (!disableOutsideClickClose) {
+			dialog.close();
+		}
 	}}
 	class="rounded shadow max-w-3xl w-full"
 >

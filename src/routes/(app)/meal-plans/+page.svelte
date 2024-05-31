@@ -222,6 +222,7 @@
 			<div class="grid grid-cols-7">
 				{#each data.mealPlans as mealPlan}
 					<a
+						data-sveltekit-noscroll
 						href={`?date=${format(mealPlan.calendarDate.fullDate, 'yyyy-MM-dd')}`}
 						class={`
               flex flex-col justify-start text-left p-3 border-r hover:bg-slate-50
@@ -571,7 +572,7 @@
 		{#each planDayMealTypes as _, i}
 			<div class="border rounded p-3 mb-5">
 				<div class="flex items-start gap-3">
-					<div>
+					<div class="flex-1">
 						<div class="pb-5 last:pb-0">
 							<label for={`mealType${i}`} class="font-semibold pb-2 block">Meal Type</label>
 							<input
@@ -762,7 +763,7 @@
 				{#each planWeekMealTypes[dayKey] as _, i}
 					<div class="border rounded p-3 mb-5">
 						<div class="flex items-start gap-3">
-							<div>
+							<div class="flex-1">
 								<div class="pb-5 last:pb-0">
 									<label for={`mealType${dayKey}${i}`} class="font-semibold pb-2 block"
 										>Meal Type</label

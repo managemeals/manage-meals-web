@@ -234,11 +234,14 @@
 			<div>
 				<div class="flex items-center gap-2">
 					<Icon icon="ph:shopping-cart" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Shopping List (coming soon)</h4>
+					<h4 class="text-xl font-semibold flex gap-3 items-center">
+						<span>Shopping Lists</span>
+						<span class="text-sm text-orange-500">Premium</span>
+					</h4>
 				</div>
 				<p class="pt-3">
-					<span class="italic">Work in progress</span>. Create shopping lists from specific recipes
-					and meals plans. Takes the recipe ingredients and turns them into a shopping list.
+					Create shopping lists from recipes and meal plans. It takes the recipe ingredients and
+					turns them into a shopping list.
 				</p>
 			</div>
 
@@ -260,8 +263,7 @@
 				</div>
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Share recipes with friends and family, or
-					share a whole meal plan. Ideal for personal trainers or nutritionists who want to share a
-					meal plan with their clients.
+					share a whole meal plan. Anyone with a share link can view, no need to register.
 				</p>
 			</div>
 		</div>

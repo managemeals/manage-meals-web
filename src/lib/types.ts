@@ -262,3 +262,15 @@ export interface IMealPlanCalendar extends IMealPlan {
 }
 
 export type TDayMealPlanTypes = Record<TShortDayLower, IMealPlanType[]>;
+
+export interface IShoppingList {
+	uuid: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
+	slug: string;
+	title: string;
+	ingredients?: string[];
+	recipeUuids?: string[];
+	recipes?: IRecipe[];
+}

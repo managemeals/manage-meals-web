@@ -64,6 +64,11 @@
 			title: 'Meal Plans'
 		},
 		{
+			href: '/shopping-lists',
+			icon: 'ph:shopping-cart',
+			title: 'Shopping Lists'
+		},
+		{
 			href: '/settings/user',
 			icon: 'ph:gear',
 			title: 'Settings'

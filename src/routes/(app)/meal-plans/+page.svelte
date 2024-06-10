@@ -320,7 +320,7 @@
 			<div class="flex flex-col gap-5">
 				{#each data.dateMealPlan?.mealTypes || [] as mealType}
 					<div class="flex flex-col md:flex-row gap-10 border rounded p-3">
-						<div class="basis-auto md:basis-1/4 lg:basis-auto">
+						<div class="basis-auto md:basis-1/4 xl:basis-1/6">
 							<div class="flex flex-col mb-3">
 								<div class="text-sm text-gray-600">Meal type</div>
 								<div class="font-semibold">{mealType.mealType}</div>
@@ -336,6 +336,9 @@
 										</li>
 									{/each}
 								</ul>
+								{#if !(mealType.categories || []).length}
+									<p class="italic">No tags</p>
+								{/if}
 							</div>
 							<div class="flex flex-col mb-3">
 								<div class="text-sm text-gray-600">Meal type tags</div>
@@ -348,6 +351,9 @@
 										</li>
 									{/each}
 								</ul>
+								{#if !(mealType.tags || []).length}
+									<p class="italic">No tags</p>
+								{/if}
 							</div>
 							<div class="flex flex-col gap-1">
 								<form
@@ -396,7 +402,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="basis-auto md:basis-3/4 lg:basis-auto">
+						<div class="basis-auto md:basis-3/4 xl:basis-5/6">
 							<div class="flex flex-col lg:flex-row gap-5">
 								<a
 									href={`/recipes/${mealType.recipe?.slug}`}
@@ -467,7 +473,7 @@
 		</div>
 	</form>
 	<div
-		class="flex flex-col gap-5 mt-5 max-h-96 overflow-auto border p-3 rounded"
+		class="flex flex-col gap-3 mt-5 max-h-96 overflow-auto"
 		class:hidden={!searchResults || !searchResults.found}
 	>
 		{#each searchResults?.hits || [] as hit}

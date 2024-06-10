@@ -49,4 +49,14 @@
 			the free plan.
 		</p>
 	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">How do I cancel my subscription?</h3>
+		<p>
+			You are completely in control of the subscription, and can cancel at any time. Either go to
+			the <a href="/settings/subscription" class="hover:underline text-blue-500"
+				>subscription settings</a
+			> page or cancel the Direct Debit in your banking app.
+		</p>
+	</div>
 </div>

@@ -5,6 +5,7 @@ export interface IUser {
 	name: string;
 	email: string;
 	subscriptionType: TSubscriptionType;
+	isAdmin: boolean;
 }
 
 export interface ITag {

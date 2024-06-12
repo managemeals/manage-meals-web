@@ -6,6 +6,9 @@
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
 	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
 
 	const LG_BREAKPOINT = 1024;
 	const SM_BREAKPOINT = 640;
@@ -79,6 +82,14 @@
 			title: 'Help'
 		}
 	];
+
+	if (data.user?.isAdmin) {
+		leftNavLinks.push({
+			href: '/admin/status',
+			icon: 'ph:database',
+			title: 'Admin'
+		});
+	}
 
 	const createLinks: IIconHelpLink[] = [
 		{

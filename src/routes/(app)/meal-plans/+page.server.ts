@@ -7,6 +7,7 @@ import {
 	getDaysInMonth,
 	isSameDay,
 	isSameMonth,
+	isSameWeek,
 	lastDayOfMonth,
 	startOfWeek,
 	subDays
@@ -20,12 +21,13 @@ import type {
 	IMealPlan,
 	IMealPlanCalendar,
 	IMealPlanType,
+	IRecipe,
 	ITag,
 	TDayMealPlanTypes
 } from '$lib/types';
 import { last } from 'lodash-es';
 import apiClient from '$lib/server/api/client';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { getErrorMessage } from '$lib/errors';
 import axios from 'axios';
 
@@ -153,6 +155,29 @@ export const load: PageServerLoad = async ({ cookies, url, parent }) => {
 
 	// Meal plan at selected date
 	const dateMealPlan = mealPlans.find((mp) => isSameDay(mp.calendarDate.fullDate, date));
+	const dateMealPlanRecipes = (dateMealPlan?.mealTypes || []).reduce((prev, curr) => {
+		if (curr.recipe) {
+			return [...prev, curr.recipe];
+		} else {
+			return prev;
+		}
+	}, [] as IRecipe[]);
+
+	// Meal plan at selected week
+	const weekMealPlans = mealPlans.filter((mp) =>
+		isSameWeek(mp.calendarDate.fullDate, date, { weekStartsOn: 1 })
+	);
+	const weekMealPlansRecipes = weekMealPlans
+		.reduce((prev, curr) => {
+			return [...prev, ...curr.mealTypes];
+		}, [] as IMealPlanType[])
+		.reduce((prev, curr) => {
+			if (curr.recipe) {
+				return [...prev, curr.recipe];
+			} else {
+				return prev;
+			}
+		}, [] as IRecipe[]);
 
 	// Load categories and tags
 	let categories: ICategory[] = [];
@@ -175,6 +200,8 @@ export const load: PageServerLoad = async ({ cookies, url, parent }) => {
 		firstDayOfNextMonth,
 		mealPlans,
 		dateMealPlan,
+		dateMealPlanRecipes,
+		weekMealPlansRecipes,
 		today,
 		firstDateOfWeek,
 		lastDateOfWeek,
@@ -226,6 +253,76 @@ export const actions = {
 		};
 
 		return successObj;
+	},
+
+	shoppinglistday: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const title = data.get('title') as string;
+		const recipeUuids = data.get('recipeUuids') as string;
+		const ingredients = data.get('ingredients') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!title) {
+			failObj.shoppingListDayMessageType = 'error';
+			failObj.shoppingListDayMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/shopping-lists', {
+				title,
+				ingredients: ingredients.split('|||').filter(Boolean),
+				recipeUuids: recipeUuids.split(',').filter(Boolean)
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.shoppingListDayMessageType = 'error';
+			failObj.shoppingListDayMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		return redirect(303, `/shopping-lists/${slug}`);
+	},
+
+	shoppinglistweek: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const title = data.get('title') as string;
+		const recipeUuids = data.get('recipeUuids') as string;
+		const ingredients = data.get('ingredients') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!title) {
+			failObj.shoppingListDayMessageType = 'error';
+			failObj.shoppingListDayMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/shopping-lists', {
+				title,
+				ingredients: ingredients.split('|||').filter(Boolean),
+				recipeUuids: recipeUuids.split(',').filter(Boolean)
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.shoppingListWeekMessageType = 'error';
+			failObj.shoppingListWeekMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		return redirect(303, `/shopping-lists/${slug}`);
 	},
 
 	selectday: async ({ request, cookies }) => {

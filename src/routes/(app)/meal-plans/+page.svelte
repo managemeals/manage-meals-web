@@ -36,6 +36,8 @@
 	let planDaySubmitting = false;
 	let planWeekSubmitting = false;
 	let isSearching = false;
+	let showShoppingListDayModal = false;
+	let showShoppingListWeekModal = false;
 
 	// Plan day
 	let planDayMealTypes: IMealPlanType[] = [];
@@ -257,7 +259,7 @@
 			</div>
 		</div>
 		<div>
-			<div class="flex flex-col gap-5 sm:flex-row sm:gap-8 mb-5">
+			<div class="flex flex-col gap-5 sm:flex-row sm:gap-10 mb-5">
 				<div>
 					<div class="mb-1">
 						<div class="text-sm text-gray-500">Day</div>
@@ -265,7 +267,7 @@
 							{format(data.date, 'EEE d MMMM yyyy')}
 						</h3>
 					</div>
-					<div class="flex flex-col gap-1">
+					<div class="flex gap-1">
 						<div>
 							<button
 								type="button"
@@ -291,6 +293,20 @@
 							</button>
 						</div>
 					</div>
+					<div class="flex gap-1 mt-1">
+						<div>
+							<button
+								type="button"
+								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								on:click={() => {
+									showShoppingListDayModal = true;
+								}}
+							>
+								<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
+								<span>Shopping list</span>
+							</button>
+						</div>
+					</div>
 				</div>
 				<div>
 					<div class="mb-1">
@@ -301,7 +317,7 @@
 							<span>{format(data.lastDateOfWeek, 'EEE d MMMM yyyy')}</span>
 						</h3>
 					</div>
-					<div class="flex flex-col gap-1">
+					<div class="flex gap-1">
 						<div>
 							<button
 								type="button"
@@ -312,6 +328,18 @@
 							>
 								<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
 								<span>Plan week</span>
+							</button>
+						</div>
+						<div>
+							<button
+								type="button"
+								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								on:click={() => {
+									showShoppingListWeekModal = true;
+								}}
+							>
+								<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
+								<span>Shopping list</span>
 							</button>
 						</div>
 					</div>
@@ -552,9 +580,11 @@
 </Modal>
 
 <Modal bind:show={showPlanDayModal}>
-	<h4 class="text-xl font-bold mb-3">Meal Plan for {format(data.date, 'EEE d MMMM yyyy')}</h4>
+	<h4 class="text-xl font-bold mb-3">Create Meal Plan</h4>
 	<p class="mb-5">
-		Create Meal Types and set which categories/tags a recipe should be selected from.
+		Create a Meal Plan for the day <span class="font-bold"
+			>{format(data.date, 'EEE d MMMM yyyy')}</span
+		>. Create Meal Types and set which categories/tags a recipe should be selected from.
 	</p>
 	{#if form?.planDayMessage}
 		<div class="py-4">
@@ -706,16 +736,15 @@
 </Modal>
 
 <Modal bind:show={showPlanWeekModal}>
-	<h4 class="text-xl font-bold mb-3">
-		<span>Meal Plan for </span>
-		<span>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')}</span>
-		<span> - </span>
-		<span>{format(data.lastDateOfWeek, 'EEE d MMMM yyyy')}</span>
-	</h4>
+	<h4 class="text-xl font-bold mb-3">Create Meal Plan</h4>
 	<p class="mb-5">
-		Create Meal Types and set which categories/tags a recipe should be selected from. The <span
-			class="font-bold">Copy</span
-		> button will copy the selected day to all the other days.
+		Create a Meal Plan for the week <span class="font-bold"
+			>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - {format(
+				data.lastDateOfWeek,
+				'EEE d MMMM yyyy'
+			)}</span
+		>. Create Meal Types and set which categories/tags a recipe should be selected from. The
+		<span class="font-bold">Copy</span> button will copy the selected day to all the other days.
 	</p>
 	{#if form?.planWeekMessage}
 		<div class="py-4">
@@ -928,5 +957,113 @@
 		>
 			Delete
 		</button>
+	</form>
+</Modal>
+
+<Modal bind:show={showShoppingListDayModal}>
+	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
+	<p class="mb-3">
+		Create a shopping list for the day <span class="font-bold"
+			>{format(data.date, 'EEE d MMMM yyyy')}</span
+		>. Includes these recipes:
+	</p>
+	{#if !data.dateMealPlanRecipes.length}
+		<p class="italic">No recipes for this day</p>
+	{/if}
+	<ul class="list-disc list-inside mb-5">
+		{#each data.dateMealPlanRecipes as dateMealPlanRecipe}
+			<li>{dateMealPlanRecipe.data.title}</li>
+		{/each}
+	</ul>
+	{#if form?.shoppingListDayMessage}
+		<div class="py-4">
+			<Alert variant={form?.shoppingListDayMessageType || 'error'}>
+				{form?.shoppingListDayMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/shoppinglistday" use:enhance>
+		<input type="hidden" id="title" name="title" value={format(data.date, 'EEE d MMMM yyyy')} />
+		<input
+			type="hidden"
+			id="recipeUuids"
+			name="recipeUuids"
+			value={data.dateMealPlanRecipes.map((r) => r.uuid)}
+		/>
+		<input
+			type="hidden"
+			id="ingredients"
+			name="ingredients"
+			value={data.dateMealPlanRecipes
+				.map((r) => r.data.ingredients)
+				.flat(1)
+				.join('|||')}
+		/>
+		<div>
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			>
+				Create
+			</button>
+		</div>
+	</form>
+</Modal>
+
+<Modal bind:show={showShoppingListWeekModal}>
+	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
+	<p class="mb-3">
+		Create a shopping list for the week <span class="font-bold"
+			>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - {format(
+				data.lastDateOfWeek,
+				'EEE d MMMM yyyy'
+			)}</span
+		>. Includes these recipes:
+	</p>
+	{#if !data.weekMealPlansRecipes.length}
+		<p class="italic">No recipes for this week</p>
+	{/if}
+	<ul class="list-disc list-inside mb-5">
+		{#each data.weekMealPlansRecipes as weekMealPlansRecipe}
+			<li>{weekMealPlansRecipe.data.title}</li>
+		{/each}
+	</ul>
+	{#if form?.shoppingListWeekMessage}
+		<div class="py-4">
+			<Alert variant={form?.shoppingListWeekMessageType || 'error'}>
+				{form?.shoppingListWeekMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/shoppinglistweek" use:enhance>
+		<input
+			type="hidden"
+			id="title"
+			name="title"
+			value={`${format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - ${format(data.lastDateOfWeek, 'EEE d MMMM yyyy')}`}
+		/>
+		<input
+			type="hidden"
+			id="recipeUuids"
+			name="recipeUuids"
+			value={data.weekMealPlansRecipes.map((r) => r.uuid)}
+		/>
+		<input
+			type="hidden"
+			id="ingredients"
+			name="ingredients"
+			value={data.weekMealPlansRecipes
+				.map((r) => r.data.ingredients)
+				.flat(1)
+				.join('|||')}
+		/>
+		<div>
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			>
+				Create
+			</button>
+		</div>
 	</form>
 </Modal>

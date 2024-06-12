@@ -65,7 +65,7 @@
 			<li>Meal Planner</li>
 			<li>Import recipes from YouTube videos</li>
 			<li>Import recipes from images (<span class="italic">coming soon</span>)</li>
-			<li>Shopping lists (<span class="italic">coming soon</span>)</li>
+			<li>Shopping lists</li>
 			<li><span class="italic">And more features in the works</span></li>
 		</ul>
 

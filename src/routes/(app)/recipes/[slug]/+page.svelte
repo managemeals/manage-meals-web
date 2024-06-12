@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import { format } from 'date-fns';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { onMount } from 'svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
+
+	export let form: ActionData;
 
 	let toggleWakelock = false;
 	let hasWakeLock = false;
@@ -16,6 +19,7 @@
 	let showWakeLockModal = false;
 	let wakeLockError = '';
 	let hasWakeLockListener = false;
+	let showShoppingListModal = false;
 
 	const handleWakeLockRelease = () => {
 		toggleWakelock = false;
@@ -110,66 +114,78 @@
 	</div>
 
 	<div class="p-5">
-		<div class="flex items-center justify-between mb-3">
-			<h1 class="font-semibold text-orange-500 text-2xl">{data.recipe.data.title}</h1>
-			<a
-				href={`/recipes/${data.recipe.slug}/edit`}
-				title="Edit"
-				class="hover:bg-gray-200 p-1 rounded"
-			>
-				<span class="sr-only">Edit</span>
-				<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
-			</a>
-		</div>
-
-		<div class="mb-5">
-			<div class="flex flex-col gap-3 lg:flex-row lg:gap-5">
-				<div class="flex items-center gap-1">
-					<div title="Categories">
-						<Icon icon="ph:folder" color="#f97316" width="1.4rem" />
-					</div>
-					<span class="sr-only">Categories</span>
-					<div class="flex gap-1 flex-wrap">
-						{#if data.recipe.categories && data.recipe.categories.length}
-							{#each data.recipe.categories as category}
+		<div class="flex justify-between mb-5 flex-col gap-3 md:flex-row">
+			<div>
+				<h1 class="font-semibold text-orange-500 text-2xl mb-3">{data.recipe.data.title}</h1>
+				<div class="flex flex-col gap-3 lg:flex-row lg:gap-5">
+					<div class="flex items-center gap-1">
+						<div title="Categories">
+							<Icon icon="ph:folder" color="#f97316" width="1.4rem" />
+						</div>
+						<span class="sr-only">Categories</span>
+						<div class="flex gap-1 flex-wrap">
+							{#if data.recipe.categories && data.recipe.categories.length}
+								{#each data.recipe.categories as category}
+									<a
+										href={`/categories/${category.slug}`}
+										class="after:content-[','] last:after:content-[''] hover:underline italic"
+										>{category.name}</a
+									>
+								{/each}
+							{:else}
 								<a
-									href={`/categories/${category.slug}`}
+									href="/categories/uncategorized"
 									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>{category.name}</a
+									>Uncategorized</a
 								>
-							{/each}
-						{:else}
-							<a
-								href="/categories/uncategorized"
-								class="after:content-[','] last:after:content-[''] hover:underline italic"
-								>Uncategorized</a
-							>
-						{/if}
+							{/if}
+						</div>
+					</div>
+					<div class="flex items-center gap-1">
+						<div title="Tags">
+							<Icon icon="ph:tag" color="#f97316" width="1.4rem" />
+						</div>
+						<span class="sr-only">Tags</span>
+						<div class="flex gap-1 flex-wrap">
+							{#if data.recipe.tags && data.recipe.tags.length}
+								{#each data.recipe.tags as tag}
+									<a
+										href={`/tags/${tag.slug}`}
+										class="after:content-[','] last:after:content-[''] hover:underline italic"
+										>{tag.name}</a
+									>
+								{/each}
+							{:else}
+								<a
+									href="/tags/untagged"
+									class="after:content-[','] last:after:content-[''] hover:underline italic"
+									>Untagged</a
+								>
+							{/if}
+						</div>
 					</div>
 				</div>
-				<div class="flex items-center gap-1">
-					<div title="Tags">
-						<Icon icon="ph:tag" color="#f97316" width="1.4rem" />
-					</div>
-					<span class="sr-only">Tags</span>
-					<div class="flex gap-1 flex-wrap">
-						{#if data.recipe.tags && data.recipe.tags.length}
-							{#each data.recipe.tags as tag}
-								<a
-									href={`/tags/${tag.slug}`}
-									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>{tag.name}</a
-								>
-							{/each}
-						{:else}
-							<a
-								href="/tags/untagged"
-								class="after:content-[','] last:after:content-[''] hover:underline italic"
-								>Untagged</a
-							>
-						{/if}
-					</div>
-				</div>
+			</div>
+			<div class="flex items-start gap-2">
+				<button
+					type="button"
+					title="Shopping list"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showShoppingListModal = true;
+					}}
+				>
+					<span class="sr-only">Shopping list</span>
+					<Icon icon="ph:shopping-cart" color="#3b82f6" width="1.4rem" />
+				</button>
+				<a
+					href={`/recipes/${data.recipe.slug}/edit`}
+					title="Edit"
+					class="hover:bg-gray-200 p-1 rounded"
+				>
+					<span class="sr-only">Edit</span>
+					<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
+				</a>
 			</div>
 		</div>
 
@@ -304,4 +320,36 @@
 
 <Modal bind:show={showWakeLockModal}>
 	<Alert variant="error">{wakeLockError}</Alert>
+</Modal>
+
+<Modal bind:show={showShoppingListModal}>
+	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
+	<p class="mb-3">
+		Create a shopping list from the recipe <span class="font-bold">{data.recipe.data.title}</span>.
+	</p>
+	{#if form?.shoppingListMessage}
+		<div class="py-4">
+			<Alert variant={form?.shoppingListMessageType || 'error'}>
+				{form?.shoppingListMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/shoppinglist" use:enhance>
+		<input type="hidden" id="title" name="title" value={data.recipe.data.title} />
+		<input type="hidden" id="recipeUuids" name="recipeUuids" value={data.recipe.uuid} />
+		<input
+			type="hidden"
+			id="ingredients"
+			name="ingredients"
+			value={data.recipe.data.ingredients.join('|||')}
+		/>
+		<div>
+			<button
+				type="submit"
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			>
+				Create
+			</button>
+		</div>
+	</form>
 </Modal>

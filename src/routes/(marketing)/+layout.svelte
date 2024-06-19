@@ -63,6 +63,10 @@
 				<div class="flex flex-col gap-1">
 					<a href="/auth/login" class="hover:underline text-blue-500">Login</a>
 					<a href="/auth/register" class="hover:underline text-blue-500">Register</a>
+					<a href="/terms-and-conditions" class="hover:underline text-blue-500"
+						>Terms & Conditions</a
+					>
+					<a href="/privacy-policy" class="hover:underline text-blue-500">Privacy Policy</a>
 				</div>
 			</div>
 		</div>

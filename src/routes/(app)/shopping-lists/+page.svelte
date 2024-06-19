@@ -57,7 +57,7 @@
 				</div>
 				<div class="self-end">
 					<div class="text-xs text-gray-500" title={shoppingList.createdAt}>
-						Created at: {format(shoppingList.createdAt, 'd MMMM yyyy')}
+						Created: {format(shoppingList.createdAt, 'd MMMM yyyy')}
 					</div>
 				</div>
 			</a>

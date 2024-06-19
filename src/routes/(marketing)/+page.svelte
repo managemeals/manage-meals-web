@@ -12,7 +12,7 @@
 	<meta property="og:title" content={`${PUBLIC_MAIN_TITLE} - Recipe Manager`} />
 	<meta
 		property="og:image"
-		content="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot6.png"
+		content="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
 	/>
 	<meta property="og:image:width" content="1694" />
 	<meta property="og:image:height" content="1281" />
@@ -58,7 +58,7 @@
 			</div>
 			<div class="basis-3/5">
 				<img
-					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot6.png"
+					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
 					alt="App screenshot"
 					class="transition-transform shadow scale-100 hover:lg:scale-105"
 				/>
@@ -88,9 +88,9 @@
 					<h4 class="text-xl font-semibold">Premium</h4>
 				</div>
 				<p class="pt-3">
-					More advanced features are unlocked with a Premium subscription. For example Meal Plans
-					and importing recipes from YouTube. Premium subscription is <span class="font-bold"
-						>£2.90</span
+					More advanced features are unlocked with a Premium subscription. For example Meal Plans,
+					Shopping Lists, and importing recipes from YouTube. Premium subscription is <span
+						class="font-bold">£2.90</span
 					> per month.
 				</p>
 			</div>

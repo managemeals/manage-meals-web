@@ -12,8 +12,8 @@
 </svelte:head>
 
 <div class="p-5 pb-20">
-	<div class="flex justify-between items-center mb-5">
-		<div class="flex items-center gap-3">
+	<div class="flex justify-between items-start mb-5">
+		<div class="flex items-start gap-1 flex-col md:flex-row md:gap-3 md:items-center">
 			<h1 class="text-2xl font-bold">{data.shoppingList.title}</h1>
 			<div class="text-sm text-gray-500">
 				{data.shoppingList.ingredients?.length || 0}

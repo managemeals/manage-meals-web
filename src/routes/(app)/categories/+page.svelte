@@ -50,9 +50,6 @@
 					>
 						{#each data.categories as category}
 							<a
-								on:click={() => {
-									showCategoriesDropdown = false;
-								}}
 								href={`?${new URLSearchParams({
 									...Object.fromEntries($storePage.url.searchParams),
 									page: '1',
@@ -75,9 +72,11 @@
 								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100' : ''}`}
 							>
 								<span>{category.name}</span>
-								<span class:hidden={!data.selectedCategoriesSlugs.includes(category.slug)}>
-									<Icon icon="ph:x" color="#000" width="1.1rem" />
-								</span>
+								<input
+									type="checkbox"
+									class="w-4 h-4 hover:cursor-pointer pointer-events-none"
+									checked={data.selectedCategoriesSlugs.includes(category.slug)}
+								/>
 							</a>
 						{/each}
 					</div>
@@ -106,9 +105,6 @@
 					>
 						{#each data.tags as tag}
 							<a
-								on:click={() => {
-									showTagsDropdown = false;
-								}}
 								href={`?${new URLSearchParams({
 									...Object.fromEntries($storePage.url.searchParams),
 									page: '1',
@@ -128,9 +124,11 @@
 								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100' : ''}`}
 							>
 								<span>{tag.name}</span>
-								<span class:hidden={!data.selectedTagsSlugs.includes(tag.slug)}>
-									<Icon icon="ph:x" color="#000" width="1.1rem" />
-								</span>
+								<input
+									type="checkbox"
+									class="w-4 h-4 hover:cursor-pointer pointer-events-none"
+									checked={data.selectedTagsSlugs.includes(tag.slug)}
+								/>
 							</a>
 						{/each}
 					</div>

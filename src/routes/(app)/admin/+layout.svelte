@@ -8,6 +8,11 @@
 				href: '/admin/status',
 				icon: 'ph:chart-bar',
 				title: 'Status'
+			},
+			{
+				href: '/admin/recipes',
+				icon: 'ph:hamburger',
+				title: 'Recipes'
 			}
 		];
 

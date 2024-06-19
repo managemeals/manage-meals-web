@@ -275,3 +275,12 @@ export interface IShoppingList {
 	recipeUuids?: string[];
 	recipes?: IRecipe[];
 }
+
+export interface IAdminStatus {
+	totalUsers: number;
+	totalRecipes: number;
+	totalCategories: number;
+	totalTags: number;
+	totalShoppingLists: number;
+	totalMealPlans: number;
+}

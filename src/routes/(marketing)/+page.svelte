@@ -14,8 +14,8 @@
 		property="og:image"
 		content="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
 	/>
-	<meta property="og:image:width" content="1694" />
-	<meta property="og:image:height" content="1281" />
+	<meta property="og:image:width" content="1690" />
+	<meta property="og:image:height" content="1280" />
 	<meta
 		property="og:description"
 		content="ManageMeals is a simple, easy-to-use platform to manage recipes. Import recipes by URL and organize them without any ads or unnecessary text."

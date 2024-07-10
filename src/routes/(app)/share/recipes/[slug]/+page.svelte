@@ -5,6 +5,7 @@
 	import { format } from 'date-fns';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 
@@ -67,7 +68,13 @@
 </script>
 
 <svelte:head>
-	<title>Share - {data.shareRecipe.recipe?.data.title || ''} - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.shareRecipe.recipe?.data.title || ''} - Share - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<meta name="description" content={data.shareRecipe.recipe?.data.description || ''} />
+	<meta property="og:title" content={data.shareRecipe.recipe?.data.title} />
+	<meta property="og:image" content={data.shareRecipe.recipe?.data.image || ''} />
+	<meta property="og:description" content={data.shareRecipe.recipe?.data.description || ''} />
+	<meta property="og:url" content={$page.url.href} />
+	<meta property="og:type" content="website" />
 </svelte:head>
 
 <div>
@@ -126,17 +133,12 @@
 						<div class="flex gap-1 flex-wrap">
 							{#if data.shareRecipe.recipe?.categories && data.shareRecipe.recipe?.categories.length}
 								{#each data.shareRecipe.recipe?.categories as category}
-									<a
-										href={`/categories/${category.slug}`}
-										class="after:content-[','] last:after:content-[''] hover:underline italic"
-										>{category.name}</a
+									<span class="after:content-[','] last:after:content-[''] italic"
+										>{category.name}</span
 									>
 								{/each}
 							{:else}
-								<a
-									href="/categories/uncategorized"
-									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>Uncategorized</a
+								<span class="after:content-[','] last:after:content-[''] italic">Uncategorized</span
 								>
 							{/if}
 						</div>
@@ -149,18 +151,10 @@
 						<div class="flex gap-1 flex-wrap">
 							{#if data.shareRecipe.recipe?.tags && data.shareRecipe.recipe?.tags.length}
 								{#each data.shareRecipe.recipe?.tags as tag}
-									<a
-										href={`/tags/${tag.slug}`}
-										class="after:content-[','] last:after:content-[''] hover:underline italic"
-										>{tag.name}</a
-									>
+									<span class="after:content-[','] last:after:content-[''] italic">{tag.name}</span>
 								{/each}
 							{:else}
-								<a
-									href="/tags/untagged"
-									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>Untagged</a
-								>
+								<span class="after:content-[','] last:after:content-[''] italic">Untagged</span>
 							{/if}
 						</div>
 					</div>

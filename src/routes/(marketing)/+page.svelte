@@ -247,23 +247,23 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:share-network" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Sharing</h4>
+				</div>
+				<p class="pt-3">
+					Share recipes with friends and family. Anyone with a share link can view, no need to
+					register.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:plugs" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Browser Extension (coming soon)</h4>
 				</div>
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Browser extension to easily import recipes
 					while browsing the web.
-				</p>
-			</div>
-
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:share-network" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Sharing (coming soon)</h4>
-				</div>
-				<p class="pt-3">
-					<span class="italic">Work in progress</span>. Share recipes with friends and family, or
-					share a whole meal plan. Anyone with a share link can view, no need to register.
 				</p>
 			</div>
 		</div>

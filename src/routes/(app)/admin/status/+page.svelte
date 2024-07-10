@@ -37,5 +37,9 @@
 			<div class="text-lg font-bold mb-1">Meal Plans</div>
 			<div class="text-lg">{data.totalMealPlans}</div>
 		</div>
+		<div class="border rounded p-3 text-center">
+			<div class="text-lg font-bold mb-1">Shared recipes</div>
+			<div class="text-lg">{data.totalShareRecipes}</div>
+		</div>
 	</div>
 </div>

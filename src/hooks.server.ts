@@ -22,7 +22,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (
 			event.url.pathname !== '/'! &&
 			!event.url.pathname.startsWith('/auth') &&
-			!event.url.pathname.startsWith('/infra')
+			!event.url.pathname.startsWith('/infra') &&
+			!event.url.pathname.startsWith('/share')
 		) {
 			return new Response('Redirect', {
 				status: 307,

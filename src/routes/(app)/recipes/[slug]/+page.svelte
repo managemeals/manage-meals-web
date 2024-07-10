@@ -8,6 +8,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
+	import type { IShareRecipe } from '$lib/types';
 
 	export let data: PageData;
 
@@ -20,6 +21,9 @@
 	let wakeLockError = '';
 	let hasWakeLockListener = false;
 	let showShoppingListModal = false;
+	let showShareModal = false;
+	let recipeShares: IShareRecipe[] = [];
+	let loadingRecipeShares = false;
 
 	const handleWakeLockRelease = () => {
 		toggleWakelock = false;
@@ -68,6 +72,23 @@
 	});
 
 	$: handleWakeLockToggle(toggleWakelock);
+
+	const loadRecipeShares = async () => {
+		loadingRecipeShares = true;
+		try {
+			const res = await fetch(`/api/recipes/${data.recipe.slug}/shares`);
+			const shareRecipes = await res.json();
+			recipeShares = shareRecipes;
+		} catch (e) {
+			recipeShares = [];
+		} finally {
+			loadingRecipeShares = false;
+		}
+	};
+
+	$: if (showShareModal || form?.shareSlug || form?.shareDeleteSlug) {
+		loadRecipeShares();
+	}
 </script>
 
 <svelte:head>
@@ -167,6 +188,17 @@
 				</div>
 			</div>
 			<div class="flex items-start gap-2">
+				<button
+					type="button"
+					title="Share"
+					class="hover:bg-gray-200 p-1 rounded"
+					on:click={() => {
+						showShareModal = true;
+					}}
+				>
+					<span class="sr-only">Share</span>
+					<Icon icon="ph:share-network" color="#3b82f6" width="1.4rem" />
+				</button>
 				<button
 					type="button"
 					title="Shopping list"
@@ -352,4 +384,63 @@
 			</button>
 		</div>
 	</form>
+</Modal>
+
+<Modal bind:show={showShareModal}>
+	<h4 class="text-xl font-bold mb-3">Share Recipe</h4>
+	<p class="mb-3">
+		Get a sharable link to the recipe <span class="font-bold">{data.recipe.data.title}</span>.
+		Anyone with the link can view the recipe, without having to register.
+	</p>
+	{#if form?.shareMessage}
+		<div class="py-4">
+			<Alert variant={form?.shareMessageType || 'error'}>
+				{form?.shareMessage}
+			</Alert>
+		</div>
+	{/if}
+	<form method="post" action="?/share" use:enhance>
+		<input type="hidden" id="recipeUuid" name="recipeUuid" value={data.recipe.uuid} />
+		<div>
+			<button
+				type="submit"
+				disabled={loadingRecipeShares || recipeShares.length > 0}
+				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			>
+				Share
+			</button>
+		</div>
+	</form>
+	<h5 class="font-bold mb-3 mt-3">Sharable Links</h5>
+	{#if recipeShares.length < 1}
+		<p class="italic">No sharable links have been created</p>
+	{/if}
+	<div class="flex flex-col gap-2">
+		{#each recipeShares as recipeShare}
+			<div class="flex items-center justify-between gap-2 border rounded p-2">
+				<div>https://managemeals.com/share/recipes/{recipeShare.slug}</div>
+				<div class="flex items-center gap-2">
+					<button
+						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded"
+						title="Copy"
+						on:click={async () => {
+							await window.navigator.clipboard.writeText(
+								`https://managemeals.com/share/recipes/${recipeShare.slug}`
+							);
+						}}
+					>
+						<span class="sr-only">Copy</span>
+						<Icon icon="ph:copy" color="#000" width="1.5rem" />
+					</button>
+					<form method="post" action="?/deleteshare" use:enhance>
+						<input type="hidden" id="slug" name="slug" value={recipeShare.slug} />
+						<button class="hover:bg-gray-200 p-1 rounded" title="Delete">
+							<span class="sr-only">Delete</span>
+							<Icon icon="ph:x" color="#000" width="1.2rem" />
+						</button>
+					</form>
+				</div>
+			</div>
+		{/each}
+	</div>
 </Modal>

@@ -283,4 +283,15 @@ export interface IAdminStatus {
 	totalTags: number;
 	totalShoppingLists: number;
 	totalMealPlans: number;
+	totalShareRecipes: number;
+}
+
+export interface IShareRecipe {
+	uuid: string;
+	slug: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
+	recipe?: IRecipe;
+	recipeUuid: string;
 }

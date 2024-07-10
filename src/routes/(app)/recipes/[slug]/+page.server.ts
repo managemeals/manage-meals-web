@@ -1,5 +1,5 @@
 import apiClient from '$lib/server/api/client';
-import type { IEnhanceFailRes, IRecipe } from '$lib/types';
+import type { IEnhanceFailRes, IEnhanceRes, IRecipe } from '$lib/types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getErrorMessage } from '$lib/errors';
@@ -52,5 +52,71 @@ export const actions = {
 		}
 
 		return redirect(303, `/shopping-lists/${slug}`);
+	},
+
+	share: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const recipeUuid = data.get('recipeUuid') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!recipeUuid) {
+			failObj.shareMessageType = 'error';
+			failObj.shareMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		let slug = '';
+		try {
+			const res = await apiClient(cookies.getAll()).post('/share/recipes', {
+				recipeUuid
+			});
+			slug = res.data.slug;
+		} catch (e) {
+			console.log(e);
+			failObj.shareMessageType = 'error';
+			failObj.shareMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			shareSlug: slug as string
+		};
+
+		return successObj;
+	},
+
+	deleteshare: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const slug = data.get('slug') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: {},
+			errors: {}
+		};
+
+		if (!slug) {
+			failObj.shareMessageType = 'error';
+			failObj.shareMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		try {
+			await apiClient(cookies.getAll()).delete(`/share/recipes/${slug}`, {});
+		} catch (e) {
+			console.log(e);
+			failObj.shareMessageType = 'error';
+			failObj.shareMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			shareDeleteSlug: slug
+		};
+
+		return successObj;
 	}
 };

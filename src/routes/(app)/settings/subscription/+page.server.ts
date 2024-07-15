@@ -1,5 +1,5 @@
 import apiClient from '$lib/server/api/client';
-import type { IEnhanceRes, ISubscriptionUpcomingPayment } from '$lib/types';
+import type { IEnhanceFailRes, IEnhanceRes, ISubscriptionUpcomingPayment } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -32,5 +32,32 @@ export const actions = {
 		}
 
 		return redirect(303, '/settings/subscription/cancel');
+	},
+	paypal: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const subscriptionId = data.get('subscriptionId') as string;
+
+		const failObj: IEnhanceFailRes = {
+			inputs: { subscriptionId },
+			errors: {},
+			message: '',
+			messageType: 'error'
+		};
+
+		if (!subscriptionId) {
+			failObj.message = 'Subscription ID is empty.';
+			return fail(400, failObj);
+		}
+
+		try {
+			await apiClient(cookies.getAll()).post('/subscriptions/paypal', {
+				subscriptionId
+			});
+		} catch (e) {
+			console.log(e);
+			throw new Error('Error creating subscription');
+		}
+
+		return redirect(303, '/settings/subscription/success');
 	}
 };

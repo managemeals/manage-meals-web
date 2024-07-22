@@ -143,7 +143,6 @@
 						<div title="Categories">
 							<Icon icon="ph:folder" color="#f97316" width="1.4rem" />
 						</div>
-						<span class="sr-only">Categories</span>
 						<div class="flex gap-1 flex-wrap">
 							{#if data.recipe.categories && data.recipe.categories.length}
 								{#each data.recipe.categories as category}
@@ -166,7 +165,6 @@
 						<div title="Tags">
 							<Icon icon="ph:tag" color="#f97316" width="1.4rem" />
 						</div>
-						<span class="sr-only">Tags</span>
 						<div class="flex gap-1 flex-wrap">
 							{#if data.recipe.tags && data.recipe.tags.length}
 								{#each data.recipe.tags as tag}
@@ -196,7 +194,6 @@
 						showShareModal = true;
 					}}
 				>
-					<span class="sr-only">Share</span>
 					<Icon icon="ph:share-network" color="#3b82f6" width="1.4rem" />
 				</button>
 				<button
@@ -207,7 +204,6 @@
 						showShoppingListModal = true;
 					}}
 				>
-					<span class="sr-only">Shopping list</span>
 					<Icon icon="ph:shopping-cart" color="#3b82f6" width="1.4rem" />
 				</button>
 				<a
@@ -215,7 +211,6 @@
 					title="Edit"
 					class="hover:bg-gray-200 p-1 rounded"
 				>
-					<span class="sr-only">Edit</span>
 					<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
 				</a>
 			</div>
@@ -429,13 +424,11 @@
 							);
 						}}
 					>
-						<span class="sr-only">Copy</span>
 						<Icon icon="ph:copy" color="#000" width="1.5rem" />
 					</button>
 					<form method="post" action="?/deleteshare" use:enhance>
 						<input type="hidden" id="slug" name="slug" value={recipeShare.slug} />
 						<button class="hover:bg-gray-200 p-1 rounded" title="Delete">
-							<span class="sr-only">Delete</span>
 							<Icon icon="ph:x" color="#000" width="1.2rem" />
 						</button>
 					</form>

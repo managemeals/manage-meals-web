@@ -90,7 +90,7 @@
 				<p class="pt-3">
 					More advanced features are unlocked with a Premium subscription. For example Meal Plans,
 					Shopping Lists, and importing recipes from YouTube. Premium subscription is <span
-						class="font-bold">£2.90</span
+						class="font-bold">£1.90</span
 					> per month.
 				</p>
 			</div>
@@ -264,6 +264,16 @@
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Browser extension to easily import recipes
 					while browsing the web.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:google-play-logo" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Mobile Apps (coming soon)</h4>
+				</div>
+				<p class="pt-3">
+					<span class="italic">Work in progress</span>. Android and iOS app versions of ManageMeals.
 				</p>
 			</div>
 		</div>

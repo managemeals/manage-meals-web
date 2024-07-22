@@ -47,7 +47,6 @@
 			}}
 			class="hover:bg-gray-200 p-1 rounded"
 		>
-			<span class="sr-only">Delete</span>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
 	</div>

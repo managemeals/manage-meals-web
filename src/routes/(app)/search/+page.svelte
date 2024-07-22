@@ -26,8 +26,7 @@
 				value={data.q || ''}
 				class="rounded-l p-4 outline-none w-full"
 			/>
-			<button type="submit" class="rounded-r px-4 hover:bg-gray-50">
-				<span class="sr-only">Search</span>
+			<button type="submit" class="rounded-r px-4 hover:bg-gray-50" title="Search">
 				<Icon icon="ph:magnifying-glass" width="1.8rem" color="#000" />
 			</button>
 		</div>

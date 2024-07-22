@@ -147,7 +147,6 @@
 				bind:this={createBtnEl}
 				title="Create"
 			>
-				<span class="sr-only">Create</span>
 				<Icon icon="ph:plus" color="#fff" width="2rem" />
 			</button>
 			{#if createBtnEl}

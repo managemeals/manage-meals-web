@@ -129,7 +129,6 @@
 						<div title="Categories">
 							<Icon icon="ph:folder" color="#f97316" width="1.4rem" />
 						</div>
-						<span class="sr-only">Categories</span>
 						<div class="flex gap-1 flex-wrap">
 							{#if data.shareRecipe.recipe?.categories && data.shareRecipe.recipe?.categories.length}
 								{#each data.shareRecipe.recipe?.categories as category}
@@ -147,7 +146,6 @@
 						<div title="Tags">
 							<Icon icon="ph:tag" color="#f97316" width="1.4rem" />
 						</div>
-						<span class="sr-only">Tags</span>
 						<div class="flex gap-1 flex-wrap">
 							{#if data.shareRecipe.recipe?.tags && data.shareRecipe.recipe?.tags.length}
 								{#each data.shareRecipe.recipe?.tags as tag}

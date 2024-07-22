@@ -25,7 +25,6 @@
 			title="Edit"
 			class="hover:bg-gray-200 p-1 rounded"
 		>
-			<span class="sr-only">Edit</span>
 			<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
 		</a>
 	</div>

@@ -25,7 +25,6 @@
 				title="Create Shopping List"
 				class="hover:bg-gray-200 p-1 rounded"
 			>
-				<span class="sr-only">Create Shopping List</span>
 				<Icon icon="ph:plus" color="#000" width="1.5rem" />
 			</a>
 		{/if}

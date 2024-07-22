@@ -87,7 +87,6 @@
 			}}
 			class="hover:bg-gray-200 p-1 rounded"
 		>
-			<span class="sr-only">Delete</span>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
 	</div>
@@ -146,7 +145,6 @@
 						showAddLinkRecipeModal = true;
 					}}
 				>
-					<span class="sr-only">Link Recipe</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
@@ -172,7 +170,6 @@
 										handleRemoveLinkRecipe(recipe.id);
 									}}
 								>
-									<span class="sr-only">Remove Recipe</span>
 									<Icon icon="ph:x" color="#000" width="1.1rem" />
 								</button>
 							</h3>
@@ -258,8 +255,12 @@
 				placeholder="Search"
 				class="p-3 w-full rounded outline-none"
 			/>
-			<button type="button" class="rounded-r px-3 hover:bg-slate-100" on:click={handleSearchInput}>
-				<span class="sr-only">Search</span>
+			<button
+				type="button"
+				class="rounded-r px-3 hover:bg-slate-100"
+				on:click={handleSearchInput}
+				title="Search"
+			>
 				<span class:hidden={isSearching}>
 					<Icon icon="ph:magnifying-glass" width="1.4rem" color="#000" />
 				</span>
@@ -293,11 +294,11 @@
 							href={`/recipes/${hit.document.slug}`}
 							target="_blank"
 							class="hover:bg-gray-200 p-1 rounded"
+							title="Open recipe"
 							on:click={(e) => {
 								e.stopPropagation();
 							}}
 						>
-							<span class="sr-only">Open recipe</span>
 							<Icon icon="ph:link" width="1rem" color="#000" />
 						</a>
 					</h4>

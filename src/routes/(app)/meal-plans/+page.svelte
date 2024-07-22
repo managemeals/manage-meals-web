@@ -195,7 +195,6 @@
 					title="Previous"
 					class="hover:bg-gray-200 p-1 rounded"
 				>
-					<span class="sr-only">Previous</span>
 					<Icon icon="ph:caret-left" color="#000" width="1.2rem" />
 				</a>
 				<a href={`?date=${format(data.today, 'yyyy-MM-dd')}`} class="hover:bg-gray-200 p-1 rounded"
@@ -206,7 +205,6 @@
 					title="Next"
 					class="hover:bg-gray-200 p-1 rounded"
 				>
-					<span class="sr-only">Next</span>
 					<Icon icon="ph:caret-right" color="#000" width="1.2rem" />
 				</a>
 			</div>
@@ -436,8 +434,8 @@
 									href={`/recipes/${mealType.recipe?.slug}`}
 									style={`background-image: url("${mealType.recipe?.data.image}")`}
 									class="bg-center bg-no-repeat bg-cover w-full lg:w-60 h-48 rounded"
+									title="See recipe"
 								>
-									<span class="sr-only">See recipe</span>
 								</a>
 								<div>
 									<h4 class="mb-3 hover:underline">
@@ -488,8 +486,7 @@
 					placeholder="Search"
 					class="p-3 w-full rounded outline-none"
 				/>
-				<button type="submit" class="rounded-r px-3 hover:bg-slate-100">
-					<span class="sr-only">Search</span>
+				<button type="submit" class="rounded-r px-3 hover:bg-slate-100" title="Search">
 					<span class:hidden={isSearching}>
 						<Icon icon="ph:magnifying-glass" width="1.4rem" color="#000" />
 					</span>
@@ -539,8 +536,8 @@
 								href={`/recipes/${hit.document.slug}`}
 								target="_blank"
 								class="hover:bg-gray-200 p-1 rounded"
+								title="Open recipe"
 							>
-								<span class="sr-only">Open recipe</span>
 								<Icon icon="ph:link" width="1rem" color="#000" />
 							</a>
 						</h4>
@@ -696,7 +693,6 @@
 							planDayMealTypes = planDayMealTypes.filter((_, j) => i !== j);
 						}}
 					>
-						<span class="sr-only">Remove meal type</span>
 						<Icon icon="ph:x" color="#000" width="1.4rem" />
 					</button>
 				</div>
@@ -892,7 +888,6 @@
 									planWeekMealTypes[dayKey] = planWeekMealTypes[dayKey].filter((_, j) => i !== j);
 								}}
 							>
-								<span class="sr-only">Remove meal type</span>
 								<Icon icon="ph:x" color="#000" width="1.4rem" />
 							</button>
 						</div>

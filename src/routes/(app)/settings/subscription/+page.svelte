@@ -102,7 +102,7 @@
 
 	{#if data.user.subscriptionType !== 'PREMIUM'}
 		<p class="mt-5">
-			Premium subscription is <span class="font-bold text-xl">£2.90</span> per month and gives you access
+			Premium subscription is <span class="font-bold text-xl">£1.90</span> per month and gives you access
 			to more advanced features:
 		</p>
 

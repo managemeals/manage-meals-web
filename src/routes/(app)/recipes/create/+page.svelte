@@ -87,7 +87,6 @@
 						showCreateCategoryModal = true;
 					}}
 				>
-					<span class="sr-only">Create Category</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
@@ -118,7 +117,6 @@
 						showCreateTagModal = true;
 					}}
 				>
-					<span class="sr-only">Create Tag</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>

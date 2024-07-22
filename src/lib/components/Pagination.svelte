@@ -29,8 +29,10 @@
 <div class="overflow-auto" class:hidden={!total}>
 	{#if pages <= 6}
 		<div class="flex">
-			<div class="border p-2 rounded-l flex justify-center items-center opacity-30">
-				<span class="sr-only">Previous</span>
+			<div
+				class="border p-2 rounded-l flex justify-center items-center opacity-30"
+				title="Previous"
+			>
 				<Icon icon="ph:caret-left" width="1rem" />
 			</div>
 			{#each { length: pages } as _, i}
@@ -40,24 +42,25 @@
 					>{i + 1}</a
 				>
 			{/each}
-			<div class="border p-2 rounded-r flex justify-center items-center opacity-30">
-				<span class="sr-only">Next</span>
+			<div class="border p-2 rounded-r flex justify-center items-center opacity-30" title="Next">
 				<Icon icon="ph:caret-right" width="1rem" />
 			</div>
 		</div>
 	{:else}
 		<div class="flex">
 			{#if page < 2}
-				<div class="border p-2 rounded-l flex justify-center items-center opacity-30">
-					<span class="sr-only">Previous</span>
+				<div
+					class="border p-2 rounded-l flex justify-center items-center opacity-30"
+					title="Previous"
+				>
 					<Icon icon="ph:caret-left" width="1rem" />
 				</div>
 			{:else}
 				<a
 					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (page - 1).toString() }).toString()}`}
 					class="border p-2 rounded-l flex justify-center items-center hover:bg-gray-100"
+					title="Previous"
 				>
-					<span class="sr-only">Previous</span>
 					<Icon icon="ph:caret-left" width="1rem" />
 				</a>
 			{/if}
@@ -81,16 +84,15 @@
 				>{pages}</a
 			>
 			{#if page >= pages}
-				<div class="border p-2 rounded-r flex justify-center items-center opacity-30">
-					<span class="sr-only">Next</span>
+				<div class="border p-2 rounded-r flex justify-center items-center opacity-30" title="Next">
 					<Icon icon="ph:caret-right" width="1rem" />
 				</div>
 			{:else}
 				<a
 					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (page + 1).toString() }).toString()}`}
 					class="border p-2 rounded-r flex justify-center items-center hover:bg-gray-100"
+					title="Next"
 				>
-					<span class="sr-only">Next</span>
 					<Icon icon="ph:caret-right" width="1rem" />
 				</a>
 			{/if}

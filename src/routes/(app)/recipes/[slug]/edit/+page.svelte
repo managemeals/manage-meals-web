@@ -69,7 +69,6 @@
 			}}
 			class="hover:bg-gray-200 p-1 rounded"
 		>
-			<span class="sr-only">Delete</span>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
 	</div>
@@ -127,7 +126,6 @@
 						showCreateCategoryModal = true;
 					}}
 				>
-					<span class="sr-only">Create Category</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
@@ -158,7 +156,6 @@
 						showCreateTagModal = true;
 					}}
 				>
-					<span class="sr-only">Create Tag</span>
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>

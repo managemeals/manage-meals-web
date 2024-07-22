@@ -79,8 +79,7 @@
 			placeholder="Search"
 			class="rounded-l p-2 outline-none bg-orange-600 text-white placeholder-white placeholder-opacity-40 w-full"
 		/>
-		<button type="submit" class="rounded-r bg-orange-600 px-3 hover:bg-orange-700">
-			<span class="sr-only">Search</span>
+		<button type="submit" class="rounded-r bg-orange-600 px-3 hover:bg-orange-700" title="Search">
 			<span class:hidden={isSearching}>
 				<Icon icon="ph:magnifying-glass" width="1.4rem" color="#fff" />
 			</span>

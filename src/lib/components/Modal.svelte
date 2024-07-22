@@ -35,12 +35,12 @@
 		<div class="p-5 pr-10 relative">
 			<button
 				type="button"
+				title="Close"
 				class="absolute top-2 right-2 hover:bg-gray-200 p-1 rounded"
 				on:click={() => {
 					dialog.close();
 				}}
 			>
-				<span class="sr-only">Close</span>
 				<Icon icon="ph:x" color="#000" width="1.4rem" />
 			</button>
 			<slot />

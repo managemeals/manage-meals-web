@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { PUBLIC_MAIN_TITLE, PUBLIC_SHOW_SUBSCRIPTION_PAGE } from '$env/static/public';
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 	import { format } from 'date-fns';
@@ -14,7 +14,7 @@
 <div class="p-5 pb-20">
 	<div class="flex items-center gap-3 mb-5">
 		<h1 class="text-2xl font-bold">Shopping Lists</h1>
-		{#if data.user.subscriptionType !== 'PREMIUM'}
+		{#if data.user.subscriptionType !== 'PREMIUM' && PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 			<a href="/settings/subscription" class="text-base text-orange-500 hover:underline font-bold"
 				>Premium</a
 			>

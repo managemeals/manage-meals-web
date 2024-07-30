@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import {
+		PUBLIC_MAIN_TITLE,
+		PUBLIC_PREMIUM_PRICE,
+		PUBLIC_SHOW_SUBSCRIPTION_PAGE
+	} from '$env/static/public';
 	import Icon from '@iconify/svelte';
 </script>
 
@@ -71,29 +75,42 @@
 	<div class="container mx-auto">
 		<h3 class="text-3xl font-bold text-center pb-10">Features</h3>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:money" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Free</h4>
+			{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:money" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold">Free</h4>
+					</div>
+					<p class="pt-3">
+						The basic features of ManageMeals are completely free. Such as importing and organizing
+						recipes. Premium subscription is only for more advanced features, e.g. Meal Plans.
+					</p>
 				</div>
-				<p class="pt-3">
-					The basic features of ManageMeals are completely free. Such as importing and organizing
-					recipes. Premium subscription is only for more advanced features, e.g. Meal Plans.
-				</p>
-			</div>
 
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:seal-check" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Premium</h4>
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:seal-check" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold">Premium</h4>
+					</div>
+					<p class="pt-3">
+						More advanced features are unlocked with a Premium subscription. For example Meal Plans,
+						Shopping Lists, and importing recipes from YouTube. Premium subscription is <span
+							class="font-bold">{PUBLIC_PREMIUM_PRICE}</span
+						> per month.
+					</p>
 				</div>
-				<p class="pt-3">
-					More advanced features are unlocked with a Premium subscription. For example Meal Plans,
-					Shopping Lists, and importing recipes from YouTube. Premium subscription is <span
-						class="font-bold">£1.90</span
-					> per month.
-				</p>
-			</div>
+			{:else}
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:money" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold">Free</h4>
+					</div>
+					<p class="pt-3">
+						ManageMeals is completely free. Save your favourite recipes, create meal plans, shopping
+						lists and more.
+					</p>
+				</div>
+			{/if}
 
 			<div>
 				<div class="flex items-center gap-2">
@@ -180,19 +197,23 @@
 				</p>
 			</div>
 
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:youtube-logo" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold flex gap-3 items-center">
-						<span>YouTube</span>
-						<span class="text-sm text-orange-500">Premium</span>
-					</h4>
+			{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:youtube-logo" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold flex gap-3 items-center">
+							<span>YouTube</span>
+							{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+								<span class="text-sm text-orange-500">Premium</span>
+							{/if}
+						</h4>
+					</div>
+					<p class="pt-3">
+						Just like importing a recipe by URL. Simply paste the YouTube URL into the import form
+						and ManageMeals will save the recipe as text.
+					</p>
 				</div>
-				<p class="pt-3">
-					Just like importing a recipe by URL. Simply paste the YouTube URL into the import form and
-					ManageMeals will save the recipe as text.
-				</p>
-			</div>
+			{/if}
 
 			<div>
 				<div class="flex items-center gap-2">
@@ -210,7 +231,9 @@
 					<Icon icon="ph:calendar-dots" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold flex gap-3 items-center">
 						<span>Meal Plans</span>
-						<span class="text-sm text-orange-500">Premium</span>
+						{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+							<span class="text-sm text-orange-500">Premium</span>
+						{/if}
 					</h4>
 				</div>
 				<p class="pt-3">
@@ -236,7 +259,9 @@
 					<Icon icon="ph:shopping-cart" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold flex gap-3 items-center">
 						<span>Shopping Lists</span>
-						<span class="text-sm text-orange-500">Premium</span>
+						{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+							<span class="text-sm text-orange-500">Premium</span>
+						{/if}
 					</h4>
 				</div>
 				<p class="pt-3">

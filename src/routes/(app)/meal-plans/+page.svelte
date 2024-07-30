@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { PUBLIC_MAIN_TITLE, PUBLIC_SHOW_SUBSCRIPTION_PAGE } from '$env/static/public';
 	import { format, isSameDay } from 'date-fns';
 	import Icon from '@iconify/svelte';
 	import type { ActionData, PageData } from './$types';
@@ -177,7 +177,7 @@
 	<div class="p-5 pb-20">
 		<h1 class="text-2xl font-bold mb-5 flex items-center gap-3">
 			<span>Meal Plans</span>
-			{#if data.user.subscriptionType !== 'PREMIUM'}
+			{#if data.user.subscriptionType !== 'PREMIUM' && PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 				<a href="/settings/subscription" class="text-base text-orange-500 hover:underline"
 					>Premium</a
 				>

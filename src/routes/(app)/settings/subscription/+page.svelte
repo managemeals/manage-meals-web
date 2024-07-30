@@ -2,7 +2,8 @@
 	import {
 		PUBLIC_MAIN_TITLE,
 		PUBLIC_PAYPAL_APP_CLIENT_ID,
-		PUBLIC_PAYPAL_PLAN_ID
+		PUBLIC_PAYPAL_PLAN_ID,
+		PUBLIC_PREMIUM_PRICE
 	} from '$env/static/public';
 	import { format } from 'date-fns';
 	import type { ActionData, PageData } from './$types';
@@ -102,8 +103,8 @@
 
 	{#if data.user.subscriptionType !== 'PREMIUM'}
 		<p class="mt-5">
-			Premium subscription is <span class="font-bold text-xl">£1.90</span> per month and gives you access
-			to more advanced features:
+			Premium subscription is <span class="font-bold text-xl">{PUBLIC_PREMIUM_PRICE}</span>
+			per month and gives you access to more advanced features:
 		</p>
 
 		<ul class="list-disc list-inside mt-3">

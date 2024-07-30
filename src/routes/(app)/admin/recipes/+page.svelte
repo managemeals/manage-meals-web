@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-2xl font-bold mb-5">Recipes</h1>
+	<h1 class="text-2xl font-bold mb-5">Latest Recipes</h1>
 
 	<ul class="list-disc list-inside">
 		{#each data.recipesLatest as recipe}

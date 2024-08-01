@@ -1,4 +1,5 @@
 import { PASSWORD_MIN_LENGTH } from '$env/static/private';
+import { PUBLIC_EMAIL_VERIFY_ENABLED } from '$env/static/public';
 import { getErrorMessage } from '$lib/errors';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
@@ -43,7 +44,7 @@ export const actions = {
 		}
 
 		const successObj: IEnhanceRes = {
-			message: 'You have been registered! Please verify your email before logging in.',
+			message: `You have been registered! ${PUBLIC_EMAIL_VERIFY_ENABLED === 'true' ? 'Please verify your email before logging in.' : 'You can now log in.'}`,
 			messageType: 'success'
 		};
 

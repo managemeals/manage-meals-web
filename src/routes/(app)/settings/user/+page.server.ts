@@ -2,7 +2,7 @@ import { PASSWORD_MIN_LENGTH } from '$env/static/private';
 import { getErrorMessage } from '$lib/errors';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes, IEnhanceRes, IPatchUserReq } from '$lib/types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
+	settings: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const name = data.get('name') as string;
 		const email = data.get('email') as string;
@@ -59,5 +59,20 @@ export const actions = {
 		};
 
 		return successObj;
+	},
+
+	delete: async ({ cookies }) => {
+		try {
+			await apiClient(cookies.getAll()).delete('/settings/user');
+		} catch (e) {
+			console.log(e);
+			const failObj: IEnhanceRes = {
+				deleteUserType: 'error',
+				deleteUser: getErrorMessage(e)
+			};
+			return fail(500, failObj);
+		}
+
+		return redirect(303, '/logout');
 	}
 };

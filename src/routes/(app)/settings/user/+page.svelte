@@ -2,11 +2,15 @@
 	import type { ActionData, PageData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { PUBLIC_EMAIL_VERIFY_ENABLED, PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import Icon from '@iconify/svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let form: ActionData;
 
 	export let data: PageData;
+
+	let showDeleteModal = false;
 </script>
 
 <svelte:head>
@@ -14,7 +18,18 @@
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-2xl font-bold mb-5">User Settings</h1>
+	<div class="flex items-center justify-between mb-5">
+		<h1 class="text-2xl font-bold">User Settings</h1>
+		<button
+			title="Delete"
+			on:click={() => {
+				showDeleteModal = true;
+			}}
+			class="hover:bg-gray-200 p-1 rounded"
+		>
+			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
+		</button>
+	</div>
 	<div class="flex">
 		<div class="basis-full xl:basis-3/4">
 			{#if form?.message}
@@ -26,6 +41,7 @@
 			{/if}
 			<form
 				method="post"
+				action="?/settings"
 				use:enhance={() => {
 					return async ({ update }) => {
 						await update({ reset: false });
@@ -56,9 +72,11 @@
 						placeholder="Email"
 						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
 					/>
-					<p class="text-sm text-gray-500 pt-1">
-						Changing your email will send a verification email
-					</p>
+					{#if PUBLIC_EMAIL_VERIFY_ENABLED === 'true'}
+						<p class="text-sm text-gray-500 pt-1">
+							Changing your email will send a verification email
+						</p>
+					{/if}
 					{#if form?.errors?.email}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.email}</div>
 					{/if}
@@ -90,3 +108,23 @@
 		</div>
 	</div>
 </div>
+
+<Modal bind:show={showDeleteModal}>
+	<div class="text-xl font-semibold">Delete User</div>
+	{#if form?.deleteUser}
+		<div class="py-2">
+			<Alert variant={form?.deleteUserType || 'error'}>
+				{form?.deleteUser}
+			</Alert>
+		</div>
+	{/if}
+	<p class="py-3 pb-5">
+		Clicking the delete button below will delete your user and all data related to the user, such as
+		recipes.
+	</p>
+	<form method="post" action="?/delete">
+		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
+			Delete
+		</button>
+	</form>
+</Modal>

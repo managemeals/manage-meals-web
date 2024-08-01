@@ -150,6 +150,20 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:code" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Open Source</h4>
+				</div>
+				<p class="pt-3">
+					ManageMeals is open source. All the code is viewable on <a
+						href="https://github.com/managemeals"
+						class="hover:underline text-blue-500"
+						target="_blank">GitHub</a
+					>. Everyone is welcome to participate in the project.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:speedometer" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Fast</h4>
 				</div>
@@ -299,6 +313,17 @@
 				</div>
 				<p class="pt-3">
 					<span class="italic">Work in progress</span>. Android and iOS app versions of ManageMeals.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:cloud-slash" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Self Hosted (coming soon)</h4>
+				</div>
+				<p class="pt-3">
+					<span class="italic">Work in progress</span>. A self hosted version of ManageMeals. You
+					own all the data, and control where it's stored.
 				</p>
 			</div>
 		</div>

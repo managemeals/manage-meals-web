@@ -1,19 +1,15 @@
 <script lang="ts">
-	import {
-		PUBLIC_MAIN_TITLE,
-		PUBLIC_PREMIUM_PRICE,
-		PUBLIC_SHOW_SUBSCRIPTION_PAGE
-	} from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 </script>
 
 <svelte:head>
-	<title>{PUBLIC_MAIN_TITLE} - Recipe Manager</title>
+	<title>{env.PUBLIC_MAIN_TITLE} - Recipe Manager</title>
 	<meta
 		name="description"
 		content="ManageMeals is a simple, easy-to-use platform to manage recipes. Import recipes by URL and organize them without any ads or unnecessary text."
 	/>
-	<meta property="og:title" content={`${PUBLIC_MAIN_TITLE} - Recipe Manager`} />
+	<meta property="og:title" content={`${env.PUBLIC_MAIN_TITLE} - Recipe Manager`} />
 	<meta
 		property="og:image"
 		content="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
@@ -75,7 +71,7 @@
 	<div class="container mx-auto">
 		<h3 class="text-3xl font-bold text-center pb-10">Features</h3>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-			{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+			{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 				<div>
 					<div class="flex items-center gap-2">
 						<Icon icon="ph:money" color="#f97316" width="2.2rem" />
@@ -95,7 +91,7 @@
 					<p class="pt-3">
 						More advanced features are unlocked with a Premium subscription. For example Meal Plans,
 						Shopping Lists, and importing recipes from YouTube. Premium subscription is <span
-							class="font-bold">{PUBLIC_PREMIUM_PRICE}</span
+							class="font-bold">{env.PUBLIC_PREMIUM_PRICE}</span
 						> per month.
 					</p>
 				</div>
@@ -211,13 +207,13 @@
 				</p>
 			</div>
 
-			{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+			{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 				<div>
 					<div class="flex items-center gap-2">
 						<Icon icon="ph:youtube-logo" color="#f97316" width="2.2rem" />
 						<h4 class="text-xl font-semibold flex gap-3 items-center">
 							<span>YouTube</span>
-							{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+							{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 								<span class="text-sm text-orange-500">Premium</span>
 							{/if}
 						</h4>
@@ -245,7 +241,7 @@
 					<Icon icon="ph:calendar-dots" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold flex gap-3 items-center">
 						<span>Meal Plans</span>
-						{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+						{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 							<span class="text-sm text-orange-500">Premium</span>
 						{/if}
 					</h4>
@@ -273,7 +269,7 @@
 					<Icon icon="ph:shopping-cart" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold flex gap-3 items-center">
 						<span>Shopping Lists</span>
-						{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+						{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 							<span class="text-sm text-orange-500">Premium</span>
 						{/if}
 					</h4>

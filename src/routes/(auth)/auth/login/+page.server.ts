@@ -1,10 +1,4 @@
-import {
-	COOKIE_ACCESS_TOKEN,
-	COOKIE_ACCESS_TOKEN_EXPIRE_SEC,
-	COOKIE_REFRESH_TOKEN,
-	COOKIE_REFRESH_TOKEN_EXPIRE_SEC,
-	PASSWORD_MIN_LENGTH
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IAPIError, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
@@ -24,7 +18,7 @@ export const actions = {
 			failObj.errors.email = 'Email is empty';
 		}
 
-		if (!password || password.length < parseInt(PASSWORD_MIN_LENGTH, 10)) {
+		if (!password || password.length < parseInt(env.PASSWORD_MIN_LENGTH, 10)) {
 			failObj.errors.password = 'Password is too short';
 		}
 
@@ -37,13 +31,13 @@ export const actions = {
 				email,
 				password
 			});
-			cookies.set(COOKIE_ACCESS_TOKEN, res.data.accessToken, {
+			cookies.set(env.COOKIE_ACCESS_TOKEN, res.data.accessToken, {
 				path: '/',
-				maxAge: parseInt(COOKIE_ACCESS_TOKEN_EXPIRE_SEC, 10)
+				maxAge: parseInt(env.COOKIE_ACCESS_TOKEN_EXPIRE_SEC, 10)
 			});
-			cookies.set(COOKIE_REFRESH_TOKEN, res.data.refreshToken, {
+			cookies.set(env.COOKIE_REFRESH_TOKEN, res.data.refreshToken, {
 				path: '/',
-				maxAge: parseInt(COOKIE_REFRESH_TOKEN_EXPIRE_SEC, 10)
+				maxAge: parseInt(env.COOKIE_REFRESH_TOKEN_EXPIRE_SEC, 10)
 			});
 		} catch (e) {
 			console.log(e);

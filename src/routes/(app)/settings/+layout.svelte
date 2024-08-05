@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_SHOW_SUBSCRIPTION_PAGE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import { sidebarLinks } from '$lib/stores';
 	import { onMount } from 'svelte';
 
@@ -17,7 +17,7 @@
 			}
 		];
 
-		if (PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true') {
+		if (env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true') {
 			links.splice(1, 0, {
 				href: '/settings/subscription',
 				icon: 'ph:credit-card',

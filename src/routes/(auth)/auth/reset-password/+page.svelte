@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>Reset Password - {PUBLIC_MAIN_TITLE}</title>
+	<title>Reset Password - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Reset Password</h1>

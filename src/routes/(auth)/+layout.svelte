@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 </script>
 
-{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+{#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
 	<div class="text-white bg-indigo-700 p-1 font-bold fixed top-0 left-0 right-0 z-50">
 		DEMO MODE - <span class="text-sm">Create operations are disabled</span>
 	</div>

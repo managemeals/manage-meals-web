@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE, PUBLIC_MOCK_INSTANCE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
@@ -11,11 +11,11 @@
 </script>
 
 <svelte:head>
-	<title>Login - {PUBLIC_MAIN_TITLE}</title>
+	<title>Login - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Login</h1>
-{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+{#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
 	<div class="mb-5 border-2 border-indigo-700 p-2">
 		For the demo, please login using the email <strong>demo@example.com</strong> with the password
 		<strong>secret</strong>.

@@ -2,7 +2,7 @@
 	import type { ActionData, PageData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
-	import { PUBLIC_EMAIL_VERIFY_ENABLED, PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>User - Settings - {PUBLIC_MAIN_TITLE}</title>
+	<title>User - Settings - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
@@ -72,7 +72,7 @@
 						placeholder="Email"
 						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
 					/>
-					{#if PUBLIC_EMAIL_VERIFY_ENABLED === 'true'}
+					{#if env.PUBLIC_EMAIL_VERIFY_ENABLED === 'true'}
 						<p class="text-sm text-gray-500 pt-1">
 							Changing your email will send a verification email
 						</p>

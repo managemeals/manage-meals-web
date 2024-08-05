@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import type { PageData } from './$types';
@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Most Recent - Tags - {PUBLIC_MAIN_TITLE}</title>
+	<title>Most Recent - Tags - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

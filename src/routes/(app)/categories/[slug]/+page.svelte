@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Pagination from '$lib/components/Pagination.svelte';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import Icon from '@iconify/svelte';
@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.category.name} - Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.category.name} - Categories - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

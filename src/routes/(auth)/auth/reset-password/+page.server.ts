@@ -1,4 +1,4 @@
-import { PASSWORD_MIN_LENGTH } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { getErrorMessage } from '$lib/errors';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
@@ -18,7 +18,7 @@ export const actions = {
 			failObj.errors.token = 'Token is empty';
 		}
 
-		if (!password || password.length < parseInt(PASSWORD_MIN_LENGTH, 10)) {
+		if (!password || password.length < parseInt(env.PASSWORD_MIN_LENGTH, 10)) {
 			failObj.errors.password = 'Password is too short';
 		}
 

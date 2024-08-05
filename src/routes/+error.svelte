@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 </script>
 
 <svelte:head>
-	<title>{$page.status} - {PUBLIC_MAIN_TITLE}</title>
+	<title>{$page.status} - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="flex justify-center items-center pt-20">

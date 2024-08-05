@@ -1,9 +1,4 @@
-import {
-	COOKIE_ACCESS_TOKEN,
-	COOKIE_ACCESS_TOKEN_EXPIRE_SEC,
-	COOKIE_REFRESH_TOKEN,
-	COOKIE_REFRESH_TOKEN_EXPIRE_SEC
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import apiClient, { apiClientUnauthed } from '$lib/server/api/client';
 import { initLbShutdown } from '$lib/server/infra/health';
 import type { Handle } from '@sveltejs/kit';
@@ -15,8 +10,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return await resolve(event);
 	}
 
-	let accessToken = event.cookies.get(COOKIE_ACCESS_TOKEN) || '';
-	let refreshToken = event.cookies.get(COOKIE_REFRESH_TOKEN) || '';
+	let accessToken = event.cookies.get(env.COOKIE_ACCESS_TOKEN) || '';
+	let refreshToken = event.cookies.get(env.COOKIE_REFRESH_TOKEN) || '';
 
 	if (!accessToken && !refreshToken) {
 		if (
@@ -43,13 +38,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 			});
 			accessToken = res.data.accessToken;
 			refreshToken = res.data.refreshToken;
-			event.cookies.set(COOKIE_ACCESS_TOKEN, accessToken, {
+			event.cookies.set(env.COOKIE_ACCESS_TOKEN, accessToken, {
 				path: '/',
-				maxAge: parseInt(COOKIE_ACCESS_TOKEN_EXPIRE_SEC, 10)
+				maxAge: parseInt(env.COOKIE_ACCESS_TOKEN_EXPIRE_SEC, 10)
 			});
-			event.cookies.set(COOKIE_REFRESH_TOKEN, refreshToken, {
+			event.cookies.set(env.COOKIE_REFRESH_TOKEN, refreshToken, {
 				path: '/',
-				maxAge: parseInt(COOKIE_REFRESH_TOKEN_EXPIRE_SEC, 10)
+				maxAge: parseInt(env.COOKIE_REFRESH_TOKEN_EXPIRE_SEC, 10)
 			});
 		} catch (e) {
 			console.log(e);
@@ -59,8 +54,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	try {
 		const res = await apiClient([
-			{ name: COOKIE_ACCESS_TOKEN, value: accessToken },
-			{ name: COOKIE_REFRESH_TOKEN, value: refreshToken }
+			{ name: env.COOKIE_ACCESS_TOKEN, value: accessToken },
+			{ name: env.COOKIE_REFRESH_TOKEN, value: refreshToken }
 		]).get('/settings/user');
 		event.locals.user = res.data;
 	} catch (e) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import type { ActionData, PageData } from './$types';
 	import type { ICategory, ITag } from '$lib/types';
 	import Icon from '@iconify/svelte';
@@ -56,7 +56,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.recipe.data.title} - Edit - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.recipe.data.title} - Edit - Recipes - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

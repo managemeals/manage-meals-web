@@ -1,5 +1,5 @@
-import { PASSWORD_MIN_LENGTH } from '$env/static/private';
-import { PUBLIC_EMAIL_VERIFY_ENABLED } from '$env/static/public';
+import { env } from '$env/dynamic/private';
+import { env as envPublic } from '$env/dynamic/public';
 import { getErrorMessage } from '$lib/errors';
 import { apiClientUnauthed } from '$lib/server/api/client.js';
 import type { IEnhanceFailRes, IEnhanceRes } from '$lib/types';
@@ -22,7 +22,7 @@ export const actions = {
 			failObj.errors.email = 'Email is empty';
 		}
 
-		if (!password || password.length < parseInt(PASSWORD_MIN_LENGTH, 10)) {
+		if (!password || password.length < parseInt(env.PASSWORD_MIN_LENGTH, 10)) {
 			failObj.errors.password = 'Password is too short';
 		}
 
@@ -44,7 +44,7 @@ export const actions = {
 		}
 
 		const successObj: IEnhanceRes = {
-			message: `You have been registered! ${PUBLIC_EMAIL_VERIFY_ENABLED === 'true' ? 'Please verify your email before logging in.' : 'You can now log in.'}`,
+			message: `You have been registered! ${envPublic.PUBLIC_EMAIL_VERIFY_ENABLED === 'true' ? 'Please verify your email before logging in.' : 'You can now log in.'}`,
 			messageType: 'success'
 		};
 

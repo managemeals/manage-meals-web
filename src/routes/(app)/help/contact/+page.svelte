@@ -2,13 +2,13 @@
 	import type { ActionData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 
 	export let form: ActionData;
 </script>
 
 <svelte:head>
-	<title>Contact - Help - {PUBLIC_MAIN_TITLE}</title>
+	<title>Contact - Help - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

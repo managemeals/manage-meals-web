@@ -2,13 +2,13 @@
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 	import RecipeCardRow from '$lib/components/RecipeCardRow.svelte';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 
 	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>{data.shoppingList.title} - Shopping Lists - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.shoppingList.title} - Shopping Lists - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5 pb-20">

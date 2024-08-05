@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import type { IIconHelpLink, IIconLink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
-	import { PUBLIC_MOCK_INSTANCE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { LayoutData } from './$types';
 
@@ -238,7 +238,7 @@
 	<div
 		class={`absolute h-full z-10 top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
 	></div>
-	{#if PUBLIC_MOCK_INSTANCE === 'yes'}
+	{#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
 		<div class="text-white bg-indigo-700 p-1 font-bold">
 			DEMO MODE - <span class="text-sm">Create operations are disabled</span>
 		</div>

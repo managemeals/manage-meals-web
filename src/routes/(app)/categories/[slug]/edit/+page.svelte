@@ -5,7 +5,7 @@
 	import Icon from '@iconify/svelte';
 	import { sidebarLinks } from '$lib/stores';
 	import Modal from '$lib/components/Modal.svelte';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 
 	export let data: PageData;
 
@@ -34,7 +34,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.category.name} - Edit - Categories - {PUBLIC_MAIN_TITLE}</title>
+	<title>{data.category.name} - Edit - Categories - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

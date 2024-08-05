@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import type { ActionData, PageData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
 	import Icon from '@iconify/svelte';
@@ -47,7 +47,7 @@
 </script>
 
 <svelte:head>
-	<title>Import Recipe - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<title>Import Recipe - Recipes - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

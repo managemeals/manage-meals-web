@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 </script>
 
 <svelte:head>
-	<title>Privacy Policy - {PUBLIC_MAIN_TITLE}</title>
+	<title>Privacy Policy - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="container mx-auto">

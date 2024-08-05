@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import type { ActionData } from './$types';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { enhance } from '$app/forms';
@@ -55,7 +55,7 @@
 </script>
 
 <svelte:head>
-	<title>Create - Shopping Lists - {PUBLIC_MAIN_TITLE}</title>
+	<title>Create - Shopping Lists - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

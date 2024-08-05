@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import type { ActionData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
 	import { sidebarLinks } from '$lib/stores';
@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<title>Create Tag - Tags - {PUBLIC_MAIN_TITLE}</title>
+	<title>Create Tag - Tags - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

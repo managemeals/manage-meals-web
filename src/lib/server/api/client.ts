@@ -1,9 +1,9 @@
-import { API_URL, COOKIE_ACCESS_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import type { ICookie } from '$lib/types';
 import axios, { type AxiosInstance } from 'axios';
 
 const apiClientUnauthed = axios.create({
-	baseURL: API_URL,
+	baseURL: env.API_URL,
 	timeout: 30000,
 	headers: {
 		Accept: 'application/json',
@@ -14,11 +14,11 @@ const apiClientUnauthed = axios.create({
 export { apiClientUnauthed };
 
 const apiClient = (cookies: ICookie[]): AxiosInstance => {
-	const accessToken = cookies.find((c) => c.name === COOKIE_ACCESS_TOKEN);
+	const accessToken = cookies.find((c) => c.name === env.COOKIE_ACCESS_TOKEN);
 	// const refreshToken = cookies.find((c) => c.name === COOKIE_REFRESH_TOKEN);
 
 	const apiClientAuthed = axios.create({
-		baseURL: API_URL,
+		baseURL: env.API_URL,
 		timeout: 30000,
 		headers: {
 			Accept: 'application/json',

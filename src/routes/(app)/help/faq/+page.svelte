@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE, PUBLIC_SHOW_SUBSCRIPTION_PAGE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 </script>
 
 <svelte:head>
-	<title>FAQ - Help - {PUBLIC_MAIN_TITLE}</title>
+	<title>FAQ - Help - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
@@ -41,7 +41,7 @@
 		</p>
 	</div>
 
-	{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+	{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 		<div class="mb-5 last:mb-0">
 			<h3 class="font-semibold text-lg mb-1">Do I have to have the Premium subscription?</h3>
 			<p>
@@ -52,7 +52,7 @@
 		</div>
 	{/if}
 
-	{#if PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
+	{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 		<div class="mb-5 last:mb-0">
 			<h3 class="font-semibold text-lg mb-1">How do I cancel my subscription?</h3>
 			<p>

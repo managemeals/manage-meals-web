@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Status - Admin - {PUBLIC_MAIN_TITLE}</title>
+	<title>Status - Admin - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">

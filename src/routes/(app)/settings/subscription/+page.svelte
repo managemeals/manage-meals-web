@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		PUBLIC_MAIN_TITLE,
-		PUBLIC_PAYPAL_APP_CLIENT_ID,
-		PUBLIC_PAYPAL_PLAN_ID,
-		PUBLIC_PREMIUM_PRICE
-	} from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import { format } from 'date-fns';
 	import type { ActionData, PageData } from './$types';
 	import Modal from '$lib/components/Modal.svelte';
@@ -27,7 +22,7 @@
 
 	onMount(async () => {
 		try {
-			const paypal = await loadScript({ clientId: PUBLIC_PAYPAL_APP_CLIENT_ID, vault: true });
+			const paypal = await loadScript({ clientId: env.PUBLIC_PAYPAL_APP_CLIENT_ID, vault: true });
 			if (!paypal) {
 				throw new Error('Error loading PayPal script');
 			}
@@ -41,7 +36,7 @@
 					},
 					createSubscription: (data, actions) => {
 						return actions.subscription.create({
-							plan_id: PUBLIC_PAYPAL_PLAN_ID
+							plan_id: env.PUBLIC_PAYPAL_PLAN_ID
 						});
 					},
 					onApprove: async (data, actions) => {
@@ -60,7 +55,7 @@
 </script>
 
 <svelte:head>
-	<title>Subscription - Settings - {PUBLIC_MAIN_TITLE}</title>
+	<title>Subscription - Settings - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
@@ -103,7 +98,7 @@
 
 	{#if data.user.subscriptionType !== 'PREMIUM'}
 		<p class="mt-5">
-			Premium subscription is <span class="font-bold text-xl">{PUBLIC_PREMIUM_PRICE}</span>
+			Premium subscription is <span class="font-bold text-xl">{env.PUBLIC_PREMIUM_PRICE}</span>
 			per month and gives you access to more advanced features:
 		</p>
 

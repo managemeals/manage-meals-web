@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_MAIN_TITLE } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 	import { format } from 'date-fns';
@@ -68,7 +68,9 @@
 </script>
 
 <svelte:head>
-	<title>{data.shareRecipe.recipe?.data.title || ''} - Share - Recipes - {PUBLIC_MAIN_TITLE}</title>
+	<title
+		>{data.shareRecipe.recipe?.data.title || ''} - Share - Recipes - {env.PUBLIC_MAIN_TITLE}</title
+	>
 	<meta name="description" content={data.shareRecipe.recipe?.data.description || ''} />
 	<meta property="og:title" content={data.shareRecipe.recipe?.data.title} />
 	<meta property="og:image" content={data.shareRecipe.recipe?.data.image || ''} />

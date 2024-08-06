@@ -59,7 +59,7 @@
 			<div class="basis-3/5">
 				<img
 					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
-					alt="App screenshot"
+					alt="Web app screenshot"
 					class="transition-transform shadow scale-100 hover:lg:scale-105"
 				/>
 			</div>
@@ -293,6 +293,34 @@
 
 			<div>
 				<div class="flex items-center gap-2">
+					<Icon icon="ph:google-play-logo" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Mobile Apps</h4>
+				</div>
+				<p class="pt-3">
+					Android and iOS app versions of ManageMeals. <a
+						href="#mobile-apps"
+						class="hover:underline text-blue-500">See more</a
+					> below.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:cloud-slash" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Self Hosted</h4>
+				</div>
+				<p class="pt-3">
+					A self hosted version of ManageMeals. You own all the data, and control where it's stored.
+					See how on <a
+						href="https://github.com/managemeals"
+						class="hover:underline text-blue-500"
+						target="_blank">GitHub</a
+					>.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
 					<Icon icon="ph:plugs" color="#f97316" width="2.2rem" />
 					<h4 class="text-xl font-semibold">Browser Extension (coming soon)</h4>
 				</div>
@@ -301,37 +329,16 @@
 					while browsing the web.
 				</p>
 			</div>
-
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:google-play-logo" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Mobile Apps (coming soon)</h4>
-				</div>
-				<p class="pt-3">
-					<span class="italic">Work in progress</span>. Android and iOS app versions of ManageMeals.
-				</p>
-			</div>
-
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:cloud-slash" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Self Hosted (coming soon)</h4>
-				</div>
-				<p class="pt-3">
-					<span class="italic">Work in progress</span>. A self hosted version of ManageMeals. You
-					own all the data, and control where it's stored.
-				</p>
-			</div>
 		</div>
 	</div>
 </section>
 
-<section class="px-3 py-20 bg-slate-100">
+<section class="px-3 py-20 bg-slate-50">
 	<div class="container mx-auto">
 		<h3 class="text-3xl font-bold text-center pb-10">Screen Recordings</h3>
 		<div class="flex flex-col lg:flex-row gap-10">
 			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-5">Importing a Recipe</h5>
+				<h5 class="text-xl font-bold pb-8">Importing a Recipe</h5>
 				<video controls muted>
 					<source
 						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmimport.mov"
@@ -342,7 +349,7 @@
 			</div>
 
 			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-5">Meal Planning</h5>
+				<h5 class="text-xl font-bold pb-8">Meal Planning</h5>
 				<video controls muted>
 					<source
 						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmmealplans.mov"
@@ -350,6 +357,43 @@
 					/>
 					Your browser does not support the video tag.
 				</video>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="px-3 py-20 bg-slate-100" id="mobile-apps">
+	<div class="container mx-auto">
+		<h3 class="text-3xl font-bold text-center pb-10">Mobile Apps</h3>
+		<div class="flex flex-col lg:flex-row gap-10">
+			<div class="basis-1/2 text-center">
+				<h5 class="text-xl font-bold pb-8">Android</h5>
+				<a
+					href="https://play.google.com/store/apps/details?id=com.managemeals.app"
+					class="inline-block"
+					target="_blank"
+				>
+					<img
+						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/androidscrn.png"
+						alt="Android app screenshot"
+						class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+					/>
+				</a>
+			</div>
+
+			<div class="basis-1/2 text-center">
+				<h5 class="text-xl font-bold pb-8">iOS</h5>
+				<a
+					href="https://apps.apple.com/us/app/managemeals/id6578444875"
+					class="inline-block"
+					target="_blank"
+				>
+					<img
+						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/iphonescrn.png"
+						alt="iOS app screenshot"
+						class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+					/>
+				</a>
 			</div>
 		</div>
 	</div>

@@ -8,8 +8,7 @@ services:
       API_URL: http://manage-meals-api:3000/v1
       COOKIE_ACCESS_TOKEN: mmeals_access_token
       COOKIE_REFRESH_TOKEN: mmeals_refresh_token
-      COOKIE_ACCESS_TOKEN_EXPIRE_SEC: 300
-      COOKIE_REFRESH_TOKEN_EXPIRE_SEC: 7200
-      INFRA_ENDPOINT_KEY: secret
+      COOKIE_ACCESS_TOKEN_EXPIRE_SEC: 600
+      COOKIE_REFRESH_TOKEN_EXPIRE_SEC: 2629746
       ORIGIN: http://localhost:3001
       BODY_SIZE_LIMIT: Infinity

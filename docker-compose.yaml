@@ -1,17 +1,17 @@
 services:
   manage-meals-web-01:
-    build: .
+    image: ghcr.io/managemeals/manage-meals-web:latest
     restart: unless-stopped
     env_file:
-      - ./.env.docker
+      - ./.env
     networks:
       - mmeals_net
 
   manage-meals-web-02:
-    build: .
+    image: ghcr.io/managemeals/manage-meals-web:latest
     restart: unless-stopped
     env_file:
-      - ./.env.docker
+      - ./.env
     networks:
       - mmeals_net
 
@@ -31,10 +31,9 @@ services:
       - ./haproxy-web.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - ./wait-for-it.sh:/opt/wait-for-it.sh
     env_file:
-      - ./.env.docker
+      - ./.env
     networks:
       - mmeals_net
-
 
 networks:
   mmeals_net:

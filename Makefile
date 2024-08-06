@@ -7,9 +7,17 @@ default:
 build:
 	docker compose build
 
+.PHONY: up
+up:
+	docker compose up
+
 .PHONY: upd
 upd:
 	docker compose up -d
+
+.PHONY: pull
+pull:
+	docker compose pull
 
 # self hosted
 .PHONY: build-selfhost

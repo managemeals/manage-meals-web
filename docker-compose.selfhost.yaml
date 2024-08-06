@@ -1,18 +1,15 @@
 services:
   manage-meals-web:
-    build: .
+    image: ghcr.io/managemeals/manage-meals-web:latest
     restart: unless-stopped
     environment:
       PUBLIC_MAIN_TITLE: ManageMeals
       PASSWORD_MIN_LENGTH: 6
-      APP_URL: https://managemeals.com
-      API_URL: http://localhost:3000/v1
+      API_URL: http://manage-meals-api:3000/v1
       COOKIE_ACCESS_TOKEN: mmeals_access_token
       COOKIE_REFRESH_TOKEN: mmeals_refresh_token
       COOKIE_ACCESS_TOKEN_EXPIRE_SEC: 300
       COOKIE_REFRESH_TOKEN_EXPIRE_SEC: 7200
       INFRA_ENDPOINT_KEY: secret
-      PUBLIC_SHOW_SUBSCRIPTION_PAGE: false
-      PUBLIC_EMAIL_VERIFY_ENABLED: false
       ORIGIN: http://localhost:3001
       BODY_SIZE_LIMIT: Infinity

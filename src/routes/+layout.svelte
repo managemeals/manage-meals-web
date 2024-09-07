@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
-	import { PUBLIC_UMAMI_ANALYTICS_ENABLED } from '$env/static/public';
 	import '../app.css';
 	import '../print.css';
 </script>
 
 <svelte:head>
-	{#if PUBLIC_UMAMI_ANALYTICS_ENABLED === 'true'}
+	{#if env.PUBLIC_UMAMI_ANALYTICS_ENABLED === 'true'}
 		<script
 			async
 			src="https://umami.meganice.online/script.js"

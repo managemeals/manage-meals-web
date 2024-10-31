@@ -195,17 +195,19 @@
 				</p>
 			</div>
 
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:robot" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">AI</h4>
+			{#if env.PUBLIC_SHOW_AI_PROMO === 'true'}
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:robot" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold">AI</h4>
+					</div>
+					<p class="pt-3">
+						While there is direct support for hundreds of recipe websites, not all websites have a
+						predefined structure. This is where AI comes in. It will attempt to import recipes from
+						any website, for example blogs.
+					</p>
 				</div>
-				<p class="pt-3">
-					While there is direct support for hundreds of recipe websites, not all websites have a
-					predefined structure. This is where AI comes in. It will attempt to import recipes from
-					any website, for example blogs.
-				</p>
-			</div>
+			{/if}
 
 			{#if env.PUBLIC_SHOW_SUBSCRIPTION_PAGE === 'true'}
 				<div>

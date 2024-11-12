@@ -20,6 +20,5 @@
 				<RecipeCategoryTag {recipe} nonClickable={nonClickableCategoriesTags} />
 			</div>
 		{/if}
-		<p>{recipe.data.host}</p>
 	</div>
 </a>

@@ -72,6 +72,11 @@
 			title: 'Shopping Lists'
 		},
 		{
+			href: '/charts/recipes/popular',
+			icon: 'ph:chart-bar',
+			title: 'Charts'
+		},
+		{
 			href: '/settings/user',
 			icon: 'ph:gear',
 			title: 'Settings'

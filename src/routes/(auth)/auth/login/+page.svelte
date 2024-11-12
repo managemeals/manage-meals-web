@@ -8,6 +8,8 @@
 	export let form: ActionData;
 
 	let verifyForm: HTMLFormElement;
+
+	let submitting = false;
 </script>
 
 <svelte:head>
@@ -40,7 +42,17 @@
 		</Alert>
 	</div>
 {/if}
-<form method="post" action="?/login" use:enhance>
+<form
+	method="post"
+	action="?/login"
+	use:enhance={() => {
+		submitting = true;
+		return async ({ update }) => {
+			await update();
+			submitting = false;
+		};
+	}}
+>
 	<input type="hidden" id="goto" name="goto" value={$page.url.searchParams.get('goto')} />
 	<div class="pb-5 last:pb-0">
 		<label for="email" class="font-semibold pb-2 block">Email</label>
@@ -72,6 +84,7 @@
 	<div class="pb-5 last:pb-0">
 		<button
 			type="submit"
+			disabled={submitting}
 			class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		>
 			Login

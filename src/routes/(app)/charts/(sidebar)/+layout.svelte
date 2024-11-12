@@ -3,18 +3,15 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		$sidebarLinks = [
+		const links = [
 			{
-				href: '/admin/status',
-				icon: 'ph:chart-bar',
-				title: 'Status'
-			},
-			{
-				href: '/admin/recipes',
-				icon: 'ph:hamburger',
-				title: 'Recipes'
+				href: '/charts/recipes/popular',
+				icon: 'ph:trend-up',
+				title: 'Popular Recipes'
 			}
 		];
+
+		$sidebarLinks = links;
 
 		return () => {
 			$sidebarLinks = [];

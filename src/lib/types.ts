@@ -6,6 +6,7 @@ export interface IUser {
 	email: string;
 	subscriptionType: TSubscriptionType;
 	isAdmin: boolean;
+	createdAt: string;
 }
 
 export interface ITag {
@@ -294,4 +295,10 @@ export interface IShareRecipe {
 	createdByUuid: string;
 	recipe?: IRecipe;
 	recipeUuid: string;
+}
+
+export interface IPopularRecipe {
+	count: number;
+	url: string;
+	recipe: IRecipe;
 }

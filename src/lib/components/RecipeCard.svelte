@@ -3,15 +3,23 @@
 	import RecipeCategoryTag from '$lib/components/RecipeCategoryTag.svelte';
 
 	export let recipe: IRecipe;
+	export let urlPrefix = '';
+	export let nonClickableCategoriesTags = false;
+	export let hideCategoriesTags = false;
 </script>
 
-<a href={`/recipes/${recipe.slug}`} class="border hover:shadow rounded">
+<a href={`${urlPrefix}/recipes/${recipe.slug}`} class="border hover:shadow rounded">
 	<div
 		style={`background-image: url("${recipe.data.image}")`}
 		class="bg-center bg-no-repeat bg-cover w-full h-48"
 	></div>
 	<div class="p-3">
-		<h3 class="mb-3">{recipe.data.title}</h3>
-		<RecipeCategoryTag {recipe} />
+		<h3>{recipe.data.title}</h3>
+		{#if !hideCategoriesTags}
+			<div class="mt-3">
+				<RecipeCategoryTag {recipe} nonClickable={nonClickableCategoriesTags} />
+			</div>
+		{/if}
+		<p>{recipe.data.host}</p>
 	</div>
 </a>

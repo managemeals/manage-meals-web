@@ -1,99 +1,14 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 	import { format } from 'date-fns';
-	import Toggle from '$lib/components/Toggle.svelte';
-	import { onMount } from 'svelte';
-	import Modal from '$lib/components/Modal.svelte';
-	import Alert from '$lib/components/Alert.svelte';
-	import { enhance } from '$app/forms';
-	import type { IShareRecipe } from '$lib/types';
 
 	export let data: PageData;
-
-	export let form: ActionData;
-
-	let toggleWakelock = false;
-	let hasWakeLock = false;
-	// eslint-disable-next-line no-undef
-	let wakeLock: WakeLockSentinel | undefined;
-	let showWakeLockModal = false;
-	let wakeLockError = '';
-	let hasWakeLockListener = false;
-	let showShoppingListModal = false;
-	let showShareModal = false;
-	let recipeShares: IShareRecipe[] = [];
-	let loadingRecipeShares = false;
-
-	const handleWakeLockRelease = () => {
-		toggleWakelock = false;
-	};
-
-	const handleWakeLockToggle = async (toggled: boolean) => {
-		wakeLockError = '';
-		if (toggled) {
-			try {
-				wakeLock = await navigator.wakeLock.request('screen');
-				if (!hasWakeLockListener) {
-					wakeLock.addEventListener('release', handleWakeLockRelease);
-					hasWakeLockListener = true;
-				}
-			} catch (e) {
-				wakeLockError = `${(e as Error).name}, ${(e as Error).message}`;
-				showWakeLockModal = true;
-				toggleWakelock = false;
-			}
-		} else {
-			if (wakeLock) {
-				try {
-					wakeLock.removeEventListener('release', handleWakeLockRelease);
-					hasWakeLockListener = false;
-				} catch (e) {
-					console.error(e);
-				}
-				try {
-					await wakeLock.release();
-					wakeLock = undefined;
-				} catch (e) {
-					console.error(e);
-				}
-			}
-		}
-	};
-
-	onMount(() => {
-		if ('wakeLock' in navigator) {
-			hasWakeLock = true;
-		}
-
-		return async () => {
-			await handleWakeLockToggle(false);
-		};
-	});
-
-	$: handleWakeLockToggle(toggleWakelock);
-
-	const loadRecipeShares = async () => {
-		loadingRecipeShares = true;
-		try {
-			const res = await fetch(`/api/recipes/${data.recipe.slug}/shares`);
-			const shareRecipes = await res.json();
-			recipeShares = shareRecipes;
-		} catch (e) {
-			recipeShares = [];
-		} finally {
-			loadingRecipeShares = false;
-		}
-	};
-
-	$: if (showShareModal || form?.shareSlug || form?.shareDeleteSlug) {
-		loadRecipeShares();
-	}
 </script>
 
 <svelte:head>
-	<title>{data.recipe.data.title} - Recipes - {env.PUBLIC_MAIN_TITLE}</title>
+	<title>{data.recipe.data.title} - Recipes - Admin - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div>
@@ -136,7 +51,7 @@
 	</div>
 
 	<div class="p-5">
-		<div class="flex justify-between mb-5 flex-col gap-3 md:flex-row">
+		<div class="mb-5">
 			<div>
 				<h1 class="font-semibold text-orange-500 text-2xl mb-3">{data.recipe.data.title}</h1>
 				<div class="flex flex-col gap-3 lg:flex-row lg:gap-5">
@@ -147,17 +62,12 @@
 						<div class="flex gap-1 flex-wrap">
 							{#if data.recipe.categories && data.recipe.categories.length}
 								{#each data.recipe.categories as category}
-									<a
-										href={`/categories/${category.slug}`}
-										class="after:content-[','] last:after:content-[''] hover:underline italic"
-										>{category.name}</a
+									<span class="after:content-[','] last:after:content-[''] italic"
+										>{category.name}</span
 									>
 								{/each}
 							{:else}
-								<a
-									href="/categories/uncategorized"
-									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>Uncategorized</a
+								<span class="after:content-[','] last:after:content-[''] italic">Uncategorized</span
 								>
 							{/if}
 						</div>
@@ -169,51 +79,14 @@
 						<div class="flex gap-1 flex-wrap">
 							{#if data.recipe.tags && data.recipe.tags.length}
 								{#each data.recipe.tags as tag}
-									<a
-										href={`/tags/${tag.slug}`}
-										class="after:content-[','] last:after:content-[''] hover:underline italic"
-										>{tag.name}</a
-									>
+									<span class="after:content-[','] last:after:content-[''] italic">{tag.name}</span>
 								{/each}
 							{:else}
-								<a
-									href="/tags/untagged"
-									class="after:content-[','] last:after:content-[''] hover:underline italic"
-									>Untagged</a
-								>
+								<span class="after:content-[','] last:after:content-[''] italic">Untagged</span>
 							{/if}
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="flex items-start gap-2">
-				<button
-					type="button"
-					title="Share"
-					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
-						showShareModal = true;
-					}}
-				>
-					<Icon icon="ph:share-network" color="#3b82f6" width="1.4rem" />
-				</button>
-				<button
-					type="button"
-					title="Shopping list"
-					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
-						showShoppingListModal = true;
-					}}
-				>
-					<Icon icon="ph:shopping-cart" color="#3b82f6" width="1.4rem" />
-				</button>
-				<a
-					href={`/recipes/${data.recipe.slug}/edit`}
-					title="Edit"
-					class="hover:bg-gray-200 p-1 rounded"
-				>
-					<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
-				</a>
 			</div>
 		</div>
 
@@ -225,12 +98,6 @@
 			<div class="mb-5">
 				<span class="font-semibold text-orange-500 uppercase">Yield:</span>
 				{data.recipe.data.yields}
-			</div>
-		{/if}
-
-		{#if hasWakeLock}
-			<div class="mb-3">
-				<Toggle label="Prevent screen from turning off" bind:checked={toggleWakelock} />
 			</div>
 		{/if}
 
@@ -345,96 +212,3 @@
 		</div>
 	</div>
 </div>
-
-<Modal bind:show={showWakeLockModal}>
-	<Alert variant="error">{wakeLockError}</Alert>
-</Modal>
-
-<Modal bind:show={showShoppingListModal}>
-	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
-	<p class="mb-3">
-		Create a shopping list from the recipe <span class="font-bold">{data.recipe.data.title}</span>.
-	</p>
-	{#if form?.shoppingListMessage}
-		<div class="py-4">
-			<Alert variant={form?.shoppingListMessageType || 'error'}>
-				{form?.shoppingListMessage}
-			</Alert>
-		</div>
-	{/if}
-	<form method="post" action="?/shoppinglist" use:enhance>
-		<input type="hidden" id="title" name="title" value={data.recipe.data.title} />
-		<input type="hidden" id="recipeUuids" name="recipeUuids" value={data.recipe.uuid} />
-		<input
-			type="hidden"
-			id="ingredients"
-			name="ingredients"
-			value={data.recipe.data.ingredients.join('|||')}
-		/>
-		<div>
-			<button
-				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-			>
-				Create
-			</button>
-		</div>
-	</form>
-</Modal>
-
-<Modal bind:show={showShareModal}>
-	<h4 class="text-xl font-bold mb-3">Share Recipe</h4>
-	<p class="mb-3">
-		Get a sharable link to the recipe <span class="font-bold">{data.recipe.data.title}</span>.
-		Anyone with the link can view the recipe, without having to register.
-	</p>
-	{#if form?.shareMessage}
-		<div class="py-4">
-			<Alert variant={form?.shareMessageType || 'error'}>
-				{form?.shareMessage}
-			</Alert>
-		</div>
-	{/if}
-	<form method="post" action="?/share" use:enhance>
-		<input type="hidden" id="recipeUuid" name="recipeUuid" value={data.recipe.uuid} />
-		<div>
-			<button
-				type="submit"
-				disabled={loadingRecipeShares || recipeShares.length > 0}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-			>
-				Share
-			</button>
-		</div>
-	</form>
-	<h5 class="font-bold mb-3 mt-3">Sharable Links</h5>
-	{#if recipeShares.length < 1}
-		<p class="italic">No sharable links have been created</p>
-	{/if}
-	<div class="flex flex-col gap-2">
-		{#each recipeShares as recipeShare}
-			<div class="flex items-center justify-between gap-2 border rounded p-2">
-				<div>https://managemeals.com/share/recipes/{recipeShare.slug}</div>
-				<div class="flex items-center gap-2">
-					<button
-						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded"
-						title="Copy"
-						on:click={async () => {
-							await window.navigator.clipboard.writeText(
-								`https://managemeals.com/share/recipes/${recipeShare.slug}`
-							);
-						}}
-					>
-						<Icon icon="ph:copy" color="#000" width="1.5rem" />
-					</button>
-					<form method="post" action="?/deleteshare" use:enhance>
-						<input type="hidden" id="slug" name="slug" value={recipeShare.slug} />
-						<button class="hover:bg-gray-200 p-1 rounded" title="Delete">
-							<Icon icon="ph:x" color="#000" width="1.2rem" />
-						</button>
-					</form>
-				</div>
-			</div>
-		{/each}
-	</div>
-</Modal>

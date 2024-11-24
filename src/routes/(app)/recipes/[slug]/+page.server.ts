@@ -105,7 +105,11 @@ export const actions = {
 		}
 
 		try {
-			await apiClient(cookies.getAll()).delete(`/share/recipes/${slug}`, {});
+			await apiClient(cookies.getAll()).delete(`/share/recipes/${slug}`, {
+				headers: {
+					'Content-Type': null
+				}
+			});
 		} catch (e) {
 			console.log(e);
 			failObj.shareMessageType = 'error';

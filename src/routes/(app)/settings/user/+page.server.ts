@@ -63,7 +63,11 @@ export const actions = {
 
 	delete: async ({ cookies }) => {
 		try {
-			await apiClient(cookies.getAll()).delete('/settings/user');
+			await apiClient(cookies.getAll()).delete('/settings/user', {
+				headers: {
+					'Content-Type': null
+				}
+			});
 		} catch (e) {
 			console.log(e);
 			const failObj: IEnhanceRes = {

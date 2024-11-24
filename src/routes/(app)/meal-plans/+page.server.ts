@@ -536,7 +536,11 @@ export const actions = {
 		}
 
 		try {
-			await apiClient(cookies.getAll()).delete(`/meal-plans/${uuid}`);
+			await apiClient(cookies.getAll()).delete(`/meal-plans/${uuid}`, {
+				headers: {
+					'Content-Type': null
+				}
+			});
 		} catch (e) {
 			console.log(e);
 			failObj.deleteDayMessageType = 'error';

@@ -64,7 +64,11 @@ export const actions = {
 		const { slug } = params;
 
 		try {
-			await apiClient(cookies.getAll()).delete(`/shopping-lists/${slug}`);
+			await apiClient(cookies.getAll()).delete(`/shopping-lists/${slug}`, {
+				headers: {
+					'Content-Type': null
+				}
+			});
 		} catch (e) {
 			console.log(e);
 			const failObj: IEnhanceRes = {

@@ -4,6 +4,7 @@ import type { IAPIError, IEnhanceFailRes, IEnhanceRes } from '$lib/types';
 import { fail, redirect } from '@sveltejs/kit';
 import axios, { AxiosError } from 'axios';
 import { getErrorMessage } from '$lib/errors';
+import type { Actions } from './$types';
 
 export const actions = {
 	login: async ({ request, cookies }) => {
@@ -94,4 +95,4 @@ export const actions = {
 
 		return successObj;
 	}
-};
+} satisfies Actions;

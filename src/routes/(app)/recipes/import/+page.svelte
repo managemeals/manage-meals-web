@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import type { ICategory, ITag } from '$lib/types';
 	import Modal from '$lib/components/Modal.svelte';
+	import { page } from '$app/stores';
 
 	export let form: ActionData;
 
@@ -82,7 +83,7 @@
 				type="text"
 				id="url"
 				name="url"
-				value={form?.inputs?.url ?? ''}
+				value={form?.inputs?.url ?? $page.url.searchParams.get('url') ?? ''}
 				placeholder="https://www.bbcgoodfood.com/recipes/chicken-leek-brown-rice-stir-fry"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 			/>

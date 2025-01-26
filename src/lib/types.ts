@@ -302,3 +302,8 @@ export interface IPopularRecipe {
 	url: string;
 	recipe: IRecipe;
 }
+
+export interface IAccessRefreshToken {
+	accessToken: string;
+	refreshToken: string;
+}

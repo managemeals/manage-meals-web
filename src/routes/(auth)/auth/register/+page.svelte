@@ -16,6 +16,18 @@
 
 <h1 class="text-center font-bold text-2xl pb-5">Register</h1>
 
+{#if env.PUBLIC_ENABLE_GOOGLE_OAUTH === 'true'}
+	<div class="flex pb-5">
+		<a
+			href={env.PUBLIC_GOOGLE_OAUTH_URL}
+			class="border rounded flex items-center gap-2 p-2 hover:shadow"
+		>
+			<Icon icon="logos:google-icon" width="1.5rem" />
+			<span>Login with Google</span>
+		</a>
+	</div>
+{/if}
+
 {#if form?.message}
 	<div class="py-4">
 		<Alert variant={form?.messageType || 'error'}>
@@ -23,6 +35,7 @@
 		</Alert>
 	</div>
 {/if}
+
 <form
 	method="post"
 	use:enhance={() => {

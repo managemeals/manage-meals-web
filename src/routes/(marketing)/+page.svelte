@@ -293,18 +293,20 @@
 				</p>
 			</div>
 
-			<div>
-				<div class="flex items-center gap-2">
-					<Icon icon="ph:google-play-logo" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Mobile Apps</h4>
+			{#if env.PUBLIC_SHOW_MOBILE_APPS === 'true'}
+				<div>
+					<div class="flex items-center gap-2">
+						<Icon icon="ph:google-play-logo" color="#f97316" width="2.2rem" />
+						<h4 class="text-xl font-semibold">Mobile Apps</h4>
+					</div>
+					<p class="pt-3">
+						Android and iOS app versions of ManageMeals. <a
+							href="#mobile-apps"
+							class="hover:underline text-blue-500">See more</a
+						> below.
+					</p>
 				</div>
-				<p class="pt-3">
-					Android and iOS app versions of ManageMeals. <a
-						href="#mobile-apps"
-						class="hover:underline text-blue-500">See more</a
-					> below.
-				</p>
-			</div>
+			{/if}
 
 			<div>
 				<div class="flex items-center gap-2">
@@ -318,6 +320,32 @@
 						class="hover:underline text-blue-500"
 						target="_blank">GitHub</a
 					>.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:tip-jar" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Donate</h4>
+				</div>
+				<p class="pt-3">
+					To keep ManageMeals free, and to keep improving it, there is a donate button on the help
+					page. You can also donate by <a
+						target="_blank"
+						class="hover:underline text-blue-500"
+						href="https://www.paypal.com/donate/?hosted_button_id=AYX4RADAYPEXQ">clicking here</a
+					>.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:bookmark-simple" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Bookmarklet</h4>
+				</div>
+				<p class="pt-3">
+					Drag a bookmarklet to the browser's' bookmarks toolbar which will populate the URL input
+					in the import form with the current recipe website's URL.
 				</p>
 			</div>
 
@@ -364,42 +392,44 @@
 	</div>
 </section>
 
-<section class="px-3 py-20 bg-slate-100" id="mobile-apps">
-	<div class="container mx-auto">
-		<h3 class="text-3xl font-bold text-center pb-10">Mobile Apps</h3>
-		<div class="flex flex-col lg:flex-row gap-10">
-			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-8">Android</h5>
-				<a
-					href="https://play.google.com/store/apps/details?id=com.managemeals.app"
-					class="inline-block"
-					target="_blank"
-				>
-					<img
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/androidscrn.png"
-						alt="Android app screenshot"
-						class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
-					/>
-				</a>
-			</div>
+{#if env.PUBLIC_SHOW_MOBILE_APPS === 'true'}
+	<section class="px-3 py-20 bg-slate-100" id="mobile-apps">
+		<div class="container mx-auto">
+			<h3 class="text-3xl font-bold text-center pb-10">Mobile Apps</h3>
+			<div class="flex flex-col lg:flex-row gap-10">
+				<div class="basis-1/2 text-center">
+					<h5 class="text-xl font-bold pb-8">Android</h5>
+					<a
+						href="https://play.google.com/store/apps/details?id=com.managemeals.app"
+						class="inline-block"
+						target="_blank"
+					>
+						<img
+							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/androidscrn.png"
+							alt="Android app screenshot"
+							class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+						/>
+					</a>
+				</div>
 
-			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-8">iOS</h5>
-				<a
-					href="https://apps.apple.com/us/app/managemeals/id6578444875"
-					class="inline-block"
-					target="_blank"
-				>
-					<img
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/iphonescrn.png"
-						alt="iOS app screenshot"
-						class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
-					/>
-				</a>
+				<div class="basis-1/2 text-center">
+					<h5 class="text-xl font-bold pb-8">iOS</h5>
+					<a
+						href="https://apps.apple.com/us/app/managemeals/id6578444875"
+						class="inline-block"
+						target="_blank"
+					>
+						<img
+							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/iphonescrn.png"
+							alt="iOS app screenshot"
+							class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+						/>
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+{/if}
 
 <section class="px-3 py-20">
 	<div class="container mx-auto">

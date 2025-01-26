@@ -4,6 +4,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 	import { page } from '$app/stores';
+	import Icon from '@iconify/svelte';
 
 	export let form: ActionData;
 
@@ -17,12 +18,26 @@
 </svelte:head>
 
 <h1 class="text-center font-bold text-2xl pb-5">Login</h1>
+
 {#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
 	<div class="mb-5 border-2 border-indigo-700 p-2">
 		For the demo, please login using the email <strong>demo@example.com</strong> with the password
 		<strong>secret</strong>.
 	</div>
 {/if}
+
+{#if env.PUBLIC_ENABLE_GOOGLE_OAUTH === 'true'}
+	<div class="flex pb-5">
+		<a
+			href={env.PUBLIC_GOOGLE_OAUTH_URL}
+			class="border rounded flex items-center gap-2 p-2 hover:shadow"
+		>
+			<Icon icon="logos:google-icon" width="1.5rem" />
+			<span>Login with Google</span>
+		</a>
+	</div>
+{/if}
+
 {#if form?.message}
 	<div class="py-4">
 		<Alert variant={form?.messageType || 'error'}>
@@ -42,6 +57,7 @@
 		</Alert>
 	</div>
 {/if}
+
 <form
 	method="post"
 	action="?/login"

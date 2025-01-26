@@ -10,9 +10,19 @@
 				title: 'FAQ'
 			},
 			{
+				href: '/help/bookmarklet',
+				icon: 'ph:bookmark-simple',
+				title: 'Bookmarklet'
+			},
+			{
 				href: '/help/contact',
 				icon: 'ph:envelope',
 				title: 'Contact'
+			},
+			{
+				href: '/help/donate',
+				icon: 'ph:tip-jar',
+				title: 'Donate'
 			}
 		];
 

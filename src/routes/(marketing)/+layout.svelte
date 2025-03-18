@@ -24,7 +24,11 @@
 			</a>
 		</div>
 		<div class="flex gap-5">
-			<a href="/categories" class="hover:underline">Open App</a>
+			<a
+				href="/categories"
+				class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow font-semibold"
+				>Open App</a
+			>
 		</div>
 	</div>
 </nav>

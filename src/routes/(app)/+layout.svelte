@@ -114,7 +114,7 @@
 
 <div class="w-screen z-10" bind:clientWidth={clientW}></div>
 <nav
-	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-40 px-3"
+	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-1"
 >
 	<div class="flex items-center gap-3">
 		<button
@@ -141,7 +141,10 @@
 			<div>Manage<span class="text-white">Meals</span></div>
 		</a>
 	</div>
-	<div class="flex items-center gap-4">
+	<div class="flex items-center gap-1 md:gap-4">
+		<a href="/help/donate" class="p-1 rounded hover:bg-orange-600" title="Donate">
+			<Icon icon="ph:tip-jar" color="#fff" width="2rem" />
+		</a>
 		<div class="hidden md:block">
 			<NavbarSearch />
 		</div>

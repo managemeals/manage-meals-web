@@ -1,35 +1,7 @@
 services:
-  manage-meals-web-01:
+  manage-meals-web:
     image: ghcr.io/managemeals/manage-meals-web:latest
     restart: unless-stopped
-    env_file:
-      - ./.env
-    networks:
-      - mmeals_net
-
-  manage-meals-web-02:
-    image: ghcr.io/managemeals/manage-meals-web:latest
-    restart: unless-stopped
-    env_file:
-      - ./.env
-    networks:
-      - mmeals_net
-
-  manage-meals-web-lb:
-    image: haproxy:2.9
-    restart: unless-stopped
-    sysctls:
-      - net.ipv4.ip_unprivileged_port_start=0
-    depends_on:
-      - manage-meals-web-01
-      - manage-meals-web-02
-    command: >
-      bash -c "/opt/wait-for-it.sh -t 60 manage-meals-web-01:3000 --
-        /opt/wait-for-it.sh -t 60 manage-meals-web-02:3000 --
-        haproxy -f /usr/local/etc/haproxy/haproxy.cfg -W -db"
-    volumes:
-      - ./haproxy-web.cfg:/usr/local/etc/haproxy/haproxy.cfg
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
     env_file:
       - ./.env
     networks:

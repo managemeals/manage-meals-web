@@ -43,6 +43,7 @@
 		}
 	};
 
+	// eslint-disable-next-line
 	const handleKeydown = (e: any) => {
 		if (!searchResults || !searchResults.hits || !searchResults.hits.length) {
 			return;

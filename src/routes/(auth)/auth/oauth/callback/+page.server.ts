@@ -7,8 +7,6 @@ import { env } from '$env/dynamic/private';
 export const load: PageServerLoad = async ({ url }) => {
 	const state = url.searchParams.get('state');
 
-	console.log('state', state);
-
 	if (!state) {
 		return;
 	}

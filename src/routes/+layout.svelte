@@ -8,10 +8,10 @@
 	{#if env.PUBLIC_UMAMI_ANALYTICS_ENABLED === 'true'}
 		<script
 			async
-			src="https://umami.meganice.online/script.js"
+			src="https://umami.leafbread.io/script.js"
 			data-website-id={env.PUBLIC_MOCK_INSTANCE === 'yes'
-				? 'bfe1bea5-5243-4965-a619-dd2ed703e9b7'
-				: 'd8293365-5239-4532-97cd-a3eaf328de48'}
+				? 'd3c116ad-89be-4a80-b709-39e0841a18af'
+				: 'fde31535-d434-4ffe-9cf1-3fb25980af95'}
 		></script>
 	{/if}
 </svelte:head>

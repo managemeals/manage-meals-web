@@ -77,6 +77,11 @@
 			title: 'Charts'
 		},
 		{
+			href: '/recipes/random',
+			icon: 'ph:shuffle',
+			title: 'Random'
+		},
+		{
 			href: '/settings/user',
 			icon: 'ph:gear',
 			title: 'Settings'
@@ -114,7 +119,7 @@
 
 <div class="w-screen z-10" bind:clientWidth={clientW}></div>
 <nav
-	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-1"
+	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-3 md:gap-1"
 >
 	<div class="flex items-center gap-3">
 		<button
@@ -141,7 +146,9 @@
 			<div>Manage<span class="text-white">Meals</span></div>
 		</a>
 	</div>
-	<div class="flex items-center gap-1 md:gap-4">
+	<div
+		class="flex items-center gap-1 md:gap-4 flex-1 md:flex-none justify-between md:justify-start"
+	>
 		<a href="/help/donate" class="p-1 rounded hover:bg-orange-600" title="Donate">
 			<Icon icon="ph:tip-jar" color="#fff" width="2rem" />
 		</a>
@@ -202,7 +209,7 @@
 		{#each leftNavLinks as leftNavLink}
 			<a
 				href={leftNavLink.href}
-				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) ? ' bg-gray-200' : ''}`}
+				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200' : ''}`}
 				title={leftNavLink.title}
 				on:click={handleCloseSidebar}
 			>

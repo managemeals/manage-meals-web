@@ -446,9 +446,6 @@
 					</p>
 					<p class="mt-1 italic">
 						Create actions are disabled in the demo, such as creating recipes, categories and tags.
-						The demo might also be a bit slow at times, depending on traffic. It's not running on
-						the same powerful hardware as the main platform, so it's not a good indicator of how
-						fast the platform is.
 					</p>
 				</div>
 			</div>

@@ -53,12 +53,7 @@
 
 <div class="p-5">
 	<h1 class="text-2xl font-bold mb-5">Import Recipe</h1>
-	<p class="mb-3">
-		Enter the URL of the recipe you want to save. <em>ManageMeals</em> will then attempt to import
-		the recipe from the site and add it to your collection. If it's not working for your URL, please
-		<a href="/help/contact" class="hover:underline text-blue-500">contact us</a> and we will add support
-		for it.
-	</p>
+
 	{#if form?.message}
 		<div class="py-4">
 			<Alert variant={form?.messageType || 'error'}>
@@ -66,6 +61,7 @@
 			</Alert>
 		</div>
 	{/if}
+
 	<form
 		method="post"
 		action="?/import"
@@ -87,6 +83,7 @@
 				placeholder="https://www.bbcgoodfood.com/recipes/chicken-leek-brown-rice-stir-fry"
 				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
 			/>
+			<p class="text-sm text-gray-500 pt-1">The URL of the recipe you want to save</p>
 			{#if form?.errors?.url}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.url}</div>
 			{/if}

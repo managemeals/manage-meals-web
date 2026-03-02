@@ -4,6 +4,7 @@ export interface IUser {
 	uuid: string;
 	name: string;
 	email: string;
+	emailVerified: boolean;
 	subscriptionType: TSubscriptionType;
 	isAdmin: boolean;
 	createdAt: string;

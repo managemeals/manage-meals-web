@@ -26,6 +26,7 @@
 				<tr>
 					<th class="px-3 py-2">Name</th>
 					<th class="px-3 py-2">Email</th>
+					<th class="px-3 py-2">Email Verified</th>
 					<th class="px-3 py-2">Subscription</th>
 					<th class="px-3 py-2">Admin</th>
 					<th class="px-3 py-2">Created At</th>
@@ -36,6 +37,13 @@
 					<tr class="border-b last:border-b-0 hover:bg-gray-50">
 						<td class="px-3 py-2">{user.name}</td>
 						<td class="px-3 py-2">{user.email}</td>
+						<td class="px-3 py-2">
+							{#if user.emailVerified}
+								<span class="text-amber-500">Yes</span>
+							{:else}
+								<span>No</span>
+							{/if}
+						</td>
 						<td class="px-3 py-2">{user.subscriptionType}</td>
 						<td class="px-3 py-2">
 							{#if user.isAdmin}

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { env } from '$env/dynamic/public';
 	import { format, isSameDay } from 'date-fns';
 	import Icon from '@iconify/svelte';
@@ -28,32 +26,44 @@
 
 	let { data, form = $bindable() }: Props = $props();
 
-	// States
+	// Modal visibility
 	let showSelectDayModal = $state(false);
-	let refreshDaySubmitting = $state(false);
-	let showFormMessageModal = $state(false);
-	let formMessageType: TAlert = $state('error');
-	let formMessage = $state('');
 	let showPlanDayModal = $state(false);
-	let isLoadingPlanLatestMealTypes = $state(false);
-	let showDeleteDayModal = $state(false);
 	let showPlanWeekModal = $state(false);
-	let planDaySubmitting = $state(false);
-	let planWeekSubmitting = $state(false);
-	let isSearching = $state(false);
+	let showDeleteDayModal = $state(false);
 	let showShoppingListDayModal = $state(false);
 	let showShoppingListWeekModal = $state(false);
+	let showFormMessageModal = $state(false);
 
-	// Plan day
+	// Submitting states
+	let refreshDaySubmitting = $state(false);
+	let planDaySubmitting = $state(false);
+	let planWeekSubmitting = $state(false);
+	let selectDaySubmitting = $state(false);
+	let isLoadingPlanLatestMealTypes = $state(false);
+	let isSearching = $state(false);
+
+	// Form message (for refresh errors)
+	let formMessageType: TAlert = $state('error');
+	let formMessage = $state('');
+
+	// Plan day state
 	let planDayMealTypes: IMealPlanType[] = $state([]);
 
-	run(() => {
+	$effect(() => {
 		if (form?.planDayUuid) {
 			showPlanDayModal = false;
 		}
 	});
 
-	// Plan week
+	// Reset plan day state when modal closes
+	$effect(() => {
+		if (!showPlanDayModal) {
+			planDayMealTypes = [];
+		}
+	});
+
+	// Plan week state
 	let planWeekSelectedDay: TShortDayLower = $state('mon');
 	let planWeekMealTypes: TDayMealPlanTypes = $state({
 		mon: [],
@@ -65,44 +75,41 @@
 		sun: []
 	});
 
-	run(() => {
+	$effect(() => {
 		if (form?.planWeekUuids) {
 			showPlanWeekModal = false;
 		}
 	});
 
+	// Reset plan week state when modal closes
+	$effect(() => {
+		if (!showPlanWeekModal) {
+			planWeekMealTypes = { mon: [], tue: [], wed: [], thu: [], fri: [], sat: [], sun: [] };
+			planWeekSelectedDay = 'mon';
+		}
+	});
+
 	const handleCopyDay = () => {
 		for (const dayKey of WEEKDAYS_LOWER) {
-			if (dayKey === planWeekSelectedDay) {
-				continue;
-			}
-			const copiedMealTypes: IMealPlanType[] = [];
-			for (const mealType of planWeekMealTypes[planWeekSelectedDay]) {
-				copiedMealTypes.push({
-					...mealType
-				});
-			}
-			planWeekMealTypes[dayKey] = copiedMealTypes;
+			if (dayKey === planWeekSelectedDay) continue;
+			planWeekMealTypes[dayKey] = planWeekMealTypes[planWeekSelectedDay].map((mt) => ({ ...mt }));
 		}
 	};
 
-	// Plan
+	// Load last plan as template (manual trigger)
 	const handlePlanLatestMealTypes = async () => {
 		isLoadingPlanLatestMealTypes = true;
 		try {
 			const res = await fetch('/api/meal-plans/latest');
 			const obj = (await res.json()) as IMealPlan;
-			planDayMealTypes = (obj.mealTypes || []).map((mt) => ({
+			const mapped = (obj.mealTypes || []).map((mt) => ({
 				mealType: mt.mealType,
 				categoryUuids: mt.categoryUuids || [],
 				tagUuids: mt.tagUuids || []
 			}));
+			planDayMealTypes = mapped;
 			planWeekMealTypes = {
-				mon: (obj.mealTypes || []).map((mt) => ({
-					mealType: mt.mealType,
-					categoryUuids: mt.categoryUuids || [],
-					tagUuids: mt.tagUuids || []
-				})),
+				mon: mapped.map((mt) => ({ ...mt })),
 				tue: [],
 				wed: [],
 				thu: [],
@@ -111,29 +118,14 @@
 				sun: []
 			};
 		} catch (e) {
-			planDayMealTypes = [];
-			planWeekMealTypes = {
-				mon: [],
-				tue: [],
-				wed: [],
-				thu: [],
-				fri: [],
-				sat: [],
-				sun: []
-			};
+			// leave state as-is if fetch fails
 		} finally {
 			isLoadingPlanLatestMealTypes = false;
 		}
 	};
 
-	run(() => {
-		if (showPlanDayModal || showPlanWeekModal) {
-			handlePlanLatestMealTypes();
-		}
-	});
-
-	// Refresh day
-	run(() => {
+	// Refresh day errors
+	$effect(() => {
 		if (form?.refreshDayMessage) {
 			formMessage = form.refreshDayMessage as string;
 			formMessageType = form.refreshDayMessageType as TAlert;
@@ -143,21 +135,20 @@
 	});
 
 	// Delete day
-	run(() => {
+	$effect(() => {
 		if (form?.deleteDayUuid) {
 			showDeleteDayModal = false;
 		}
 	});
 
-	// Select day
+	// Select day / recipe search
 	let searchInput = $state('');
 	let searchResults: ISearch<ISearchRecipe> | undefined = $state();
-	let selectDaySubmitting = $state(false);
 	let selectDayMealType = $state('');
 	let selectDayCategoryUuids: string[] = $state([]);
 	let selectDayTagUuids: string[] = $state([]);
 
-	const handleSearchInput = debounce(async () => {
+	const doSearch = debounce(async () => {
 		isSearching = true;
 		try {
 			const res = await fetch(`/api/search?q=${searchInput}`);
@@ -169,23 +160,22 @@
 		}
 	}, 300);
 
-	const handleSearchSubmit = () => {
-		handleSearchInput();
-	};
-
-	run(() => {
+	$effect(() => {
 		if (searchInput) {
-			handleSearchInput();
+			doSearch();
 		} else {
 			searchResults = undefined;
 		}
 	});
 
-	run(() => {
+	$effect(() => {
 		if (form?.selectDayUuid) {
 			showSelectDayModal = false;
 		}
 	});
+
+	// Helper: add empty meal type
+	const newMealType = (): IMealPlanType => ({ mealType: '', categoryUuids: [], tagUuids: [] });
 </script>
 
 <svelte:head>
@@ -203,15 +193,17 @@
 			{/if}
 		</h1>
 		<p class="mb-5">
-			Create Meal Plans for a single day, or a whole week. Meal Types can be used to plan multiple
-			courses per day.
+			Plan meals for a day or week. Choose a meal type, pick categories or tags, and a recipe is
+			selected randomly - refresh to get a new one, or pick manually.
 		</p>
+
+		<!-- Calendar navigation -->
 		<div class="flex justify-between mb-5 gap-3 items-center">
 			<h2 class="text-xl font-bold">{format(data.date, 'MMMM yyyy')}</h2>
 			<div class="flex gap-1 items-center">
 				<a
 					href={`?date=${data.firstDayOfPreviousMonth}`}
-					title="Previous"
+					title="Previous month"
 					class="hover:bg-gray-200 p-1 rounded-sm"
 				>
 					<Icon icon="ph:caret-left" color="#000" width="1.2rem" />
@@ -222,19 +214,21 @@
 				>
 				<a
 					href={`?date=${data.firstDayOfNextMonth}`}
-					title="Next"
+					title="Next month"
 					class="hover:bg-gray-200 p-1 rounded-sm"
 				>
 					<Icon icon="ph:caret-right" color="#000" width="1.2rem" />
 				</a>
 			</div>
 		</div>
+
+		<!-- Calendar grid -->
 		<div class="border mb-5">
 			<div class="grid grid-cols-7">
 				{#each data.days as day}
 					<div class="p-3 text-center font-semibold border-r last:border-r-0 text-sm sm:text-base">
 						{#each day.split('') as dayLetter, i}
-							<span class={`${i !== 0 ? 'hidden sm:inline' : ''}`}>{dayLetter}</span>
+							<span class={i !== 0 ? 'hidden sm:inline' : ''}>{dayLetter}</span>
 						{/each}
 					</div>
 				{/each}
@@ -244,31 +238,29 @@
 					<a
 						data-sveltekit-noscroll
 						href={`?date=${format(mealPlan.calendarDate.fullDate, 'yyyy-MM-dd')}`}
-						class={`
-              flex flex-col justify-start text-left p-3 border-r hover:bg-slate-50
-							min-h-24
-              border-t ${mealPlan.calendarDate.day === 'Sun' ? 'border-r-0' : ''}
-              ${!mealPlan.calendarDate.activeMonth ? 'bg-gray-50' : ''}
-              ${isSameDay(mealPlan.calendarDate.fullDate, data.date) ? 'bg-slate-50' : ''}
-            `.trim()}
+						class={`flex flex-col justify-start text-left p-3 border-r hover:bg-slate-50 min-h-24 border-t
+							${mealPlan.calendarDate.day === 'Sun' ? 'border-r-0' : ''}
+							${!mealPlan.calendarDate.activeMonth ? 'bg-gray-50' : ''}
+							${isSameDay(mealPlan.calendarDate.fullDate, data.date) ? 'bg-slate-50' : ''}`.trim()}
 					>
-						<div class="mb-3">
+						<div class="mb-2">
 							<div
-								class={`text-sm flex h-7 w-7 ${mealPlan.calendarDate.isToday ? ' items-center justify-center bg-orange-500 rounded-full text-white' : ''}`}
+								class={`text-sm h-7 w-7 flex items-center justify-center
+									${mealPlan.calendarDate.isToday ? 'bg-orange-500 rounded-full text-white' : ''}`}
 							>
 								{mealPlan.calendarDate.dateNum}
 							</div>
 						</div>
-						<div class="hidden md:flex flex-col gap-3">
+						<div class="hidden md:flex flex-col gap-1.5">
 							{#each mealPlan.mealTypes as mealType}
-								<div>
-									<div class="text-sm text-gray-500">{mealType.mealType}</div>
-									<div>{mealType.recipe?.data.title || ''}</div>
+								<div class="text-xs leading-tight">
+									<div class="text-gray-400">{mealType.mealType}</div>
+									<div class="truncate text-gray-700">{mealType.recipe?.data.title || ''}</div>
 								</div>
 							{/each}
 						</div>
-						<div class="flex flex-wrap gap-2 md:hidden">
-							{#each mealPlan.mealTypes as mealType}
+						<div class="flex flex-wrap gap-1 md:hidden">
+							{#each mealPlan.mealTypes as _}
 								<div class="w-2 h-2 bg-gray-400 rounded-full"></div>
 							{/each}
 						</div>
@@ -276,251 +268,201 @@
 				{/each}
 			</div>
 		</div>
-		<div>
-			<div class="flex flex-col gap-5 sm:flex-row sm:gap-10 mb-5">
-				<div>
-					<div class="mb-1">
-						<div class="text-sm text-gray-500">Day</div>
-						<h3 class="text-lg font-semibold">
-							{format(data.date, 'EEE d MMMM yyyy')}
-						</h3>
+
+		<!-- Day and week action buttons -->
+		<div class="flex flex-col gap-5 sm:flex-row sm:gap-10 mb-6">
+			<div>
+				<div class="text-sm text-gray-500 mb-0.5">Day</div>
+				<h3 class="text-lg font-semibold mb-1">{format(data.date, 'EEE d MMMM yyyy')}</h3>
+				<div class="flex gap-1 flex-wrap">
+					<button
+						type="button"
+						class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+						onclick={() => (showPlanDayModal = true)}
+					>
+						<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
+						<span>Plan day</span>
+					</button>
+					<button
+						type="button"
+						class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+						onclick={() => (showDeleteDayModal = true)}
+					>
+						<Icon icon="ph:trash" color="#000" width="1.5rem" />
+						<span>Delete</span>
+					</button>
+					<button
+						type="button"
+						class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+						onclick={() => (showShoppingListDayModal = true)}
+					>
+						<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
+						<span>Shopping list</span>
+					</button>
+				</div>
+			</div>
+			<div>
+				<div class="text-sm text-gray-500 mb-0.5">Week</div>
+				<h3 class="text-lg font-semibold mb-1">
+					{format(data.firstDateOfWeek, 'EEE d MMM')} – {format(
+						data.lastDateOfWeek,
+						'EEE d MMM yyyy'
+					)}
+				</h3>
+				<div class="flex gap-1">
+					<button
+						type="button"
+						class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+						onclick={() => (showPlanWeekModal = true)}
+					>
+						<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
+						<span>Plan week</span>
+					</button>
+					<button
+						type="button"
+						class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+						onclick={() => (showShoppingListWeekModal = true)}
+					>
+						<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
+						<span>Shopping list</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Day meal plan: recipe cards -->
+		<div class="flex flex-col gap-4">
+			{#each data.dateMealPlan?.mealTypes || [] as mealType}
+				<div class="border rounded-sm p-4">
+					<!-- Header: meal type name + filter pills -->
+					<div class="flex flex-wrap items-center gap-2 mb-3">
+						<span class="font-semibold">{mealType.mealType}</span>
+						{#each mealType.categories || [] as category}
+							<a
+								href={`/categories/${category.slug}`}
+								class="text-xs bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full hover:bg-orange-100"
+								>{category.name}</a
+							>
+						{/each}
+						{#each mealType.tags || [] as tag}
+							<a
+								href={`/tags/${tag.slug}`}
+								class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full hover:bg-gray-200"
+								>{tag.name}</a
+							>
+						{/each}
 					</div>
-					<div class="flex gap-1">
-						<div>
-							<button
-								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-								onclick={() => {
-									showPlanDayModal = true;
-								}}
-							>
-								<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
-								<span>Plan day</span>
-							</button>
+					<!-- Recipe + actions -->
+					<div class="flex flex-col lg:flex-row gap-5">
+						<a
+							href={`/recipes/${mealType.recipe?.slug}`}
+							style={`background-image: url("${mealType.recipe?.data.image}")`}
+							class="bg-center bg-no-repeat bg-cover w-full lg:w-48 h-36 rounded-sm shrink-0"
+							title="See recipe"
+						></a>
+						<div class="flex-1 min-w-0">
+							<h4 class="mb-2 font-medium hover:underline">
+								<a href={`/recipes/${mealType.recipe?.slug}`}>{mealType.recipe?.data.title}</a>
+							</h4>
+							{#if mealType.recipe}
+								<RecipeCategoryTag recipe={mealType.recipe} />
+							{/if}
 						</div>
-						<div>
-							<button
-								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-								onclick={() => {
-									showDeleteDayModal = true;
+						<div class="flex lg:flex-col gap-1 shrink-0">
+							<form
+								method="post"
+								action="?/refreshday"
+								use:enhance={() => {
+									return async ({ update }) => {
+										refreshDaySubmitting = true;
+										await update();
+										refreshDaySubmitting = false;
+									};
 								}}
 							>
-								<Icon icon="ph:trash" color="#000" width="1.5rem" />
-								<span>Delete day</span>
-							</button>
-						</div>
-					</div>
-					<div class="flex gap-1 mt-1">
-						<div>
+								<input type="hidden" name="uuid" value={data.dateMealPlan?.uuid} />
+								<input type="hidden" name="date" value={data.date.toISOString()} />
+								<input type="hidden" name="mealType" value={mealType.mealType} />
+								<input
+									type="hidden"
+									name="categoryUuids"
+									value={mealType.categoryUuids.join(',')}
+								/>
+								<input type="hidden" name="tagUuids" value={mealType.tagUuids.join(',')} />
+								<button
+									type="submit"
+									class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center whitespace-nowrap"
+									disabled={refreshDaySubmitting}
+									title="Pick a different random recipe"
+								>
+									<Icon icon="ph:arrows-clockwise" color="#000" width="1.5rem" />
+									<span>Refresh</span>
+								</button>
+							</form>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center whitespace-nowrap"
 								onclick={() => {
-									showShoppingListDayModal = true;
+									selectDayMealType = mealType.mealType;
+									selectDayCategoryUuids = mealType.categoryUuids;
+									selectDayTagUuids = mealType.tagUuids;
+									showSelectDayModal = true;
 								}}
 							>
-								<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
-								<span>Shopping list</span>
+								<Icon icon="ph:magnifying-glass" color="#000" width="1.5rem" />
+								<span>Pick recipe</span>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div>
-					<div class="mb-1">
-						<div class="text-sm text-gray-500">Week</div>
-						<h3 class="text-lg font-semibold">
-							<span>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')}</span>
-							<span> - </span>
-							<span>{format(data.lastDateOfWeek, 'EEE d MMMM yyyy')}</span>
-						</h3>
-					</div>
-					<div class="flex gap-1">
-						<div>
-							<button
-								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-								onclick={() => {
-									showPlanWeekModal = true;
-								}}
-							>
-								<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
-								<span>Plan week</span>
-							</button>
-						</div>
-						<div>
-							<button
-								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-								onclick={() => {
-									showShoppingListWeekModal = true;
-								}}
-							>
-								<Icon icon="ph:shopping-cart" color="#000" width="1.5rem" />
-								<span>Shopping list</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="flex flex-col gap-5">
-				{#each data.dateMealPlan?.mealTypes || [] as mealType}
-					<div class="flex flex-col md:flex-row gap-10 border rounded-sm p-3">
-						<div class="basis-auto md:basis-1/4 xl:basis-1/6">
-							<div class="flex flex-col mb-3">
-								<div class="text-sm text-gray-600">Meal type</div>
-								<div class="font-semibold">{mealType.mealType}</div>
-							</div>
-							<div class="flex flex-col mb-3">
-								<div class="text-sm text-gray-600">Meal type categories</div>
-								<ul class="flex gap-1 flex-wrap">
-									{#each mealType.categories || [] as category}
-										<li class="after:content-[','] last:after:content-['']">
-											<a href={`/categories/${category.slug}`} class="hover:underline">
-												{category.name}
-											</a>
-										</li>
-									{/each}
-								</ul>
-								{#if !(mealType.categories || []).length}
-									<p class="italic">No tags</p>
-								{/if}
-							</div>
-							<div class="flex flex-col mb-3">
-								<div class="text-sm text-gray-600">Meal type tags</div>
-								<ul class="flex gap-1 flex-wrap">
-									{#each mealType.tags || [] as tag}
-										<li class="after:content-[','] last:after:content-['']">
-											<a href={`/tags/${tag.slug}`} class="hover:underline">
-												{tag.name}
-											</a>
-										</li>
-									{/each}
-								</ul>
-								{#if !(mealType.tags || []).length}
-									<p class="italic">No tags</p>
-								{/if}
-							</div>
-							<div class="flex flex-col gap-1">
-								<form
-									method="post"
-									action="?/refreshday"
-									use:enhance={() => {
-										return async ({ update }) => {
-											refreshDaySubmitting = true;
-											await update();
-											refreshDaySubmitting = false;
-										};
-									}}
-								>
-									<input type="hidden" name="uuid" value={data.dateMealPlan?.uuid} />
-									<input type="hidden" name="date" value={data.date.toISOString()} />
-									<input type="hidden" name="mealType" value={mealType.mealType} />
-									<input
-										type="hidden"
-										name="categoryUuids"
-										value={mealType.categoryUuids.join(',')}
-									/>
-									<input type="hidden" name="tagUuids" value={mealType.tagUuids.join(',')} />
-									<button
-										type="submit"
-										class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-										disabled={refreshDaySubmitting}
-									>
-										<Icon icon="ph:arrows-clockwise" color="#000" width="1.5rem" />
-										<span>Refresh recipe</span>
-									</button>
-								</form>
-								<div>
-									<button
-										type="button"
-										class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
-										onclick={() => {
-											selectDayMealType = mealType.mealType;
-											selectDayCategoryUuids = mealType.categoryUuids;
-											selectDayTagUuids = mealType.tagUuids;
-											showSelectDayModal = true;
-										}}
-									>
-										<Icon icon="ph:note-pencil" color="#000" width="1.5rem" />
-										<span>Select recipe</span>
-									</button>
-								</div>
-							</div>
-						</div>
-						<div class="basis-auto md:basis-3/4 xl:basis-5/6">
-							<div class="flex flex-col lg:flex-row gap-5">
-								<a
-									href={`/recipes/${mealType.recipe?.slug}`}
-									style={`background-image: url("${mealType.recipe?.data.image}")`}
-									class="bg-center bg-no-repeat bg-cover w-full lg:w-60 h-48 rounded-sm"
-									title="See recipe"
-								>
-								</a>
-								<div>
-									<h4 class="mb-3 hover:underline">
-										<a href={`/recipes/${mealType.recipe?.slug}`}>
-											{mealType.recipe?.data.title}
-										</a>
-									</h4>
-									{#if mealType.recipe}
-										<RecipeCategoryTag recipe={mealType.recipe} />
-									{/if}
-								</div>
-							</div>
-						</div>
-					</div>
-				{/each}
-				{#if !data.dateMealPlan?.mealTypes || !data.dateMealPlan?.mealTypes.length}
-					<p class="italic">No meal plan for this day</p>
-				{/if}
-			</div>
+			{/each}
+			{#if !data.dateMealPlan?.mealTypes?.length}
+				<p class="italic text-gray-500">No meal plan for this day.</p>
+			{/if}
 		</div>
 	</div>
 {/if}
 
+<!-- ─── Select Recipe Modal ─────────────────────────────────────── -->
 <Modal bind:show={showSelectDayModal}>
-	<h4 class="text-xl font-bold mb-3">Select Recipe</h4>
-	<p class="mb-5">
-		Select a specific recipe for the Meal Type <span class="font-bold">{selectDayMealType}</span> by
-		searching.
+	<h4 class="text-xl font-bold mb-1">Pick a Recipe</h4>
+	<p class="text-sm text-gray-500 mb-5">
+		Search and select a specific recipe for <span class="font-semibold text-gray-700"
+			>{selectDayMealType}</span
+		>.
 	</p>
 	{#if form?.selectDayMessage}
-		<div class="py-4">
-			<Alert variant={form?.selectDayMessageType || 'error'}>
-				{form?.selectDayMessage}
-			</Alert>
+		<div class="pb-4">
+			<Alert variant={form?.selectDayMessageType || 'error'}>{form?.selectDayMessage}</Alert>
 		</div>
 	{/if}
-	<form action="/search" method="get" onsubmit={preventDefault(handleSearchSubmit)}>
-		<div>
-			<label for="search" class="font-semibold pb-2 block">Search</label>
-			<div
-				class="flex border-2 border-slate-200 rounded-sm w-full focus:border-orange-500 outline-hidden hover:border-slate-300"
-			>
-				<input
-					bind:value={searchInput}
-					type="text"
-					id="search"
-					name="search"
-					placeholder="Search"
-					class="p-3 w-full rounded-sm outline-hidden"
-				/>
-				<button type="submit" class="rounded-r px-3 hover:bg-slate-100" title="Search">
-					<span class:hidden={isSearching}>
-						<Icon icon="ph:magnifying-glass" width="1.4rem" color="#000" />
-					</span>
-					<span class:hidden={!isSearching}>
-						<Icon icon="ph:circle-notch" color="#000" width="1.4rem" class="animate-spin" />
-					</span>
-				</button>
-			</div>
+	<form
+		action="/search"
+		method="get"
+		onsubmit={(e) => {
+			e.preventDefault();
+			doSearch();
+		}}
+	>
+		<div
+			class="flex border-2 border-slate-200 rounded-sm w-full focus-within:border-orange-500 hover:border-slate-300"
+		>
+			<input
+				bind:value={searchInput}
+				type="text"
+				placeholder="Search recipes…"
+				class="p-3 w-full rounded-sm outline-hidden"
+			/>
+			<button type="submit" class="rounded-r px-3 hover:bg-slate-100" title="Search">
+				{#if isSearching}
+					<Icon icon="ph:circle-notch" color="#000" width="1.4rem" class="animate-spin" />
+				{:else}
+					<Icon icon="ph:magnifying-glass" width="1.4rem" color="#000" />
+				{/if}
+			</button>
 		</div>
 	</form>
-	<div
-		class="flex flex-col gap-3 mt-5 max-h-96 overflow-auto"
-		class:hidden={!searchResults || !searchResults.found}
-	>
+	<div class="flex flex-col gap-3 mt-4 max-h-96 overflow-auto" class:hidden={!searchResults?.found}>
 		{#each searchResults?.hits || [] as hit}
 			<form
 				method="post"
@@ -542,52 +484,33 @@
 				<input type="hidden" name="tagUuids" value={selectDayTagUuids.join(',')} />
 				<button
 					type="submit"
-					class="flex flex-col sm:flex-row gap-5 border rounded-sm p-3 hover:bg-gray-50 w-full"
+					class="flex flex-col sm:flex-row gap-4 border rounded-sm p-3 hover:bg-gray-50 w-full text-left"
 					disabled={selectDaySubmitting}
 				>
 					<div
 						style={`background-image: url("${hit.document.imageUrl}")`}
-						class="bg-center bg-no-repeat bg-cover w-full h-24 rounded-sm basis-32"
+						class="bg-center bg-no-repeat bg-cover w-full h-24 rounded-sm sm:w-28 sm:h-20 shrink-0"
 					></div>
-					<div>
-						<h4 class="mb-3 flex text-left gap-2">
+					<div class="min-w-0">
+						<h4 class="mb-2 flex gap-2 items-start">
 							<span>{@html hit.highlight.title.snippet}</span>
 							<a
 								href={`/recipes/${hit.document.slug}`}
 								target="_blank"
-								class="hover:bg-gray-200 p-1 rounded-sm"
+								class="hover:bg-gray-200 p-1 rounded-sm shrink-0"
 								title="Open recipe"
+								onclick={(e) => e.stopPropagation()}
 							>
-								<Icon icon="ph:link" width="1rem" color="#000" />
+								<Icon icon="ph:arrow-square-out" width="1rem" color="#000" />
 							</a>
 						</h4>
-						<div class="flex items-start gap-2 mb-3">
-							<div title="Categories">
-								<Icon icon="ph:folder" color="#f97316" width="1.2rem" />
-							</div>
-							<div class="flex flex-wrap gap-1 text-sm italic">
-								{#if hit.document.categories.length}
-									{#each hit.document.categories as category}
-										<div class="after:content-[','] last:after:content-['']">{category}</div>
-									{/each}
-								{:else}
-									<div>Uncategorized</div>
-								{/if}
-							</div>
-						</div>
-						<div class="flex items-start gap-2">
-							<div title="Tags">
-								<Icon icon="ph:tag" color="#f97316" width="1.2rem" />
-							</div>
-							<div class="flex flex-wrap gap-1 text-sm italic">
-								{#if hit.document.tags.length}
-									{#each hit.document.tags as tag}
-										<div class="after:content-[','] last:after:content-['']">{tag}</div>
-									{/each}
-								{:else}
-									<div>Untagged</div>
-								{/if}
-							</div>
+						<div class="flex flex-wrap gap-1 text-xs text-gray-500">
+							{#each hit.document.categories as cat}
+								<span class="bg-orange-50 text-orange-700 px-1.5 py-0.5 rounded-full">{cat}</span>
+							{/each}
+							{#each hit.document.tags as tag}
+								<span class="bg-gray-100 px-1.5 py-0.5 rounded-full">{tag}</span>
+							{/each}
 						</div>
 					</div>
 				</button>
@@ -596,20 +519,33 @@
 	</div>
 </Modal>
 
+<!-- ─── Plan Day Modal ──────────────────────────────────────────── -->
 <Modal bind:show={showPlanDayModal}>
-	<h4 class="text-xl font-bold mb-3">Create Meal Plan</h4>
-	<p class="mb-5">
-		Create a Meal Plan for the day <span class="font-bold"
-			>{format(data.date, 'EEE d MMMM yyyy')}</span
-		>. Create Meal Types and set which categories/tags a recipe should be selected from.
-	</p>
+	<h4 class="text-xl font-bold mb-1">Plan Day</h4>
+	<p class="text-sm text-gray-500 mb-4">{format(data.date, 'EEE d MMMM yyyy')}</p>
+
 	{#if form?.planDayMessage}
-		<div class="py-4">
-			<Alert variant={form?.planDayMessageType || 'error'}>
-				{form?.planDayMessage}
-			</Alert>
+		<div class="pb-4">
+			<Alert variant={form?.planDayMessageType || 'error'}>{form?.planDayMessage}</Alert>
 		</div>
 	{/if}
+
+	<div class="mb-5">
+		<button
+			type="button"
+			class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 px-3 py-1.5 rounded-sm disabled:opacity-50"
+			disabled={isLoadingPlanLatestMealTypes}
+			onclick={handlePlanLatestMealTypes}
+		>
+			{#if isLoadingPlanLatestMealTypes}
+				<Icon icon="ph:circle-notch" color="#000" width="1rem" class="animate-spin" />
+			{:else}
+				<Icon icon="ph:clock-counter-clockwise" color="#000" width="1rem" />
+			{/if}
+			Load from last plan
+		</button>
+	</div>
+
 	<form
 		method="post"
 		action="?/planday"
@@ -622,18 +558,21 @@
 		}}
 	>
 		<input type="hidden" name="date" value={data.date.toISOString()} />
+
 		{#each planDayMealTypes as _, i}
-			<div class="border rounded-sm p-3 mb-5">
+			<div class="border rounded-sm p-4 mb-4">
 				<div class="flex items-start gap-3">
-					<div class="flex-1">
-						<div class="pb-5 last:pb-0">
-							<label for={`mealType${i}`} class="font-semibold pb-2 block">Meal Type</label>
+					<div class="flex-1 flex flex-col gap-4">
+						<div>
+							<label for={`mealType${i}`} class="font-semibold pb-1.5 block text-sm"
+								>Meal type</label
+							>
 							<input
 								type="text"
 								id={`mealType${i}`}
 								name={`mealType${i}`}
 								bind:value={planDayMealTypes[i].mealType}
-								placeholder="Dinner"
+								placeholder="e.g. Breakfast, Lunch, Dinner"
 								class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 							/>
 							{#if form?.errors && form.errors[`planDayMealType${i}`]}
@@ -641,73 +580,64 @@
 							{/if}
 						</div>
 
-						<div class="pb-5 last:pb-0">
-							<label for={`categoryUuids${i}`} class="font-semibold">Categories</label>
+						<div>
+							<div class="font-semibold text-sm mb-1.5">Categories</div>
 							<input
 								type="hidden"
-								id={`categoryUuids${i}`}
 								name={`categoryUuids${i}`}
 								bind:value={planDayMealTypes[i].categoryUuids}
 							/>
-							<div class="flex gap-2 flex-wrap pt-2">
+							<div class="flex gap-2 flex-wrap">
 								{#each data.categories as category}
-									<div>
-										<button
-											class={`p-2 border rounded-sm ${planDayMealTypes[i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
-											type="button"
-											onclick={() => {
-												if (planDayMealTypes[i].categoryUuids.includes(category.uuid)) {
-													planDayMealTypes[i].categoryUuids = planDayMealTypes[
-														i
-													].categoryUuids.filter((c) => c !== category.uuid);
-												} else {
-													planDayMealTypes[i].categoryUuids = [
-														...planDayMealTypes[i].categoryUuids,
-														category.uuid
-													];
-												}
-											}}>{category.name}</button
-										>
-									</div>
+									<button
+										class={`text-sm px-2.5 py-1 border rounded-full ${planDayMealTypes[i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 border-gray-200'}`}
+										type="button"
+										onclick={() => {
+											if (planDayMealTypes[i].categoryUuids.includes(category.uuid)) {
+												planDayMealTypes[i].categoryUuids = planDayMealTypes[
+													i
+												].categoryUuids.filter((c) => c !== category.uuid);
+											} else {
+												planDayMealTypes[i].categoryUuids = [
+													...planDayMealTypes[i].categoryUuids,
+													category.uuid
+												];
+											}
+										}}>{category.name}</button
+									>
 								{/each}
 							</div>
 						</div>
 
-						<div class="pb-5 last:pb-0 -mt-1">
-							<label for={`tagUuids${i}`} class="font-semibold">Tags</label>
+						<div>
+							<div class="font-semibold text-sm mb-1.5">Tags</div>
 							<input
 								type="hidden"
-								id={`tagUuids${i}`}
 								name={`tagUuids${i}`}
 								bind:value={planDayMealTypes[i].tagUuids}
 							/>
-							<div class="flex gap-2 flex-wrap pt-2">
+							<div class="flex gap-2 flex-wrap">
 								{#each data.tags as tag}
-									<div>
-										<button
-											class={`p-2 border rounded-sm ${planDayMealTypes[i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
-											type="button"
-											onclick={() => {
-												if (planDayMealTypes[i].tagUuids.includes(tag.uuid)) {
-													planDayMealTypes[i].tagUuids = planDayMealTypes[i].tagUuids.filter(
-														(c) => c !== tag.uuid
-													);
-												} else {
-													planDayMealTypes[i].tagUuids = [
-														...planDayMealTypes[i].tagUuids,
-														tag.uuid
-													];
-												}
-											}}>{tag.name}</button
-										>
-									</div>
+									<button
+										class={`text-sm px-2.5 py-1 border rounded-full ${planDayMealTypes[i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 border-gray-200'}`}
+										type="button"
+										onclick={() => {
+											if (planDayMealTypes[i].tagUuids.includes(tag.uuid)) {
+												planDayMealTypes[i].tagUuids = planDayMealTypes[i].tagUuids.filter(
+													(c) => c !== tag.uuid
+												);
+											} else {
+												planDayMealTypes[i].tagUuids = [...planDayMealTypes[i].tagUuids, tag.uuid];
+											}
+										}}>{tag.name}</button
+									>
 								{/each}
 							</div>
 						</div>
 					</div>
 					<button
 						type="button"
-						class="hover:bg-gray-200 p-1 rounded-sm"
+						class="hover:bg-gray-200 p-1 rounded-sm shrink-0"
 						title="Remove meal type"
 						onclick={() => {
 							planDayMealTypes = planDayMealTypes.filter((_, j) => i !== j);
@@ -719,19 +649,12 @@
 			</div>
 		{/each}
 
-		<div class="pb-5">
+		<div class="mb-5">
 			<button
 				type="button"
-				class="p-2 border rounded-sm flex gap-2 items-center hover:bg-gray-100"
+				class="p-2 border border-gray-200 rounded-sm flex gap-2 items-center hover:bg-gray-100 text-sm"
 				onclick={() => {
-					planDayMealTypes = [
-						...planDayMealTypes,
-						{
-							mealType: '',
-							categoryUuids: [],
-							tagUuids: []
-						}
-					];
+					planDayMealTypes = [...planDayMealTypes, newMealType()];
 				}}
 			>
 				<Icon icon="ph:plus" color="#000" width="1.2rem" />
@@ -739,46 +662,45 @@
 			</button>
 		</div>
 
-		<div>
-			<button
-				type="submit"
-				disabled={isLoadingPlanLatestMealTypes || planDaySubmitting}
-				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-			>
-				Save
-			</button>
-		</div>
+		<button
+			type="submit"
+			disabled={planDaySubmitting || !planDayMealTypes.length}
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+		>
+			Save
+		</button>
 	</form>
 </Modal>
 
+<!-- ─── Plan Week Modal ─────────────────────────────────────────── -->
 <Modal bind:show={showPlanWeekModal}>
-	<h4 class="text-xl font-bold mb-3">Create Meal Plan</h4>
-	<p class="mb-5">
-		Create a Meal Plan for the week <span class="font-bold"
-			>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - {format(
-				data.lastDateOfWeek,
-				'EEE d MMMM yyyy'
-			)}</span
-		>. Create Meal Types and set which categories/tags a recipe should be selected from. The
-		<span class="font-bold">Copy</span> button will copy the selected day to all the other days.
+	<h4 class="text-xl font-bold mb-1">Plan Week</h4>
+	<p class="text-sm text-gray-500 mb-4">
+		{format(data.firstDateOfWeek, 'EEE d MMM')} – {format(data.lastDateOfWeek, 'EEE d MMM yyyy')}
 	</p>
+
 	{#if form?.planWeekMessage}
-		<div class="py-4">
-			<Alert variant={form?.planWeekMessageType || 'error'}>
-				{form?.planWeekMessage}
-			</Alert>
+		<div class="pb-4">
+			<Alert variant={form?.planWeekMessageType || 'error'}>{form?.planWeekMessage}</Alert>
 		</div>
 	{/if}
-	<button
-		type="button"
-		class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center mb-1 disabled:opacity-30 disabled:hover:bg-white"
-		disabled={planWeekMealTypes[planWeekSelectedDay] &&
-			!planWeekMealTypes[planWeekSelectedDay].length}
-		onclick={handleCopyDay}
-	>
-		<Icon icon="ph:copy" color="#000" width="1.5rem" />
-		<span>Copy selected day</span>
-	</button>
+
+	<div class="mb-5">
+		<button
+			type="button"
+			class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 px-3 py-1.5 rounded-sm disabled:opacity-50"
+			disabled={isLoadingPlanLatestMealTypes}
+			onclick={handlePlanLatestMealTypes}
+		>
+			{#if isLoadingPlanLatestMealTypes}
+				<Icon icon="ph:circle-notch" color="#000" width="1rem" class="animate-spin" />
+			{:else}
+				<Icon icon="ph:clock-counter-clockwise" color="#000" width="1rem" />
+			{/if}
+			Load from last plan
+		</button>
+	</div>
+
 	<form
 		method="post"
 		action="?/planweek"
@@ -792,39 +714,62 @@
 	>
 		<input type="hidden" name="dateFrom" value={data.firstDateOfWeek.toISOString()} />
 		<input type="hidden" name="dateTo" value={data.lastDateOfWeek.toISOString()} />
-		<div class="grid grid-cols-7 mb-5">
+
+		<!-- Day tabs with count badges -->
+		<div class="flex border-b mb-1 overflow-x-auto">
 			{#each WEEKDAYS_LOWER as weekday}
+				{@const count = planWeekMealTypes[weekday].length}
+				{@const hasError =
+					form?.errors &&
+					Object.keys(form.errors).some((k) => k.startsWith(`planWeekMealType${weekday}`))}
 				<button
 					type="button"
-					class={`
-						text-center p-3 border-b font-semibold capitalize
-						${weekday === planWeekSelectedDay ? 'hover:border-b-orange-500 border-b-2 border-b-orange-500' : 'hover:border-b-gray-400'}
-						${form?.errors && Object.keys(form.errors).filter((errorKey) => errorKey.startsWith(`planWeekMealType${weekday}`)).length ? 'text-red-500' : ''}
-					`.trim()}
-					onclick={() => {
-						planWeekSelectedDay = weekday;
-					}}
+					class={`flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium border-b-2 -mb-px capitalize shrink-0
+						${weekday === planWeekSelectedDay ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-600 hover:border-gray-300'}
+						${hasError ? 'text-red-500' : ''}`}
+					onclick={() => (planWeekSelectedDay = weekday)}
 				>
 					{weekday}
+					{#if count > 0}
+						<span
+							class={`text-xs px-1.5 py-0.5 rounded-full ${weekday === planWeekSelectedDay ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-500'}`}
+							>{count}</span
+						>
+					{/if}
 				</button>
 			{/each}
 		</div>
+
+		<!-- Copy to all days button -->
+		<div class="flex justify-end mb-4 pt-1">
+			<button
+				type="button"
+				class="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 px-3 py-1.5 rounded-sm disabled:opacity-40"
+				disabled={!planWeekMealTypes[planWeekSelectedDay]?.length}
+				onclick={handleCopyDay}
+			>
+				<Icon icon="ph:copy" color="#000" width="1rem" />
+				Copy to all days
+			</button>
+		</div>
+
+		<!-- Per-day meal type cards -->
 		{#each WEEKDAYS_LOWER as dayKey}
 			<div class:hidden={dayKey !== planWeekSelectedDay}>
 				{#each planWeekMealTypes[dayKey] as _, i}
-					<div class="border rounded-sm p-3 mb-5">
+					<div class="border rounded-sm p-4 mb-4">
 						<div class="flex items-start gap-3">
-							<div class="flex-1">
-								<div class="pb-5 last:pb-0">
-									<label for={`mealType${dayKey}${i}`} class="font-semibold pb-2 block"
-										>Meal Type</label
+							<div class="flex-1 flex flex-col gap-4">
+								<div>
+									<label for={`mealType${dayKey}${i}`} class="font-semibold pb-1.5 block text-sm"
+										>Meal type</label
 									>
 									<input
 										type="text"
 										id={`mealType${dayKey}${i}`}
 										name={`mealType${dayKey}${i}`}
 										bind:value={planWeekMealTypes[dayKey][i].mealType}
-										placeholder="Dinner"
+										placeholder="e.g. Breakfast, Lunch, Dinner"
 										class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 									/>
 									{#if form?.errors && form.errors[`planWeekMealType${dayKey}${i}`]}
@@ -834,75 +779,67 @@
 									{/if}
 								</div>
 
-								<div class="pb-5 last:pb-0">
-									<label for={`categoryUuids${dayKey}${i}`} class="font-semibold">Categories</label>
+								<div>
+									<div class="font-semibold text-sm mb-1.5">Categories</div>
 									<input
 										type="hidden"
-										id={`categoryUuids${dayKey}${i}`}
 										name={`categoryUuids${dayKey}${i}`}
 										bind:value={planWeekMealTypes[dayKey][i].categoryUuids}
 									/>
-									<div class="flex gap-2 flex-wrap pt-2">
+									<div class="flex gap-2 flex-wrap">
 										{#each data.categories as category}
-											<div>
-												<button
-													class={`p-2 border rounded-sm ${planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
-													type="button"
-													onclick={() => {
-														if (
-															planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid)
-														) {
-															planWeekMealTypes[dayKey][i].categoryUuids = planWeekMealTypes[
-																dayKey
-															][i].categoryUuids.filter((c) => c !== category.uuid);
-														} else {
-															planWeekMealTypes[dayKey][i].categoryUuids = [
-																...planWeekMealTypes[dayKey][i].categoryUuids,
-																category.uuid
-															];
-														}
-													}}>{category.name}</button
-												>
-											</div>
+											<button
+												class={`text-sm px-2.5 py-1 border rounded-full ${planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 border-gray-200'}`}
+												type="button"
+												onclick={() => {
+													if (planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid)) {
+														planWeekMealTypes[dayKey][i].categoryUuids = planWeekMealTypes[dayKey][
+															i
+														].categoryUuids.filter((c) => c !== category.uuid);
+													} else {
+														planWeekMealTypes[dayKey][i].categoryUuids = [
+															...planWeekMealTypes[dayKey][i].categoryUuids,
+															category.uuid
+														];
+													}
+												}}>{category.name}</button
+											>
 										{/each}
 									</div>
 								</div>
 
-								<div class="pb-5 last:pb-0 -mt-1">
-									<label for={`tagUuids${dayKey}${i}`} class="font-semibold">Tags</label>
+								<div>
+									<div class="font-semibold text-sm mb-1.5">Tags</div>
 									<input
 										type="hidden"
-										id={`tagUuids${dayKey}${i}`}
 										name={`tagUuids${dayKey}${i}`}
 										bind:value={planWeekMealTypes[dayKey][i].tagUuids}
 									/>
-									<div class="flex gap-2 flex-wrap pt-2">
+									<div class="flex gap-2 flex-wrap">
 										{#each data.tags as tag}
-											<div>
-												<button
-													class={`p-2 border rounded-sm ${planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
-													type="button"
-													onclick={() => {
-														if (planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid)) {
-															planWeekMealTypes[dayKey][i].tagUuids = planWeekMealTypes[dayKey][
-																i
-															].tagUuids.filter((c) => c !== tag.uuid);
-														} else {
-															planWeekMealTypes[dayKey][i].tagUuids = [
-																...planWeekMealTypes[dayKey][i].tagUuids,
-																tag.uuid
-															];
-														}
-													}}>{tag.name}</button
-												>
-											</div>
+											<button
+												class={`text-sm px-2.5 py-1 border rounded-full ${planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 border-gray-200'}`}
+												type="button"
+												onclick={() => {
+													if (planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid)) {
+														planWeekMealTypes[dayKey][i].tagUuids = planWeekMealTypes[dayKey][
+															i
+														].tagUuids.filter((c) => c !== tag.uuid);
+													} else {
+														planWeekMealTypes[dayKey][i].tagUuids = [
+															...planWeekMealTypes[dayKey][i].tagUuids,
+															tag.uuid
+														];
+													}
+												}}>{tag.name}</button
+											>
 										{/each}
 									</div>
 								</div>
 							</div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded-sm"
+								class="hover:bg-gray-200 p-1 rounded-sm shrink-0"
 								title="Remove meal type"
 								onclick={() => {
 									planWeekMealTypes[dayKey] = planWeekMealTypes[dayKey].filter((_, j) => i !== j);
@@ -914,19 +851,12 @@
 					</div>
 				{/each}
 
-				<div class="pb-5">
+				<div class="mb-5">
 					<button
 						type="button"
-						class="p-2 border rounded-sm flex gap-2 items-center hover:bg-gray-100"
+						class="p-2 border border-gray-200 rounded-sm flex gap-2 items-center hover:bg-gray-100 text-sm"
 						onclick={() => {
-							planWeekMealTypes[dayKey] = [
-								...planWeekMealTypes[dayKey],
-								{
-									mealType: '',
-									categoryUuids: [],
-									tagUuids: []
-								}
-							];
+							planWeekMealTypes[dayKey] = [...planWeekMealTypes[dayKey], newMealType()];
 						}}
 					>
 						<Icon icon="ph:plus" color="#000" width="1.2rem" />
@@ -935,33 +865,34 @@
 				</div>
 			</div>
 		{/each}
+
 		<button
 			type="submit"
-			disabled={isLoadingPlanLatestMealTypes || planWeekSubmitting}
+			disabled={planWeekSubmitting}
 			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		>
-			Save
+			Save week
 		</button>
 	</form>
 </Modal>
 
+<!-- ─── Refresh error modal ─────────────────────────────────────── -->
 <Modal bind:show={showFormMessageModal}>
-	<Alert variant={formMessageType || 'error'}>{formMessage}</Alert>
+	<Alert variant={formMessageType}>{formMessage}</Alert>
 </Modal>
 
+<!-- ─── Delete Day Modal ────────────────────────────────────────── -->
 <Modal bind:show={showDeleteDayModal}>
-	<div class="text-xl font-semibold">Delete Meal Plan</div>
+	<div class="text-xl font-semibold mb-3">Delete Meal Plan</div>
 	{#if form?.deleteDayMessage}
-		<div class="py-2">
-			<Alert variant={form?.deleteDayMessageType || 'error'}>
-				{form?.deleteDayMessage}
-			</Alert>
+		<div class="pb-3">
+			<Alert variant={form?.deleteDayMessageType || 'error'}>{form?.deleteDayMessage}</Alert>
 		</div>
 	{/if}
-	<p class="py-3 pb-5">
-		Click the button below to permanently delete the meal plan for the day <span class="font-bold"
+	<p class="pb-5 text-gray-600">
+		Permanently delete the meal plan for <span class="font-semibold text-gray-900"
 			>{format(data.date, 'EEE d MMMM yyyy')}</span
-		>.
+		>?
 	</p>
 	<form method="post" action="?/deleteday" use:enhance>
 		<input type="hidden" name="uuid" value={data.dateMealPlan?.uuid} />
@@ -975,110 +906,97 @@
 	</form>
 </Modal>
 
+<!-- ─── Shopping List — Day ─────────────────────────────────────── -->
 <Modal bind:show={showShoppingListDayModal}>
-	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
-	<p class="mb-3">
-		Create a shopping list for the day <span class="font-bold"
-			>{format(data.date, 'EEE d MMMM yyyy')}</span
-		>. Includes these recipes:
+	<h4 class="text-xl font-bold mb-1">Create Shopping List</h4>
+	<p class="text-sm text-gray-500 mb-3">
+		For <span class="font-semibold text-gray-700">{format(data.date, 'EEE d MMMM yyyy')}</span>
 	</p>
-	{#if !data.dateMealPlanRecipes.length}
-		<p class="italic">No recipes for this day</p>
+	{#if data.dateMealPlanRecipes.length}
+		<ul class="list-disc list-inside mb-5 text-sm text-gray-700">
+			{#each data.dateMealPlanRecipes as r}
+				<li>{r.data.title}</li>
+			{/each}
+		</ul>
+	{:else}
+		<p class="italic text-gray-500 mb-5">No recipes for this day.</p>
 	{/if}
-	<ul class="list-disc list-inside mb-5">
-		{#each data.dateMealPlanRecipes as dateMealPlanRecipe}
-			<li>{dateMealPlanRecipe.data.title}</li>
-		{/each}
-	</ul>
 	{#if form?.shoppingListDayMessage}
-		<div class="py-4">
-			<Alert variant={form?.shoppingListDayMessageType || 'error'}>
-				{form?.shoppingListDayMessage}
-			</Alert>
+		<div class="pb-4">
+			<Alert variant={form?.shoppingListDayMessageType || 'error'}
+				>{form?.shoppingListDayMessage}</Alert
+			>
 		</div>
 	{/if}
 	<form method="post" action="?/shoppinglistday" use:enhance>
-		<input type="hidden" id="title" name="title" value={format(data.date, 'EEE d MMMM yyyy')} />
+		<input type="hidden" name="title" value={format(data.date, 'EEE d MMMM yyyy')} />
+		<input type="hidden" name="recipeUuids" value={data.dateMealPlanRecipes.map((r) => r.uuid)} />
 		<input
 			type="hidden"
-			id="recipeUuids"
-			name="recipeUuids"
-			value={data.dateMealPlanRecipes.map((r) => r.uuid)}
-		/>
-		<input
-			type="hidden"
-			id="ingredients"
 			name="ingredients"
 			value={data.dateMealPlanRecipes
 				.map((r) => r.data.ingredients)
 				.flat(1)
 				.join('|||')}
 		/>
-		<div>
-			<button
-				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-			>
-				Create
-			</button>
-		</div>
+		<button
+			type="submit"
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			disabled={!data.dateMealPlanRecipes.length}
+		>
+			Create
+		</button>
 	</form>
 </Modal>
 
+<!-- ─── Shopping List — Week ────────────────────────────────────── -->
 <Modal bind:show={showShoppingListWeekModal}>
-	<h4 class="text-xl font-bold mb-3">Create Shopping List</h4>
-	<p class="mb-3">
-		Create a shopping list for the week <span class="font-bold"
-			>{format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - {format(
+	<h4 class="text-xl font-bold mb-1">Create Shopping List</h4>
+	<p class="text-sm text-gray-500 mb-3">
+		For <span class="font-semibold text-gray-700"
+			>{format(data.firstDateOfWeek, 'EEE d MMM')} – {format(
 				data.lastDateOfWeek,
-				'EEE d MMMM yyyy'
+				'EEE d MMM yyyy'
 			)}</span
-		>. Includes these recipes:
+		>
 	</p>
-	{#if !data.weekMealPlansRecipes.length}
-		<p class="italic">No recipes for this week</p>
+	{#if data.weekMealPlansRecipes.length}
+		<ul class="list-disc list-inside mb-5 text-sm text-gray-700">
+			{#each data.weekMealPlansRecipes as r}
+				<li>{r.data.title}</li>
+			{/each}
+		</ul>
+	{:else}
+		<p class="italic text-gray-500 mb-5">No recipes for this week.</p>
 	{/if}
-	<ul class="list-disc list-inside mb-5">
-		{#each data.weekMealPlansRecipes as weekMealPlansRecipe}
-			<li>{weekMealPlansRecipe.data.title}</li>
-		{/each}
-	</ul>
 	{#if form?.shoppingListWeekMessage}
-		<div class="py-4">
-			<Alert variant={form?.shoppingListWeekMessageType || 'error'}>
-				{form?.shoppingListWeekMessage}
-			</Alert>
+		<div class="pb-4">
+			<Alert variant={form?.shoppingListWeekMessageType || 'error'}
+				>{form?.shoppingListWeekMessage}</Alert
+			>
 		</div>
 	{/if}
 	<form method="post" action="?/shoppinglistweek" use:enhance>
 		<input
 			type="hidden"
-			id="title"
 			name="title"
-			value={`${format(data.firstDateOfWeek, 'EEE d MMMM yyyy')} - ${format(data.lastDateOfWeek, 'EEE d MMMM yyyy')}`}
+			value={`${format(data.firstDateOfWeek, 'EEE d MMM')} – ${format(data.lastDateOfWeek, 'EEE d MMM yyyy')}`}
 		/>
+		<input type="hidden" name="recipeUuids" value={data.weekMealPlansRecipes.map((r) => r.uuid)} />
 		<input
 			type="hidden"
-			id="recipeUuids"
-			name="recipeUuids"
-			value={data.weekMealPlansRecipes.map((r) => r.uuid)}
-		/>
-		<input
-			type="hidden"
-			id="ingredients"
 			name="ingredients"
 			value={data.weekMealPlansRecipes
 				.map((r) => r.data.ingredients)
 				.flat(1)
 				.join('|||')}
 		/>
-		<div>
-			<button
-				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
-			>
-				Create
-			</button>
-		</div>
+		<button
+			type="submit"
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			disabled={!data.weekMealPlansRecipes.length}
+		>
+			Create
+		</button>
 	</form>
 </Modal>

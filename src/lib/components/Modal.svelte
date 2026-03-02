@@ -12,7 +12,7 @@
 
 	let { show = $bindable(false), disableOutsideClickClose = false, children }: Props = $props();
 
-	let dialog: HTMLDialogElement;
+	let dialog: HTMLDialogElement | undefined = $state();
 
 	const handleShow = (d: HTMLDialogElement, s: boolean) => {
 		if (dialog && show) {
@@ -23,7 +23,7 @@
 	};
 
 	run(() => {
-		handleShow(dialog, show);
+		handleShow(dialog!, show);
 	});
 </script>
 
@@ -34,11 +34,11 @@
 		show = false;
 	}}
 	onclick={self(() => {
-		if (!disableOutsideClickClose) {
+		if (!disableOutsideClickClose && dialog) {
 			dialog.close();
 		}
 	})}
-	class="rounded-sm shadow-sm max-w-3xl w-full"
+	class="rounded-sm shadow-sm max-w-3xl w-full m-auto"
 >
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div onclick={stopPropagation(bubble('click'))}>
@@ -48,7 +48,7 @@
 				title="Close"
 				class="absolute top-2 right-2 hover:bg-gray-200 p-1 rounded-sm"
 				onclick={() => {
-					dialog.close();
+					dialog?.close();
 				}}
 			>
 				<Icon icon="ph:x" color="#000" width="1.4rem" />

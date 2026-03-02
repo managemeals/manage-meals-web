@@ -47,13 +47,6 @@
 					>
 						Register
 					</a>
-					<a
-						href="https://demo.managemeals.com/auth/login"
-						target="_blank"
-						class="bg-green-500 rounded-sm p-3 text-white hover:bg-green-600 shadow-sm"
-					>
-						Demo
-					</a>
 				</div>
 			</div>
 			<div class="basis-3/5">
@@ -363,34 +356,36 @@
 	</div>
 </section>
 
-<section class="px-3 py-20 bg-slate-50">
-	<div class="container mx-auto">
-		<h3 class="text-3xl font-bold text-center pb-10">Screen Recordings</h3>
-		<div class="flex flex-col lg:flex-row gap-10">
-			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-8">Importing a Recipe</h5>
-				<video controls muted>
-					<source
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmimport.mov"
-						type="video/mp4"
-					/>
-					Your browser does not support the video tag.
-				</video>
-			</div>
+{#if env.PUBLIC_SHOW_SCREEN_RECORDINGS === 'true'}
+	<section class="px-3 py-20 bg-slate-50">
+		<div class="container mx-auto">
+			<h3 class="text-3xl font-bold text-center pb-10">Screen Recordings</h3>
+			<div class="flex flex-col lg:flex-row gap-10">
+				<div class="basis-1/2 text-center">
+					<h5 class="text-xl font-bold pb-8">Importing a Recipe</h5>
+					<video controls muted>
+						<source
+							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmimport.mov"
+							type="video/mp4"
+						/>
+						Your browser does not support the video tag.
+					</video>
+				</div>
 
-			<div class="basis-1/2 text-center">
-				<h5 class="text-xl font-bold pb-8">Meal Planning</h5>
-				<video controls muted>
-					<source
-						src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmmealplans.mov"
-						type="video/mp4"
-					/>
-					Your browser does not support the video tag.
-				</video>
+				<div class="basis-1/2 text-center">
+					<h5 class="text-xl font-bold pb-8">Meal Planning</h5>
+					<video controls muted>
+						<source
+							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/videos/mmmealplans.mov"
+							type="video/mp4"
+						/>
+						Your browser does not support the video tag.
+					</video>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+{/if}
 
 {#if env.PUBLIC_SHOW_MOBILE_APPS === 'true'}
 	<section class="px-3 py-20 bg-slate-100" id="mobile-apps">
@@ -431,40 +426,17 @@
 	</section>
 {/if}
 
-<section class="px-3 py-20">
-	<div class="container mx-auto">
-		<h3 class="text-3xl font-bold text-center pb-10">Demo</h3>
-		<div class="flex flex-col lg:flex-row gap-5">
-			<div class="grow">
-				<div class="pt-5">
-					<p>
-						You can try out ManageMeals on the <a
-							href="https://demo.managemeals.com/auth/login"
-							class="hover:underline text-blue-500"
-							target="_blank">demo website</a
-						>. The demo has a collection of a 1000 fake recipes.
-					</p>
-					<p class="mt-1 italic">
-						Create actions are disabled in the demo, such as creating recipes, categories and tags.
-					</p>
-				</div>
-			</div>
-			<div>
-				<div class="bg-white p-5 shadow-sm border rounded-sm">
-					<div class="font-semibold">Demo website URL</div>
-					<div>
-						<a
-							href="https://demo.managemeals.com/auth/login"
-							class="hover:underline text-blue-500 md:whitespace-nowrap"
-							target="_blank">https://demo.managemeals.com</a
-						>
-					</div>
-					<div class="font-semibold mt-2">Login email</div>
-					<div>demo@example.com</div>
-					<div class="font-semibold mt-2">Login password</div>
-					<div>secret</div>
-				</div>
-			</div>
-		</div>
+<section class="px-3 py-20 bg-slate-50">
+	<div class="container mx-auto text-center">
+		<h3 class="text-3xl font-bold pb-4">Get Started for Free</h3>
+		<p class="text-lg text-slate-600 pb-8">
+			No credit card required. Import your first recipe in seconds.
+		</p>
+		<a
+			href="/auth/register"
+			class="bg-orange-500 rounded-sm px-6 py-3 text-white hover:bg-orange-600 shadow-sm text-lg"
+		>
+			Create a free account
+		</a>
 	</div>
 </section>

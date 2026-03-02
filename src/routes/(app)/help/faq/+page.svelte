@@ -63,4 +63,48 @@
 			</p>
 		</div>
 	{/if}
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">Can I share recipes with others?</h3>
+		<p>
+			Yes. Open any recipe and click the Share button to get a public link. Anyone with the link can
+			view the recipe — no account required.
+		</p>
+	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">
+			Is there a quick way to import recipes while browsing?
+		</h3>
+		<p>
+			Yes, there is a bookmarklet you can install in your browser toolbar. Once installed, clicking
+			it on any recipe page will import it into {env.PUBLIC_MAIN_TITLE} in one click. You can find the
+			bookmarklet in Settings.
+		</p>
+	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">What is Cooking Mode?</h3>
+		<p>
+			Cooking Mode keeps your screen on while you're following a recipe, so it doesn't dim or lock
+			while your hands are busy. You can enable it from any recipe page.
+		</p>
+	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">Can I print recipes?</h3>
+		<p>
+			Yes. Open a recipe and press Cmd+P (Mac) or Ctrl+P (Windows/Linux). {env.PUBLIC_MAIN_TITLE}
+			includes print-friendly styles for a clean output.
+		</p>
+	</div>
+
+	<div class="mb-5 last:mb-0">
+		<h3 class="font-semibold text-lg mb-1">Can I self-host {env.PUBLIC_MAIN_TITLE}?</h3>
+		<p>
+			Yes, {env.PUBLIC_MAIN_TITLE} is open source and can be self-hosted. Visit our GitHub page for setup
+			instructions, or <a href="/help/contact" class="hover:underline text-blue-500">contact us</a> if
+			you need help getting started.
+		</p>
+	</div>
 </div>

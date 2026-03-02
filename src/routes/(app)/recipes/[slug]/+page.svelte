@@ -247,11 +247,24 @@
 		<div class="flex flex-col md:flex-row gap-5 mb-5">
 			<div class="basis-1/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
-				<ul class="list-disc list-inside">
-					{#each data.recipe.data.ingredients || [] as ingredient}
-						<li class="mb-3 last:mb-0">{ingredient}</li>
+				{#if data.recipe.data.ingredient_groups?.length}
+					{#each data.recipe.data.ingredient_groups as group, i}
+						{#if group.purpose}
+							<h4 class="font-semibold mb-1 {i > 0 ? 'mt-4' : ''}">{group.purpose}</h4>
+						{/if}
+						<ul class="list-disc list-inside">
+							{#each group.ingredients as ingredient}
+								<li class="mb-3 last:mb-0">{ingredient}</li>
+							{/each}
+						</ul>
 					{/each}
-				</ul>
+				{:else}
+					<ul class="list-disc list-inside">
+						{#each data.recipe.data.ingredients || [] as ingredient}
+							<li class="mb-3 last:mb-0">{ingredient}</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 			<div class="basis-2/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Directions</h3>

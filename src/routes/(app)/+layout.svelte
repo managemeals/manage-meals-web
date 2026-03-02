@@ -247,7 +247,7 @@
 				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2 ${$page.url.pathname === sidebarLink.href ? 'bg-gray-100' : ''}`}
 				onclick={handleCloseSidebar}
 			>
-				<Icon icon={sidebarLink.icon} width="1.5rem" color="#6b7280" />
+				<Icon icon={sidebarLink.icon} width="1.5rem" color={sidebarLink.isCustom ? '#f97316' : '#6b7280'} />
 				<span>{sidebarLink.title}</span>
 			</a>
 		{/each}

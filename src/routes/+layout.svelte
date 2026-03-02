@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 	import '../app.css';
+	import '../custom.css';
 	import '../print.css';
 	interface Props {
 		children?: import('svelte').Snippet;

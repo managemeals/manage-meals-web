@@ -6,7 +6,7 @@ import type { Handle } from '@sveltejs/kit';
 initLbShutdown();
 
 export const handle: Handle = async ({ event, resolve }) => {
-	if (event.url.pathname === '/' || event.url.pathname === '/logout') {
+	if (event.url.pathname === '/logout') {
 		return await resolve(event);
 	}
 

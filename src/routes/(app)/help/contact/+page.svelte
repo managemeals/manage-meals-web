@@ -21,7 +21,7 @@
 		<div class="basis-full xl:basis-3/4">
 			<p class="mb-5">
 				If you got any questions, feedback, feature requests, or anything else, please send us a
-				message. We reply as soon as possible, usually within a couple of hours.
+				message. We reply as soon as possible.
 			</p>
 			{#if form?.message}
 				<div class="py-4">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { enhance } from '$app/forms';
 	import { env } from '$env/dynamic/public';
 	import type { ActionData } from './$types';
@@ -6,7 +8,11 @@
 	import { sidebarLinks } from '$lib/stores';
 	import { goto } from '$app/navigation';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
 
 	const updateSidebarLinks = (slug: string, name: string) => {
 		if (!slug || !name) {
@@ -31,7 +37,9 @@
 		goto(`/categories/${slug}`);
 	};
 
-	$: updateSidebarLinks(form?.slug, form?.name);
+	run(() => {
+		updateSidebarLinks(form?.slug, form?.name);
+	});
 </script>
 
 <svelte:head>

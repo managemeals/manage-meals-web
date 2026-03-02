@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { env } from '$env/dynamic/public';
 	import { format, isSameDay } from 'date-fns';
 	import Icon from '@iconify/svelte';
@@ -19,36 +21,42 @@
 	import { WEEKDAYS_LOWER } from '$lib/constants';
 	import { debounce } from 'lodash-es';
 
-	export let data: PageData;
 
-	export let form: ActionData;
-
-	// States
-	let showSelectDayModal = false;
-	let refreshDaySubmitting = false;
-	let showFormMessageModal = false;
-	let formMessageType: TAlert = 'error';
-	let formMessage = '';
-	let showPlanDayModal = false;
-	let isLoadingPlanLatestMealTypes = false;
-	let showDeleteDayModal = false;
-	let showPlanWeekModal = false;
-	let planDaySubmitting = false;
-	let planWeekSubmitting = false;
-	let isSearching = false;
-	let showShoppingListDayModal = false;
-	let showShoppingListWeekModal = false;
-
-	// Plan day
-	let planDayMealTypes: IMealPlanType[] = [];
-
-	$: if (form?.planDayUuid) {
-		showPlanDayModal = false;
+	interface Props {
+		data: PageData;
+		form: ActionData;
 	}
 
+	let { data, form = $bindable() }: Props = $props();
+
+	// States
+	let showSelectDayModal = $state(false);
+	let refreshDaySubmitting = $state(false);
+	let showFormMessageModal = $state(false);
+	let formMessageType: TAlert = $state('error');
+	let formMessage = $state('');
+	let showPlanDayModal = $state(false);
+	let isLoadingPlanLatestMealTypes = $state(false);
+	let showDeleteDayModal = $state(false);
+	let showPlanWeekModal = $state(false);
+	let planDaySubmitting = $state(false);
+	let planWeekSubmitting = $state(false);
+	let isSearching = $state(false);
+	let showShoppingListDayModal = $state(false);
+	let showShoppingListWeekModal = $state(false);
+
+	// Plan day
+	let planDayMealTypes: IMealPlanType[] = $state([]);
+
+	run(() => {
+		if (form?.planDayUuid) {
+			showPlanDayModal = false;
+		}
+	});
+
 	// Plan week
-	let planWeekSelectedDay: TShortDayLower = 'mon';
-	let planWeekMealTypes: TDayMealPlanTypes = {
+	let planWeekSelectedDay: TShortDayLower = $state('mon');
+	let planWeekMealTypes: TDayMealPlanTypes = $state({
 		mon: [],
 		tue: [],
 		wed: [],
@@ -56,11 +64,13 @@
 		fri: [],
 		sat: [],
 		sun: []
-	};
+	});
 
-	$: if (form?.planWeekUuids) {
-		showPlanWeekModal = false;
-	}
+	run(() => {
+		if (form?.planWeekUuids) {
+			showPlanWeekModal = false;
+		}
+	});
 
 	const handleCopyDay = () => {
 		for (const dayKey of WEEKDAYS_LOWER) {
@@ -117,30 +127,36 @@
 		}
 	};
 
-	$: if (showPlanDayModal || showPlanWeekModal) {
-		handlePlanLatestMealTypes();
-	}
+	run(() => {
+		if (showPlanDayModal || showPlanWeekModal) {
+			handlePlanLatestMealTypes();
+		}
+	});
 
 	// Refresh day
-	$: if (form?.refreshDayMessage) {
-		formMessage = form.refreshDayMessage as string;
-		formMessageType = form.refreshDayMessageType as TAlert;
-		showFormMessageModal = true;
-		form.refreshDayMessage = '';
-	}
+	run(() => {
+		if (form?.refreshDayMessage) {
+			formMessage = form.refreshDayMessage as string;
+			formMessageType = form.refreshDayMessageType as TAlert;
+			showFormMessageModal = true;
+			form.refreshDayMessage = '';
+		}
+	});
 
 	// Delete day
-	$: if (form?.deleteDayUuid) {
-		showDeleteDayModal = false;
-	}
+	run(() => {
+		if (form?.deleteDayUuid) {
+			showDeleteDayModal = false;
+		}
+	});
 
 	// Select day
-	let searchInput = '';
-	let searchResults: ISearch<ISearchRecipe> | undefined;
-	let selectDaySubmitting = false;
-	let selectDayMealType = '';
-	let selectDayCategoryUuids: string[] = [];
-	let selectDayTagUuids: string[] = [];
+	let searchInput = $state('');
+	let searchResults: ISearch<ISearchRecipe> | undefined = $state();
+	let selectDaySubmitting = $state(false);
+	let selectDayMealType = $state('');
+	let selectDayCategoryUuids: string[] = $state([]);
+	let selectDayTagUuids: string[] = $state([]);
 
 	const handleSearchInput = debounce(async () => {
 		isSearching = true;
@@ -158,15 +174,19 @@
 		handleSearchInput();
 	};
 
-	$: if (searchInput) {
-		handleSearchInput();
-	} else {
-		searchResults = undefined;
-	}
+	run(() => {
+		if (searchInput) {
+			handleSearchInput();
+		} else {
+			searchResults = undefined;
+		}
+	});
 
-	$: if (form?.selectDayUuid) {
-		showSelectDayModal = false;
-	}
+	run(() => {
+		if (form?.selectDayUuid) {
+			showSelectDayModal = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -270,7 +290,7 @@
 							<button
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-								on:click={() => {
+								onclick={() => {
 									showPlanDayModal = true;
 								}}
 							>
@@ -282,7 +302,7 @@
 							<button
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-								on:click={() => {
+								onclick={() => {
 									showDeleteDayModal = true;
 								}}
 							>
@@ -296,7 +316,7 @@
 							<button
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-								on:click={() => {
+								onclick={() => {
 									showShoppingListDayModal = true;
 								}}
 							>
@@ -320,7 +340,7 @@
 							<button
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-								on:click={() => {
+								onclick={() => {
 									showPlanWeekModal = true;
 								}}
 							>
@@ -332,7 +352,7 @@
 							<button
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-								on:click={() => {
+								onclick={() => {
 									showShoppingListWeekModal = true;
 								}}
 							>
@@ -415,7 +435,7 @@
 									<button
 										type="button"
 										class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
-										on:click={() => {
+										onclick={() => {
 											selectDayMealType = mealType.mealType;
 											selectDayCategoryUuids = mealType.categoryUuids;
 											selectDayTagUuids = mealType.tagUuids;
@@ -472,7 +492,7 @@
 			</Alert>
 		</div>
 	{/if}
-	<form action="/search" method="get" on:submit|preventDefault={handleSearchSubmit}>
+	<form action="/search" method="get" onsubmit={preventDefault(handleSearchSubmit)}>
 		<div>
 			<label for="search" class="font-semibold pb-2 block">Search</label>
 			<div
@@ -635,7 +655,7 @@
 										<button
 											class={`p-2 border rounded ${planDayMealTypes[i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 											type="button"
-											on:click={() => {
+											onclick={() => {
 												if (planDayMealTypes[i].categoryUuids.includes(category.uuid)) {
 													planDayMealTypes[i].categoryUuids = planDayMealTypes[
 														i
@@ -667,7 +687,7 @@
 										<button
 											class={`p-2 border rounded ${planDayMealTypes[i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 											type="button"
-											on:click={() => {
+											onclick={() => {
 												if (planDayMealTypes[i].tagUuids.includes(tag.uuid)) {
 													planDayMealTypes[i].tagUuids = planDayMealTypes[i].tagUuids.filter(
 														(c) => c !== tag.uuid
@@ -689,7 +709,7 @@
 						type="button"
 						class="hover:bg-gray-200 p-1 rounded"
 						title="Remove meal type"
-						on:click={() => {
+						onclick={() => {
 							planDayMealTypes = planDayMealTypes.filter((_, j) => i !== j);
 						}}
 					>
@@ -703,7 +723,7 @@
 			<button
 				type="button"
 				class="p-2 border rounded flex gap-2 items-center hover:bg-gray-100"
-				on:click={() => {
+				onclick={() => {
 					planDayMealTypes = [
 						...planDayMealTypes,
 						{
@@ -754,7 +774,7 @@
 		class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center mb-1 disabled:opacity-30 disabled:hover:bg-white"
 		disabled={planWeekMealTypes[planWeekSelectedDay] &&
 			!planWeekMealTypes[planWeekSelectedDay].length}
-		on:click={handleCopyDay}
+		onclick={handleCopyDay}
 	>
 		<Icon icon="ph:copy" color="#000" width="1.5rem" />
 		<span>Copy selected day</span>
@@ -781,7 +801,7 @@
 						${weekday === planWeekSelectedDay ? 'hover:border-b-orange-500 border-b-2 border-b-orange-500' : 'hover:border-b-gray-400'}
 						${form?.errors && Object.keys(form.errors).filter((errorKey) => errorKey.startsWith(`planWeekMealType${weekday}`)).length ? 'text-red-500' : ''}
 					`.trim()}
-					on:click={() => {
+					onclick={() => {
 						planWeekSelectedDay = weekday;
 					}}
 				>
@@ -828,7 +848,7 @@
 												<button
 													class={`p-2 border rounded ${planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 													type="button"
-													on:click={() => {
+													onclick={() => {
 														if (
 															planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid)
 														) {
@@ -862,7 +882,7 @@
 												<button
 													class={`p-2 border rounded ${planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 													type="button"
-													on:click={() => {
+													onclick={() => {
 														if (planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid)) {
 															planWeekMealTypes[dayKey][i].tagUuids = planWeekMealTypes[dayKey][
 																i
@@ -884,7 +904,7 @@
 								type="button"
 								class="hover:bg-gray-200 p-1 rounded"
 								title="Remove meal type"
-								on:click={() => {
+								onclick={() => {
 									planWeekMealTypes[dayKey] = planWeekMealTypes[dayKey].filter((_, j) => i !== j);
 								}}
 							>
@@ -898,7 +918,7 @@
 					<button
 						type="button"
 						class="p-2 border rounded flex gap-2 items-center hover:bg-gray-100"
-						on:click={() => {
+						onclick={() => {
 							planWeekMealTypes[dayKey] = [
 								...planWeekMealTypes[dayKey],
 								{

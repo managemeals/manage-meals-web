@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { sidebarLinks } from '$lib/stores';
 	import { page } from '$app/stores';
@@ -8,18 +10,23 @@
 	import Icon from '@iconify/svelte';
 	import type { LayoutData } from './$types';
 
-	export let data: LayoutData;
+	interface Props {
+		data: LayoutData;
+		children?: import('svelte').Snippet;
+	}
+
+	let { data, children }: Props = $props();
 
 	const LG_BREAKPOINT = 1024;
 	const SM_BREAKPOINT = 640;
 
-	let sidebarBtnEl: HTMLButtonElement;
-	let createBtnEl: HTMLButtonElement;
+	let sidebarBtnEl: HTMLButtonElement | undefined = $state();
+	let createBtnEl: HTMLButtonElement | undefined = $state();
 
-	let clientW: number;
-	let showSidebar = true;
+	let clientW: number = $state(0);
+	let showSidebar = $state(true);
 
-	let showCreateDropdown = false;
+	let showCreateDropdown = $state(false);
 
 	const handleWidthChange = (w: number) => {
 		if (w && w < LG_BREAKPOINT) {
@@ -29,7 +36,9 @@
 		}
 	};
 
-	$: handleWidthChange(clientW);
+	run(() => {
+		handleWidthChange(clientW);
+	});
 
 	const handleCloseSidebar = () => {
 		if (clientW >= LG_BREAKPOINT) {
@@ -123,7 +132,7 @@
 >
 	<div class="flex items-center gap-3">
 		<button
-			on:click={handleToggleSidebar}
+			onclick={handleToggleSidebar}
 			class={`
 				p-1 rounded
 				${!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? 'hover:bg-orange-500 cursor-auto' : 'hover:bg-orange-600'}
@@ -157,7 +166,7 @@
 		</div>
 		<div class="relative">
 			<button
-				on:click={() => (showCreateDropdown = !showCreateDropdown)}
+				onclick={() => (showCreateDropdown = !showCreateDropdown)}
 				class="p-1 rounded hover:bg-orange-600"
 				bind:this={createBtnEl}
 				title="Create"
@@ -169,7 +178,7 @@
 					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-64 flex flex-col rounded border border-slate-200"
 					class:hidden={!showCreateDropdown}
 					use:clickOutside={[createBtnEl]}
-					on:clickoutside={() => {
+					onclickoutside={() => {
 						showCreateDropdown = false;
 					}}
 				>
@@ -177,7 +186,7 @@
 						<a
 							href={createLink.href}
 							class="w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b flex items-center gap-3"
-							on:click={() => {
+							onclick={() => {
 								showCreateDropdown = false;
 							}}
 						>
@@ -211,7 +220,7 @@
 				href={leftNavLink.href}
 				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200' : ''}`}
 				title={leftNavLink.title}
-				on:click={handleCloseSidebar}
+				onclick={handleCloseSidebar}
 			>
 				<Icon icon={leftNavLink.icon} color="#f97316" width="2rem" />
 			</a>
@@ -222,7 +231,7 @@
 {#if sidebarBtnEl}
 	<nav
 		use:clickOutside={[sidebarBtnEl]}
-		on:clickoutside={() => {
+		onclickoutside={() => {
 			if (clientW >= LG_BREAKPOINT) {
 				return;
 			}
@@ -238,7 +247,7 @@
 			<a
 				href={sidebarLink.href}
 				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2${$page.url.pathname === sidebarLink.href ? ' bg-gray-100' : ''}`}
-				on:click={handleCloseSidebar}
+				onclick={handleCloseSidebar}
 			>
 				<Icon icon={sidebarLink.icon} width="1.5rem" color="#6b7280" />
 				<span>{sidebarLink.title}</span>
@@ -259,6 +268,6 @@
 		</div>
 	{/if}
 	<div class="container mx-auto">
-		<slot />
+		{@render children?.()}
 	</div>
 </main>

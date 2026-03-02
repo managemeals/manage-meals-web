@@ -1,6 +1,11 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { env } from '$env/dynamic/public';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 {#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
@@ -34,7 +39,7 @@
 </nav>
 
 <main>
-	<slot />
+	{@render children?.()}
 </main>
 
 <footer class="bg-slate-200 px-3 py-10">

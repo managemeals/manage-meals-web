@@ -4,7 +4,11 @@
 	import { enhance } from '$app/forms';
 	import { env } from '$env/dynamic/public';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
 </script>
 
 <svelte:head>

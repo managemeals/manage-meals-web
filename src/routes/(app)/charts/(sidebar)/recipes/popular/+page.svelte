@@ -3,7 +3,11 @@
 	import type { PageData } from './$types';
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>

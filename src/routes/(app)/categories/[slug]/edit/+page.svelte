@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
@@ -7,9 +9,13 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { env } from '$env/dynamic/public';
 
-	export let data: PageData;
 
-	export let form: ActionData;
+	interface Props {
+		data: PageData;
+		form: ActionData;
+	}
+
+	let { data, form }: Props = $props();
 
 	const updateSidebarLinks = (slug: string, name: string) => {
 		if (!slug || !name) {
@@ -28,9 +34,11 @@
 		});
 	};
 
-	$: updateSidebarLinks(form?.slug, form?.name);
+	run(() => {
+		updateSidebarLinks(form?.slug, form?.name);
+	});
 
-	let showDeleteModal = false;
+	let showDeleteModal = $state(false);
 </script>
 
 <svelte:head>
@@ -42,7 +50,7 @@
 		<h1 class="text-2xl font-bold">Edit Category</h1>
 		<button
 			title="Delete"
-			on:click={() => {
+			onclick={() => {
 				showDeleteModal = true;
 			}}
 			class="hover:bg-gray-200 p-1 rounded"

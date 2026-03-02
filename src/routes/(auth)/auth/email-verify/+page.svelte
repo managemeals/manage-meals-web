@@ -6,7 +6,11 @@
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
 
 	let tokenForm: HTMLFormElement;
 

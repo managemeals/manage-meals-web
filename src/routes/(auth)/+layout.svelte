@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 {#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
@@ -23,7 +28,7 @@
 				>
 			</div>
 			<div class="shadow-lg p-5 rounded border bg-white">
-				<slot />
+				{@render children?.()}
 			</div>
 		</div>
 	</div>

@@ -2,23 +2,34 @@
 	import type { IRecipe } from '$lib/types';
 	import RecipeCategoryTag from '$lib/components/RecipeCategoryTag.svelte';
 
-	export let recipe: IRecipe;
-	export let urlPrefix = '';
-	export let nonClickableCategoriesTags = false;
-	export let hideCategoriesTags = false;
+	interface Props {
+		recipe: IRecipe;
+		urlPrefix?: string;
+		nonClickableCategoriesTags?: boolean;
+		hideCategoriesTags?: boolean;
+	}
+
+	let {
+		recipe,
+		urlPrefix = '',
+		nonClickableCategoriesTags = false,
+		hideCategoriesTags = false
+	}: Props = $props();
 </script>
 
-<a href={`${urlPrefix}/recipes/${recipe.slug}`} class="border hover:shadow rounded">
-	<div
-		style={`background-image: url("${recipe.data.image}")`}
-		class="bg-center bg-no-repeat bg-cover w-full h-48"
-	></div>
-	<div class="p-3">
-		<h3>{recipe.data.title}</h3>
-		{#if !hideCategoriesTags}
-			<div class="mt-3">
-				<RecipeCategoryTag {recipe} nonClickable={nonClickableCategoriesTags} />
-			</div>
-		{/if}
-	</div>
-</a>
+<div class="border hover:shadow rounded">
+	<a href={`${urlPrefix}/recipes/${recipe.slug}`}>
+		<div
+			style={`background-image: url("${recipe.data.image}")`}
+			class="bg-center bg-no-repeat bg-cover w-full h-48"
+		></div>
+		<div class="p-3">
+			<h3>{recipe.data.title}</h3>
+		</div>
+	</a>
+	{#if !hideCategoriesTags}
+		<div class="p-3 pt-0">
+			<RecipeCategoryTag {recipe} nonClickable={nonClickableCategoriesTags} />
+		</div>
+	{/if}
+</div>

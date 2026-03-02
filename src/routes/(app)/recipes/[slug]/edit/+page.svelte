@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { env } from '$env/dynamic/public';
 	import type { ActionData, PageData } from './$types';
 	import type { ICategory, ITag } from '$lib/types';
@@ -8,22 +10,26 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 
-	export let data: PageData;
 
-	export let form: ActionData;
+	interface Props {
+		data: PageData;
+		form: ActionData;
+	}
 
-	let showCreateCategoryModal = false;
-	let showCreateTagModal = false;
-	let showDeleteModal = false;
-	let showChangeImageModal = false;
+	let { data, form }: Props = $props();
 
-	let changeImageSubmitting = false;
+	let showCreateCategoryModal = $state(false);
+	let showCreateTagModal = $state(false);
+	let showDeleteModal = $state(false);
+	let showChangeImageModal = $state(false);
 
-	let selectedCategories: string[] = [];
-	let selectedTags: string[] = [];
+	let changeImageSubmitting = $state(false);
 
-	$: selectedCategoriesValue = selectedCategories.join(',');
-	$: selectedTagsValue = selectedTags.join(',');
+	let selectedCategories: string[] = $state([]);
+	let selectedTags: string[] = $state([]);
+
+	let selectedCategoriesValue = $derived(selectedCategories.join(','));
+	let selectedTagsValue = $derived(selectedTags.join(','));
 
 	onMount(() => {
 		selectedCategories = data?.recipe?.categoryUuids || [];
@@ -46,13 +52,17 @@
 		}
 	};
 
-	$: if (form?.createCategorySlug) {
-		showCreateCategoryModal = false;
-	}
+	run(() => {
+		if (form?.createCategorySlug) {
+			showCreateCategoryModal = false;
+		}
+	});
 
-	$: if (form?.createTagSlug) {
-		showCreateTagModal = false;
-	}
+	run(() => {
+		if (form?.createTagSlug) {
+			showCreateTagModal = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -64,7 +74,7 @@
 		<h1 class="text-2xl font-bold">Edit Recipe</h1>
 		<button
 			title="Delete"
-			on:click={() => {
+			onclick={() => {
 				showDeleteModal = true;
 			}}
 			class="hover:bg-gray-200 p-1 rounded"
@@ -91,7 +101,7 @@
 				<button
 					type="submit"
 					class="py-3 px-5 border rounded hover:bg-gray-100"
-					on:click={() => {
+					onclick={() => {
 						showChangeImageModal = true;
 					}}>Change image</button
 				>
@@ -122,7 +132,7 @@
 					type="button"
 					title="Create Category"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showCreateCategoryModal = true;
 					}}
 				>
@@ -136,7 +146,7 @@
 						<button
 							class={`p-2 border rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
-							on:click={() => {
+							onclick={() => {
 								handleAddCategory(category);
 							}}>{category.name}</button
 						>
@@ -152,7 +162,7 @@
 					type="button"
 					title="Create Tag"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showCreateTagModal = true;
 					}}
 				>
@@ -166,7 +176,7 @@
 						<button
 							class={`p-2 border rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
-							on:click={() => {
+							onclick={() => {
 								handleAddTag(tag);
 							}}>{tag.name}</button
 						>

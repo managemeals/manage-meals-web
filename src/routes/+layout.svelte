@@ -2,6 +2,11 @@
 	import { env } from '$env/dynamic/public';
 	import '../app.css';
 	import '../print.css';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <svelte:head>
@@ -10,10 +15,10 @@
 			async
 			src="https://umami.leafbread.io/script.js"
 			data-website-id={env.PUBLIC_MOCK_INSTANCE === 'yes'
-				? 'd3c116ad-89be-4a80-b709-39e0841a18af'
-				: 'fde31535-d434-4ffe-9cf1-3fb25980af95'}
+				? 'cf401ee6-82dc-4f00-a761-3680d7321f35'
+				: 'cf401ee6-82dc-4f00-a761-3680d7321f35'}
 		></script>
 	{/if}
 </svelte:head>
 
-<slot />
+{@render children?.()}

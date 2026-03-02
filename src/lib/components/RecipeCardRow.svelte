@@ -2,9 +2,13 @@
 	import type { IRecipe } from '$lib/types';
 	import RecipeCategoryTag from '$lib/components/RecipeCategoryTag.svelte';
 
-	export let recipe: IRecipe;
-	export let imgSize: 'sm' | 'md' | 'lg' = 'md';
-	export let hasTitleLink = false;
+	interface Props {
+		recipe: IRecipe;
+		imgSize?: 'sm' | 'md' | 'lg';
+		hasTitleLink?: boolean;
+	}
+
+	let { recipe, imgSize = 'md', hasTitleLink = false }: Props = $props();
 </script>
 
 {#if hasTitleLink}

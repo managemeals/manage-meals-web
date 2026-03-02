@@ -4,7 +4,11 @@
 	import RecipeCardRow from '$lib/components/RecipeCardRow.svelte';
 	import { env } from '$env/dynamic/public';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Icon from '@iconify/svelte';
 	import type { ActionData } from './$types';
 	import { env } from '$env/dynamic/public';
@@ -8,19 +10,25 @@
 	import type { ISearch, ISearchRecipe } from '$lib/types';
 	import { debounce } from 'lodash-es';
 
-	export let form: ActionData;
-
-	let showAddLinkRecipeModal = false;
-
-	let addedLinkRecipes: ISearchRecipe[] = [];
-	let addedLinkRecipesUuids: string[] = [];
-	let searchInput = '';
-	let isSearching = false;
-	let searchResults: ISearch<ISearchRecipe> | undefined;
-
-	$: if (addedLinkRecipes) {
-		addedLinkRecipesUuids = addedLinkRecipes.map((r) => r.id);
+	interface Props {
+		form: ActionData;
 	}
+
+	let { form }: Props = $props();
+
+	let showAddLinkRecipeModal = $state(false);
+
+	let addedLinkRecipes: ISearchRecipe[] = $state([]);
+	let addedLinkRecipesUuids: string[] = $state([]);
+	let searchInput = $state('');
+	let isSearching = $state(false);
+	let searchResults: ISearch<ISearchRecipe> | undefined = $state();
+
+	run(() => {
+		if (addedLinkRecipes) {
+			addedLinkRecipesUuids = addedLinkRecipes.map((r) => r.id);
+		}
+	});
 
 	const handleAddLinkRecipe = (searchDoc: ISearchRecipe) => {
 		if (addedLinkRecipes.find((r) => r.id === searchDoc.id)) {
@@ -47,11 +55,13 @@
 		}
 	}, 300);
 
-	$: if (searchInput) {
-		handleSearchInput();
-	} else {
-		searchResults = undefined;
-	}
+	run(() => {
+		if (searchInput) {
+			handleSearchInput();
+		} else {
+			searchResults = undefined;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -111,7 +121,7 @@
 					type="button"
 					title="Link Recipe"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showAddLinkRecipeModal = true;
 					}}
 				>
@@ -136,7 +146,7 @@
 									type="button"
 									title="Remove Recipe"
 									class="hover:bg-gray-200 p-1 rounded"
-									on:click={() => {
+									onclick={() => {
 										handleRemoveLinkRecipe(recipe.id);
 									}}
 								>
@@ -211,7 +221,7 @@
 			<button
 				type="button"
 				class="rounded-r px-3 hover:bg-slate-100"
-				on:click={handleSearchInput}
+				onclick={handleSearchInput}
 				title="Search"
 			>
 				<span class:hidden={isSearching}>
@@ -232,7 +242,7 @@
 			<button
 				type="submit"
 				class="flex flex-col sm:flex-row gap-5 border rounded p-3 hover:bg-gray-50 w-full"
-				on:click={() => {
+				onclick={() => {
 					handleAddLinkRecipe(hit.document);
 				}}
 			>
@@ -248,7 +258,7 @@
 							target="_blank"
 							class="hover:bg-gray-200 p-1 rounded"
 							title="Open recipe"
-							on:click={(e) => {
+							onclick={(e) => {
 								e.stopPropagation();
 							}}
 						>

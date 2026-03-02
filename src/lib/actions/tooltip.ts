@@ -1,14 +1,18 @@
 import Tooltip from '$lib/components/Tooltip.svelte';
+import { mount } from 'svelte';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const tooltip = (node: any) => {
 	let title: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let tooltipComponent: any;
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const mouseOver = (event: any) => {
 		title = node.getAttribute('title');
 		node.removeAttribute('title');
 
-		tooltipComponent = new Tooltip({
+		tooltipComponent = mount(Tooltip, {
 			props: {
 				title: title,
 				x: event.pageX,
@@ -18,6 +22,7 @@ export const tooltip = (node: any) => {
 		});
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const mouseMove = (event: any) => {
 		tooltipComponent.$set({
 			x: event.pageX,

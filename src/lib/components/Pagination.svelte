@@ -1,12 +1,18 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { page as storePage } from '$app/stores';
 	import Icon from '@iconify/svelte';
 
-	export let page: number;
-	export let total: number;
-	export let perPage: number;
+	interface Props {
+		page: number;
+		total: number;
+		perPage: number;
+	}
 
-	let middleItems: number[] = [];
+	let { page, total, perPage }: Props = $props();
+
+	let middleItems: number[] = $state([]);
 	const setMiddleItems = (currPage: number, totalPages: number) => {
 		const items: number[] = [];
 		if (currPage < 4) {
@@ -21,9 +27,11 @@
 		middleItems = items;
 	};
 
-	$: pages = Math.ceil(total / perPage);
+	let pages = $derived(Math.ceil(total / perPage));
 
-	$: setMiddleItems(page, pages);
+	run(() => {
+		setMiddleItems(page, pages);
+	});
 </script>
 
 <div class="overflow-auto" class:hidden={!total}>

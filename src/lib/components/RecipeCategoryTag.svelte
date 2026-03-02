@@ -2,8 +2,12 @@
 	import type { IRecipe } from '$lib/types';
 	import Icon from '@iconify/svelte';
 
-	export let recipe: IRecipe;
-	export let nonClickable = false;
+	interface Props {
+		recipe: IRecipe;
+		nonClickable?: boolean;
+	}
+
+	let { recipe, nonClickable = false }: Props = $props();
 </script>
 
 <div class="flex items-start gap-2 mb-3">

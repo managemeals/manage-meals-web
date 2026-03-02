@@ -9,16 +9,19 @@
 	import { loadScript } from '@paypal/paypal-js';
 	import GoCardlessIcon from '$lib/components/icons/GoCardlessIcon.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+		form: ActionData;
+	}
 
-	export let form: ActionData;
+	let { data, form }: Props = $props();
 
-	let payPalButtonEl: HTMLDivElement;
-	let ppFormEl: HTMLFormElement;
+	let payPalButtonEl: HTMLDivElement | undefined = $state();
+	let ppFormEl: HTMLFormElement | undefined = $state();
 
-	let showCancelModal = false;
+	let showCancelModal = $state(false);
 
-	let ppSubscriptionID = '';
+	let ppSubscriptionID = $state('');
 
 	onMount(async () => {
 		try {
@@ -43,11 +46,11 @@
 						ppSubscriptionID = data.subscriptionID || '';
 						await tick();
 						setTimeout(() => {
-							ppFormEl.requestSubmit();
+							ppFormEl?.requestSubmit();
 						}, 0);
 					}
 				})
-				.render(payPalButtonEl);
+				.render(payPalButtonEl!);
 		} catch (e) {
 			//
 		}
@@ -65,7 +68,7 @@
 			type="button"
 			class="p-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500"
 			disabled={data.user.subscriptionType === 'FREE'}
-			on:click={() => {
+			onclick={() => {
 				showCancelModal = true;
 			}}>Cancel subscription</button
 		>

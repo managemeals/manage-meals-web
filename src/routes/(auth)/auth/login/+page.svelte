@@ -6,11 +6,15 @@
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
 
 	let verifyForm: HTMLFormElement;
 
-	let submitting = false;
+	let submitting = $state(false);
 </script>
 
 <svelte:head>
@@ -45,7 +49,7 @@
 				Email not verified, please check your email for a link to verify. Didn't receive a verify
 				email? Please
 				<button
-					on:click={() => {
+					onclick={() => {
 						verifyForm.requestSubmit();
 					}}
 					class="hover:underline text-blue-500 disabled:no-underline disabled:opacity-60"

@@ -5,9 +5,13 @@
 	import type { ActionData } from './$types';
 	import Icon from '@iconify/svelte';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
 
-	let submitting = false;
+	let { form }: Props = $props();
+
+	let submitting = $state(false);
 </script>
 
 <svelte:head>

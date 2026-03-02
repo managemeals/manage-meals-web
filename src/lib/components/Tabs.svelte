@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { ITabItem } from '$lib/types';
 
-	export let items: ITabItem[];
+	interface Props {
+		items: ITabItem[];
+	}
+
+	let { items }: Props = $props();
 </script>
 
 <div class="border-b">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
@@ -9,13 +11,17 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	let toggleWakelock = false;
-	let hasWakeLock = false;
+	let { data }: Props = $props();
+
+	let toggleWakelock = $state(false);
+	let hasWakeLock = $state(false);
 	let wakeLock: WakeLockSentinel | undefined;
-	let showWakeLockModal = false;
-	let wakeLockError = '';
+	let showWakeLockModal = $state(false);
+	let wakeLockError = $state('');
 	let hasWakeLockListener = false;
 
 	const handleWakeLockRelease = () => {
@@ -64,7 +70,9 @@
 		};
 	});
 
-	$: handleWakeLockToggle(toggleWakelock);
+	run(() => {
+		handleWakeLockToggle(toggleWakelock);
+	});
 </script>
 
 <svelte:head>

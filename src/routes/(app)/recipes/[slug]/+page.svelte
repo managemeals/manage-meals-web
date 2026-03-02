@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { ActionData, PageData } from './$types';
@@ -10,21 +12,25 @@
 	import { enhance } from '$app/forms';
 	import type { IShareRecipe } from '$lib/types';
 
-	export let data: PageData;
 
-	export let form: ActionData;
+	interface Props {
+		data: PageData;
+		form: ActionData;
+	}
 
-	let toggleWakelock = false;
-	let hasWakeLock = false;
+	let { data, form }: Props = $props();
+
+	let toggleWakelock = $state(false);
+	let hasWakeLock = $state(false);
 	// eslint-disable-next-line no-undef
 	let wakeLock: WakeLockSentinel | undefined;
-	let showWakeLockModal = false;
-	let wakeLockError = '';
+	let showWakeLockModal = $state(false);
+	let wakeLockError = $state('');
 	let hasWakeLockListener = false;
-	let showShoppingListModal = false;
-	let showShareModal = false;
-	let recipeShares: IShareRecipe[] = [];
-	let loadingRecipeShares = false;
+	let showShoppingListModal = $state(false);
+	let showShareModal = $state(false);
+	let recipeShares: IShareRecipe[] = $state([]);
+	let loadingRecipeShares = $state(false);
 
 	const handleWakeLockRelease = () => {
 		toggleWakelock = false;
@@ -72,7 +78,9 @@
 		};
 	});
 
-	$: handleWakeLockToggle(toggleWakelock);
+	run(() => {
+		handleWakeLockToggle(toggleWakelock);
+	});
 
 	const loadRecipeShares = async () => {
 		loadingRecipeShares = true;
@@ -87,9 +95,11 @@
 		}
 	};
 
-	$: if (showShareModal || form?.shareSlug || form?.shareDeleteSlug) {
-		loadRecipeShares();
-	}
+	run(() => {
+		if (showShareModal || form?.shareSlug || form?.shareDeleteSlug) {
+			loadRecipeShares();
+		}
+	});
 </script>
 
 <svelte:head>
@@ -191,7 +201,7 @@
 					type="button"
 					title="Share"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showShareModal = true;
 					}}
 				>
@@ -201,7 +211,7 @@
 					type="button"
 					title="Shopping list"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showShoppingListModal = true;
 					}}
 				>
@@ -419,7 +429,7 @@
 					<button
 						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded"
 						title="Copy"
-						on:click={async () => {
+						onclick={async () => {
 							await window.navigator.clipboard.writeText(
 								`https://managemeals.com/share/recipes/${recipeShare.slug}`
 							);

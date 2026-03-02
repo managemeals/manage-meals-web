@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { goto } from '$app/navigation';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ISearch, ISearchRecipe } from '$lib/types';
@@ -7,10 +9,10 @@
 
 	const descMaxLength = 70;
 
-	let searchResults: ISearch<ISearchRecipe> | undefined;
-	let searchInput = '';
-	let selectedSearchResultIndex = -1;
-	let isSearching = false;
+	let searchResults: ISearch<ISearchRecipe> | undefined = $state();
+	let searchInput = $state('');
+	let selectedSearchResultIndex = $state(-1);
+	let isSearching = $state(false);
 
 	const handleInput = debounce(async () => {
 		isSearching = true;
@@ -24,12 +26,14 @@
 		}
 	}, 300);
 
-	$: if (searchInput) {
-		selectedSearchResultIndex = -1;
-		handleInput();
-	} else {
-		searchResults = undefined;
-	}
+	run(() => {
+		if (searchInput) {
+			selectedSearchResultIndex = -1;
+			handleInput();
+		} else {
+			searchResults = undefined;
+		}
+	});
 
 	const handleSubmit = () => {
 		const query = searchInput;
@@ -65,14 +69,14 @@
 <form
 	action="/search"
 	method="get"
-	on:submit|preventDefault={handleSubmit}
+	onsubmit={preventDefault(handleSubmit)}
 	use:clickOutside={[]}
-	on:clickoutside={handleOutsideClick}
+	onclickoutside={handleOutsideClick}
 >
 	<div class="flex rounded w-96 border border-orange-500 hover:border-orange-600 relative">
 		<input
 			bind:value={searchInput}
-			on:keydown={handleKeydown}
+			onkeydown={handleKeydown}
 			autocomplete="off"
 			type="text"
 			id="q"
@@ -96,7 +100,7 @@
 				<a
 					href={`/recipes/${hit.document.slug}`}
 					class={`flex mb-1 last:mb-0 items-center hover:bg-gray-100${selectedSearchResultIndex === i ? ' bg-gray-100' : ''}`}
-					on:click={() => {
+					onclick={() => {
 						searchInput = '';
 					}}
 				>

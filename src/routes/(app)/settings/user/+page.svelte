@@ -6,11 +6,15 @@
 	import Icon from '@iconify/svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
-	export let form: ActionData;
 
-	export let data: PageData;
+	interface Props {
+		form: ActionData;
+		data: PageData;
+	}
 
-	let showDeleteModal = false;
+	let { form, data }: Props = $props();
+
+	let showDeleteModal = $state(false);
 </script>
 
 <svelte:head>
@@ -22,7 +26,7 @@
 		<h1 class="text-2xl font-bold">User Settings</h1>
 		<button
 			title="Delete"
-			on:click={() => {
+			onclick={() => {
 				showDeleteModal = true;
 			}}
 			class="hover:bg-gray-200 p-1 rounded"

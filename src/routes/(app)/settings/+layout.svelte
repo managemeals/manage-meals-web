@@ -2,6 +2,11 @@
 	import { env } from '$env/dynamic/public';
 	import { sidebarLinks } from '$lib/stores';
 	import { onMount } from 'svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	onMount(() => {
 		const links = [
@@ -33,4 +38,4 @@
 	});
 </script>
 
-<slot />
+{@render children?.()}

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { enhance } from '$app/forms';
 	import { env } from '$env/dynamic/public';
 	import type { ActionData, PageData } from './$types';
@@ -8,19 +10,23 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { page } from '$app/stores';
 
-	export let form: ActionData;
 
-	export let data: PageData;
+	interface Props {
+		form: ActionData;
+		data: PageData;
+	}
 
-	let submitting = false;
-	let showCreateCategoryModal = false;
-	let showCreateTagModal = false;
+	let { form, data }: Props = $props();
 
-	let selectedCategories: string[] = [];
-	let selectedTags: string[] = [];
+	let submitting = $state(false);
+	let showCreateCategoryModal = $state(false);
+	let showCreateTagModal = $state(false);
 
-	$: selectedCategoriesValue = selectedCategories.join(',');
-	$: selectedTagsValue = selectedTags.join(',');
+	let selectedCategories: string[] = $state([]);
+	let selectedTags: string[] = $state([]);
+
+	let selectedCategoriesValue = $derived(selectedCategories.join(','));
+	let selectedTagsValue = $derived(selectedTags.join(','));
 
 	const handleAddCategory = (category: ICategory) => {
 		if (selectedCategories.includes(category.uuid)) {
@@ -38,13 +44,17 @@
 		}
 	};
 
-	$: if (form?.createCategorySlug) {
-		showCreateCategoryModal = false;
-	}
+	run(() => {
+		if (form?.createCategorySlug) {
+			showCreateCategoryModal = false;
+		}
+	});
 
-	$: if (form?.createTagSlug) {
-		showCreateTagModal = false;
-	}
+	run(() => {
+		if (form?.createTagSlug) {
+			showCreateTagModal = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -95,7 +105,7 @@
 					type="button"
 					title="Create Category"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showCreateCategoryModal = true;
 					}}
 				>
@@ -110,7 +120,7 @@
 						<button
 							class={`p-2 border border-slate-200 rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
-							on:click={() => {
+							onclick={() => {
 								handleAddCategory(category);
 							}}>{category.name}</button
 						>
@@ -125,7 +135,7 @@
 					type="button"
 					title="Create Tag"
 					class="hover:bg-gray-200 p-1 rounded"
-					on:click={() => {
+					onclick={() => {
 						showCreateTagModal = true;
 					}}
 				>
@@ -140,7 +150,7 @@
 						<button
 							class={`p-2 border border-slate-200 rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
-							on:click={() => {
+							onclick={() => {
 								handleAddTag(tag);
 							}}>{tag.name}</button
 						>

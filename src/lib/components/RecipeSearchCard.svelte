@@ -2,7 +2,11 @@
 	import type { ISearchHits, ISearchRecipe } from '$lib/types';
 	import Icon from '@iconify/svelte';
 
-	export let recipe: ISearchHits<ISearchRecipe>;
+	interface Props {
+		recipe: ISearchHits<ISearchRecipe>;
+	}
+
+	let { recipe }: Props = $props();
 
 	const descMaxLength = 100;
 </script>

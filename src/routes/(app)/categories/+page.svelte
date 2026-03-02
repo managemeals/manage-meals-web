@@ -7,13 +7,17 @@
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { page as storePage } from '$app/stores';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	let categoriesBtnEl: HTMLButtonElement;
-	let tagsBtnEl: HTMLButtonElement;
+	let { data }: Props = $props();
 
-	let showCategoriesDropdown = false;
-	let showTagsDropdown = false;
+	let categoriesBtnEl: HTMLButtonElement | undefined = $state();
+	let tagsBtnEl: HTMLButtonElement | undefined = $state();
+
+	let showCategoriesDropdown = $state(false);
+	let showTagsDropdown = $state(false);
 </script>
 
 <svelte:head>
@@ -31,7 +35,7 @@
 			<div class="relative">
 				<button
 					bind:this={categoriesBtnEl}
-					on:click={() => (showCategoriesDropdown = !showCategoriesDropdown)}
+					onclick={() => (showCategoriesDropdown = !showCategoriesDropdown)}
 					class="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 justify-between w-full md:w-auto"
 				>
 					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
@@ -44,7 +48,7 @@
 						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10 max-h-96 overflow-auto"
 						class:hidden={!showCategoriesDropdown}
 						use:clickOutside={[categoriesBtnEl]}
-						on:clickoutside={() => {
+						onclickoutside={() => {
 							showCategoriesDropdown = false;
 						}}
 					>
@@ -86,7 +90,7 @@
 			<div class="relative">
 				<button
 					bind:this={tagsBtnEl}
-					on:click={() => (showTagsDropdown = !showTagsDropdown)}
+					onclick={() => (showTagsDropdown = !showTagsDropdown)}
 					class="p-2 border rounded hover:bg-gray-100 flex items-center gap-2 justify-between w-full md:w-auto"
 				>
 					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
@@ -99,7 +103,7 @@
 						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded border z-10 max-h-96 overflow-auto"
 						class:hidden={!showTagsDropdown}
 						use:clickOutside={[tagsBtnEl]}
-						on:clickoutside={() => {
+						onclickoutside={() => {
 							showTagsDropdown = false;
 						}}
 					>

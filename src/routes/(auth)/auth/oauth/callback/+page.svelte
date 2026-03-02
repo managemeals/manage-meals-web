@@ -7,7 +7,11 @@
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 
-	export let form: ActionData;
+	interface Props {
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
 
 	let stateForm: HTMLFormElement;
 

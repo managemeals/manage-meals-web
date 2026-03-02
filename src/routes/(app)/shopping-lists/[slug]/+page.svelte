@@ -3,12 +3,29 @@
 	import type { PageData } from './$types';
 	import RecipeCardRow from '$lib/components/RecipeCardRow.svelte';
 	import { env } from '$env/dynamic/public';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		data: PageData;
 	}
 
 	let { data }: Props = $props();
+
+	let checked = $state<boolean[]>([]);
+
+	$effect(() => {
+		if (!browser) return;
+		const stored = localStorage.getItem(`shopping-list-checked-${data.shoppingList.slug}`);
+		if (stored) checked = JSON.parse(stored);
+	});
+
+	function toggleCheck(index: number) {
+		checked[index] = !checked[index];
+		localStorage.setItem(
+			`shopping-list-checked-${data.shoppingList.slug}`,
+			JSON.stringify([...checked])
+		);
+	}
 </script>
 
 <svelte:head>
@@ -39,9 +56,20 @@
 
 	<div class="flex flex-col gap-3">
 		{#each data.shoppingList.ingredients || [] as ingredient, i}
-			<div class="flex gap-3 items-center">
-				<input type="checkbox" id={`ingredient${i}`} class="w-4 h-4" />
-				<label for={`ingredient${i}`}>{ingredient}</label>
+			<div class="flex items-start gap-3">
+				<input
+					type="checkbox"
+					id={`ingredient${i}`}
+					checked={checked[i] ?? false}
+					onchange={() => toggleCheck(i)}
+					class="w-4 h-4 mt-0.5 shrink-0"
+				/>
+				<label
+					for={`ingredient${i}`}
+					class={`cursor-pointer ${checked[i] ? 'line-through text-gray-400' : ''}`}
+				>
+					{ingredient}
+				</label>
 			</div>
 		{/each}
 	</div>

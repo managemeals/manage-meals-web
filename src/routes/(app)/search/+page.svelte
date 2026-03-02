@@ -20,7 +20,7 @@
 	<h1 class="text-2xl font-bold mb-5">Search</h1>
 	<form action="/search" method="get" class="mb-5">
 		<div
-			class="flex rounded border-2 [&:not(:focus-within)]:hover:border-gray-300 relative ring ring-transparent focus-within:ring-orange-500 focus-within:border-transparent"
+			class="flex rounded-sm border-2 not-focus-within:hover:border-gray-300 relative ring-3 ring-transparent focus-within:ring-orange-500 focus-within:border-transparent"
 		>
 			<input
 				type="text"
@@ -28,7 +28,7 @@
 				name="q"
 				placeholder="Search"
 				value={data.q || ''}
-				class="rounded-l p-4 outline-none w-full"
+				class="rounded-l p-4 outline-hidden w-full"
 			/>
 			<button type="submit" class="rounded-r px-4 hover:bg-gray-50" title="Search">
 				<Icon icon="ph:magnifying-glass" width="1.8rem" color="#000" />

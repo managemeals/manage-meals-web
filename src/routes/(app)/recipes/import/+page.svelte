@@ -91,7 +91,7 @@
 				name="url"
 				value={form?.inputs?.url ?? $page.url.searchParams.get('url') ?? ''}
 				placeholder="https://www.bbcgoodfood.com/recipes/chicken-leek-brown-rice-stir-fry"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			<p class="text-sm text-gray-500 pt-1">The URL of the recipe you want to save</p>
 			{#if form?.errors?.url}
@@ -104,7 +104,7 @@
 				<button
 					type="button"
 					title="Create Category"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showCreateCategoryModal = true;
 					}}
@@ -118,7 +118,7 @@
 				{#each data.categories as category}
 					<div>
 						<button
-							class={`p-2 border border-slate-200 rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 rounded-sm ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
 							onclick={() => {
 								handleAddCategory(category);
@@ -134,7 +134,7 @@
 				<button
 					type="button"
 					title="Create Tag"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showCreateTagModal = true;
 					}}
@@ -148,7 +148,7 @@
 				{#each data.tags as tag}
 					<div>
 						<button
-							class={`p-2 border border-slate-200 rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 rounded-sm ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
 							onclick={() => {
 								handleAddTag(tag);
@@ -162,7 +162,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				<span class:hidden={!submitting}>
 					<Icon icon="ph:circle-notch" color="#fff" width="1.5rem" class="animate-spin" />
@@ -193,7 +193,7 @@
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.createCategoryName}
@@ -203,7 +203,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Create</button
 			>
 		</div>
@@ -230,7 +230,7 @@
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.createTagName}
@@ -240,7 +240,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Create</button
 			>
 		</div>

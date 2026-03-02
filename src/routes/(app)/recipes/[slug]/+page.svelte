@@ -200,7 +200,7 @@
 				<button
 					type="button"
 					title="Share"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showShareModal = true;
 					}}
@@ -210,7 +210,7 @@
 				<button
 					type="button"
 					title="Shopping list"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showShoppingListModal = true;
 					}}
@@ -220,7 +220,7 @@
 				<a
 					href={`/recipes/${data.recipe.slug}/edit`}
 					title="Edit"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 				>
 					<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
 				</a>
@@ -384,7 +384,7 @@
 		<div>
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				Create
 			</button>
@@ -411,7 +411,7 @@
 			<button
 				type="submit"
 				disabled={loadingRecipeShares || recipeShares.length > 0}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				Share
 			</button>
@@ -423,11 +423,11 @@
 	{/if}
 	<div class="flex flex-col gap-2">
 		{#each recipeShares as recipeShare}
-			<div class="flex items-center justify-between gap-2 border rounded p-2">
+			<div class="flex items-center justify-between gap-2 border rounded-sm p-2">
 				<div>https://managemeals.com/share/recipes/{recipeShare.slug}</div>
 				<div class="flex items-center gap-2">
 					<button
-						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded"
+						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded-sm"
 						title="Copy"
 						onclick={async () => {
 							await window.navigator.clipboard.writeText(
@@ -439,7 +439,7 @@
 					</button>
 					<form method="post" action="?/deleteshare" use:enhance>
 						<input type="hidden" id="slug" name="slug" value={recipeShare.slug} />
-						<button class="hover:bg-gray-200 p-1 rounded" title="Delete">
+						<button class="hover:bg-gray-200 p-1 rounded-sm" title="Delete">
 							<Icon icon="ph:x" color="#000" width="1.2rem" />
 						</button>
 					</form>

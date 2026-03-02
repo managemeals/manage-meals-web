@@ -27,7 +27,7 @@
 			</p>
 
 			<div class="flex">
-				<a href={bookmarkletCode} class="border rounded flex items-center gap-2 p-2 hover:shadow">
+				<a href={bookmarkletCode} class="border rounded-sm flex items-center gap-2 p-2 hover:shadow-sm">
 					<Icon icon="ph:bookmark-simple" width="1.5rem" color="#f97316" />
 					<span>Drag to toolbar</span>
 				</a>

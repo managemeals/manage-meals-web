@@ -27,7 +27,7 @@
 			<a
 				href="/shopping-lists/create"
 				title="Create Shopping List"
-				class="hover:bg-gray-200 p-1 rounded"
+				class="hover:bg-gray-200 p-1 rounded-sm"
 			>
 				<Icon icon="ph:plus" color="#000" width="1.5rem" />
 			</a>
@@ -42,7 +42,7 @@
 		{#each data.shoppingLists as shoppingList}
 			<a
 				href={`/shopping-lists/${shoppingList.slug}`}
-				class="border rounded p-3 hover:shadow flex justify-between flex-col md:flex-row gap-3"
+				class="border rounded-sm p-3 hover:shadow-sm flex justify-between flex-col md:flex-row gap-3"
 			>
 				<div>
 					<h3 class="mb-1">{shoppingList.title}</h3>

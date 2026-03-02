@@ -13,7 +13,7 @@
 
 <a
 	href={`/recipes/${recipe.document.slug}`}
-	class="border rounded flex flex-col md:flex-row md:items-center hover:shadow"
+	class="border rounded-sm flex flex-col md:flex-row md:items-center hover:shadow-sm"
 >
 	<div
 		style={`background-image: url("${recipe.document.imageUrl}")`}

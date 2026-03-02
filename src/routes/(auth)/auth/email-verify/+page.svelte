@@ -35,7 +35,7 @@
 	<input type="hidden" id="token" name="token" value={$page.url.searchParams.get('token')} />
 	<button
 		type="submit"
-		class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+		class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		class:hidden={form?.message && form?.messageType === 'success'}>Verify</button
 	>
 </form>

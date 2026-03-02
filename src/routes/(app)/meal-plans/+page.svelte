@@ -21,7 +21,6 @@
 	import { WEEKDAYS_LOWER } from '$lib/constants';
 	import { debounce } from 'lodash-es';
 
-
 	interface Props {
 		data: PageData;
 		form: ActionData;
@@ -213,17 +212,18 @@
 				<a
 					href={`?date=${data.firstDayOfPreviousMonth}`}
 					title="Previous"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 				>
 					<Icon icon="ph:caret-left" color="#000" width="1.2rem" />
 				</a>
-				<a href={`?date=${format(data.today, 'yyyy-MM-dd')}`} class="hover:bg-gray-200 p-1 rounded"
-					>Today</a
+				<a
+					href={`?date=${format(data.today, 'yyyy-MM-dd')}`}
+					class="hover:bg-gray-200 p-1 rounded-sm">Today</a
 				>
 				<a
 					href={`?date=${data.firstDayOfNextMonth}`}
 					title="Next"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 				>
 					<Icon icon="ph:caret-right" color="#000" width="1.2rem" />
 				</a>
@@ -254,7 +254,7 @@
 					>
 						<div class="mb-3">
 							<div
-								class={`text-sm flex h-7 w-7${mealPlan.calendarDate.isToday ? ' items-center justify-center bg-orange-500 rounded-full text-white' : ''}`}
+								class={`text-sm flex h-7 w-7 ${mealPlan.calendarDate.isToday ? ' items-center justify-center bg-orange-500 rounded-full text-white' : ''}`}
 							>
 								{mealPlan.calendarDate.dateNum}
 							</div>
@@ -289,7 +289,7 @@
 						<div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 								onclick={() => {
 									showPlanDayModal = true;
 								}}
@@ -301,7 +301,7 @@
 						<div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 								onclick={() => {
 									showDeleteDayModal = true;
 								}}
@@ -315,7 +315,7 @@
 						<div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 								onclick={() => {
 									showShoppingListDayModal = true;
 								}}
@@ -339,7 +339,7 @@
 						<div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 								onclick={() => {
 									showPlanWeekModal = true;
 								}}
@@ -351,7 +351,7 @@
 						<div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+								class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 								onclick={() => {
 									showShoppingListWeekModal = true;
 								}}
@@ -365,7 +365,7 @@
 			</div>
 			<div class="flex flex-col gap-5">
 				{#each data.dateMealPlan?.mealTypes || [] as mealType}
-					<div class="flex flex-col md:flex-row gap-10 border rounded p-3">
+					<div class="flex flex-col md:flex-row gap-10 border rounded-sm p-3">
 						<div class="basis-auto md:basis-1/4 xl:basis-1/6">
 							<div class="flex flex-col mb-3">
 								<div class="text-sm text-gray-600">Meal type</div>
@@ -424,7 +424,7 @@
 									<input type="hidden" name="tagUuids" value={mealType.tagUuids.join(',')} />
 									<button
 										type="submit"
-										class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+										class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 										disabled={refreshDaySubmitting}
 									>
 										<Icon icon="ph:arrows-clockwise" color="#000" width="1.5rem" />
@@ -434,7 +434,7 @@
 								<div>
 									<button
 										type="button"
-										class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center"
+										class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center"
 										onclick={() => {
 											selectDayMealType = mealType.mealType;
 											selectDayCategoryUuids = mealType.categoryUuids;
@@ -453,7 +453,7 @@
 								<a
 									href={`/recipes/${mealType.recipe?.slug}`}
 									style={`background-image: url("${mealType.recipe?.data.image}")`}
-									class="bg-center bg-no-repeat bg-cover w-full lg:w-60 h-48 rounded"
+									class="bg-center bg-no-repeat bg-cover w-full lg:w-60 h-48 rounded-sm"
 									title="See recipe"
 								>
 								</a>
@@ -496,7 +496,7 @@
 		<div>
 			<label for="search" class="font-semibold pb-2 block">Search</label>
 			<div
-				class="flex border-2 border-slate-200 rounded w-full focus:border-orange-500 outline-none hover:border-slate-300"
+				class="flex border-2 border-slate-200 rounded-sm w-full focus:border-orange-500 outline-hidden hover:border-slate-300"
 			>
 				<input
 					bind:value={searchInput}
@@ -504,7 +504,7 @@
 					id="search"
 					name="search"
 					placeholder="Search"
-					class="p-3 w-full rounded outline-none"
+					class="p-3 w-full rounded-sm outline-hidden"
 				/>
 				<button type="submit" class="rounded-r px-3 hover:bg-slate-100" title="Search">
 					<span class:hidden={isSearching}>
@@ -542,12 +542,12 @@
 				<input type="hidden" name="tagUuids" value={selectDayTagUuids.join(',')} />
 				<button
 					type="submit"
-					class="flex flex-col sm:flex-row gap-5 border rounded p-3 hover:bg-gray-50 w-full"
+					class="flex flex-col sm:flex-row gap-5 border rounded-sm p-3 hover:bg-gray-50 w-full"
 					disabled={selectDaySubmitting}
 				>
 					<div
 						style={`background-image: url("${hit.document.imageUrl}")`}
-						class="bg-center bg-no-repeat bg-cover w-full h-24 rounded basis-32"
+						class="bg-center bg-no-repeat bg-cover w-full h-24 rounded-sm basis-32"
 					></div>
 					<div>
 						<h4 class="mb-3 flex text-left gap-2">
@@ -555,7 +555,7 @@
 							<a
 								href={`/recipes/${hit.document.slug}`}
 								target="_blank"
-								class="hover:bg-gray-200 p-1 rounded"
+								class="hover:bg-gray-200 p-1 rounded-sm"
 								title="Open recipe"
 							>
 								<Icon icon="ph:link" width="1rem" color="#000" />
@@ -623,7 +623,7 @@
 	>
 		<input type="hidden" name="date" value={data.date.toISOString()} />
 		{#each planDayMealTypes as _, i}
-			<div class="border rounded p-3 mb-5">
+			<div class="border rounded-sm p-3 mb-5">
 				<div class="flex items-start gap-3">
 					<div class="flex-1">
 						<div class="pb-5 last:pb-0">
@@ -634,7 +634,7 @@
 								name={`mealType${i}`}
 								bind:value={planDayMealTypes[i].mealType}
 								placeholder="Dinner"
-								class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+								class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 							/>
 							{#if form?.errors && form.errors[`planDayMealType${i}`]}
 								<div class="text-sm pt-1 text-red-500">{form.errors[`planDayMealType${i}`]}</div>
@@ -653,7 +653,7 @@
 								{#each data.categories as category}
 									<div>
 										<button
-											class={`p-2 border rounded ${planDayMealTypes[i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+											class={`p-2 border rounded-sm ${planDayMealTypes[i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 											type="button"
 											onclick={() => {
 												if (planDayMealTypes[i].categoryUuids.includes(category.uuid)) {
@@ -685,7 +685,7 @@
 								{#each data.tags as tag}
 									<div>
 										<button
-											class={`p-2 border rounded ${planDayMealTypes[i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+											class={`p-2 border rounded-sm ${planDayMealTypes[i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 											type="button"
 											onclick={() => {
 												if (planDayMealTypes[i].tagUuids.includes(tag.uuid)) {
@@ -707,7 +707,7 @@
 					</div>
 					<button
 						type="button"
-						class="hover:bg-gray-200 p-1 rounded"
+						class="hover:bg-gray-200 p-1 rounded-sm"
 						title="Remove meal type"
 						onclick={() => {
 							planDayMealTypes = planDayMealTypes.filter((_, j) => i !== j);
@@ -722,7 +722,7 @@
 		<div class="pb-5">
 			<button
 				type="button"
-				class="p-2 border rounded flex gap-2 items-center hover:bg-gray-100"
+				class="p-2 border rounded-sm flex gap-2 items-center hover:bg-gray-100"
 				onclick={() => {
 					planDayMealTypes = [
 						...planDayMealTypes,
@@ -743,7 +743,7 @@
 			<button
 				type="submit"
 				disabled={isLoadingPlanLatestMealTypes || planDaySubmitting}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				Save
 			</button>
@@ -771,7 +771,7 @@
 	{/if}
 	<button
 		type="button"
-		class="hover:bg-gray-200 p-1 rounded flex gap-2 items-center mb-1 disabled:opacity-30 disabled:hover:bg-white"
+		class="hover:bg-gray-200 p-1 rounded-sm flex gap-2 items-center mb-1 disabled:opacity-30 disabled:hover:bg-white"
 		disabled={planWeekMealTypes[planWeekSelectedDay] &&
 			!planWeekMealTypes[planWeekSelectedDay].length}
 		onclick={handleCopyDay}
@@ -812,7 +812,7 @@
 		{#each WEEKDAYS_LOWER as dayKey}
 			<div class:hidden={dayKey !== planWeekSelectedDay}>
 				{#each planWeekMealTypes[dayKey] as _, i}
-					<div class="border rounded p-3 mb-5">
+					<div class="border rounded-sm p-3 mb-5">
 						<div class="flex items-start gap-3">
 							<div class="flex-1">
 								<div class="pb-5 last:pb-0">
@@ -825,7 +825,7 @@
 										name={`mealType${dayKey}${i}`}
 										bind:value={planWeekMealTypes[dayKey][i].mealType}
 										placeholder="Dinner"
-										class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+										class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 									/>
 									{#if form?.errors && form.errors[`planWeekMealType${dayKey}${i}`]}
 										<div class="text-sm pt-1 text-red-500">
@@ -846,7 +846,7 @@
 										{#each data.categories as category}
 											<div>
 												<button
-													class={`p-2 border rounded ${planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+													class={`p-2 border rounded-sm ${planWeekMealTypes[dayKey][i].categoryUuids.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 													type="button"
 													onclick={() => {
 														if (
@@ -880,7 +880,7 @@
 										{#each data.tags as tag}
 											<div>
 												<button
-													class={`p-2 border rounded ${planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+													class={`p-2 border rounded-sm ${planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 													type="button"
 													onclick={() => {
 														if (planWeekMealTypes[dayKey][i].tagUuids.includes(tag.uuid)) {
@@ -902,7 +902,7 @@
 							</div>
 							<button
 								type="button"
-								class="hover:bg-gray-200 p-1 rounded"
+								class="hover:bg-gray-200 p-1 rounded-sm"
 								title="Remove meal type"
 								onclick={() => {
 									planWeekMealTypes[dayKey] = planWeekMealTypes[dayKey].filter((_, j) => i !== j);
@@ -917,7 +917,7 @@
 				<div class="pb-5">
 					<button
 						type="button"
-						class="p-2 border rounded flex gap-2 items-center hover:bg-gray-100"
+						class="p-2 border rounded-sm flex gap-2 items-center hover:bg-gray-100"
 						onclick={() => {
 							planWeekMealTypes[dayKey] = [
 								...planWeekMealTypes[dayKey],
@@ -938,7 +938,7 @@
 		<button
 			type="submit"
 			disabled={isLoadingPlanLatestMealTypes || planWeekSubmitting}
-			class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		>
 			Save
 		</button>
@@ -967,7 +967,7 @@
 		<input type="hidden" name="uuid" value={data.dateMealPlan?.uuid} />
 		<button
 			type="submit"
-			class="p-3 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-200"
+			class="p-3 bg-red-500 text-white rounded-sm hover:bg-red-600 disabled:bg-red-200"
 			disabled={!data.dateMealPlan?.uuid}
 		>
 			Delete
@@ -1017,7 +1017,7 @@
 		<div>
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				Create
 			</button>
@@ -1075,7 +1075,7 @@
 		<div>
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>
 				Create
 			</button>

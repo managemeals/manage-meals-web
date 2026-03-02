@@ -54,7 +54,7 @@
 		showSidebar = !showSidebar;
 	};
 
-	const leftNavLinks: IIconLink[] = [
+	const baseNavLinks: IIconLink[] = [
 		{
 			href: '/categories',
 			icon: 'ph:folder',
@@ -102,13 +102,11 @@
 		}
 	];
 
-	if (data.user?.isAdmin) {
-		leftNavLinks.push({
-			href: '/admin/status',
-			icon: 'ph:database',
-			title: 'Admin'
-		});
-	}
+	const leftNavLinks = $derived(
+		data.user?.isAdmin
+			? [...baseNavLinks, { href: '/admin/status', icon: 'ph:database', title: 'Admin' }]
+			: baseNavLinks
+	);
 
 	const createLinks: IIconHelpLink[] = [
 		{
@@ -128,7 +126,7 @@
 
 <div class="w-screen z-10" bind:clientWidth={clientW}></div>
 <nav
-	class="bg-orange-500 h-16 shadow flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-3 md:gap-1"
+	class="bg-orange-500 h-16 shadow-sm flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-3 md:gap-1"
 >
 	<div class="flex items-center gap-3">
 		<button
@@ -149,7 +147,7 @@
 			href="/categories"
 			class="text-white text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
 		>
-			<div class="transition-transform translate-y-0 group-hover:lg:-translate-y-1">
+			<div class="transition-transform translate-y-0 lg:group-hover:-translate-y-1">
 				<Icon icon="ph:cooking-pot" color="#fff" width="2.2rem" />
 			</div>
 			<div>Manage<span class="text-white">Meals</span></div>
@@ -158,7 +156,7 @@
 	<div
 		class="flex items-center gap-1 md:gap-4 flex-1 md:flex-none justify-between md:justify-start"
 	>
-		<a href="/help/donate" class="p-1 rounded hover:bg-orange-600" title="Donate">
+		<a href="/help/donate" class="p-1 rounded-sm hover:bg-orange-600" title="Donate">
 			<Icon icon="ph:tip-jar" color="#fff" width="2rem" />
 		</a>
 		<div class="hidden md:block">
@@ -167,7 +165,7 @@
 		<div class="relative">
 			<button
 				onclick={() => (showCreateDropdown = !showCreateDropdown)}
-				class="p-1 rounded hover:bg-orange-600"
+				class="p-1 rounded-sm hover:bg-orange-600"
 				bind:this={createBtnEl}
 				title="Create"
 			>
@@ -175,7 +173,7 @@
 			</button>
 			{#if createBtnEl}
 				<div
-					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-64 flex flex-col rounded border border-slate-200"
+					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-64 flex flex-col rounded-sm border border-slate-200"
 					class:hidden={!showCreateDropdown}
 					use:clickOutside={[createBtnEl]}
 					onclickoutside={() => {
@@ -218,7 +216,7 @@
 		{#each leftNavLinks as leftNavLink}
 			<a
 				href={leftNavLink.href}
-				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200' : ''}`}
+				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded ${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200' : ''}`}
 				title={leftNavLink.title}
 				onclick={handleCloseSidebar}
 			>
@@ -246,7 +244,7 @@
 		{#each $sidebarLinks as sidebarLink}
 			<a
 				href={sidebarLink.href}
-				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2${$page.url.pathname === sidebarLink.href ? ' bg-gray-100' : ''}`}
+				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2 ${$page.url.pathname === sidebarLink.href ? 'bg-gray-100' : ''}`}
 				onclick={handleCloseSidebar}
 			>
 				<Icon icon={sidebarLink.icon} width="1.5rem" color="#6b7280" />
@@ -257,10 +255,10 @@
 {/if}
 
 <main
-	class={`relative pt-16 pl-0 sm:pl-16 min-h-screen lg:min-h-0 transition-all${showSidebar && $sidebarLinks.length ? ' lg:pl-96' : ''}`}
+	class={`relative pt-16 pl-0 sm:pl-16 min-h-screen lg:min-h-0 transition-all ${showSidebar && $sidebarLinks.length ? ' lg:pl-96' : ''}`}
 >
 	<div
-		class={`absolute h-full z-10 top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75${showSidebar && clientW < LG_BREAKPOINT ? '' : ' hidden'}`}
+		class={`absolute h-full z-10 top-0 right-0 bottom-0 left-0 bg-gray-800 opacity-75 ${showSidebar && clientW < LG_BREAKPOINT ? '' : 'hidden'}`}
 	></div>
 	{#if env.PUBLIC_MOCK_INSTANCE === 'yes'}
 		<div class="text-white bg-indigo-700 p-1 font-bold">

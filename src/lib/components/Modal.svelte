@@ -38,7 +38,7 @@
 			dialog.close();
 		}
 	})}
-	class="rounded shadow max-w-3xl w-full"
+	class="rounded-sm shadow-sm max-w-3xl w-full"
 >
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div onclick={stopPropagation(bubble('click'))}>
@@ -46,7 +46,7 @@
 			<button
 				type="button"
 				title="Close"
-				class="absolute top-2 right-2 hover:bg-gray-200 p-1 rounded"
+				class="absolute top-2 right-2 hover:bg-gray-200 p-1 rounded-sm"
 				onclick={() => {
 					dialog.close();
 				}}

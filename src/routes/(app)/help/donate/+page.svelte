@@ -38,7 +38,7 @@
 					<a
 						href="https://www.paypal.com/donate/?hosted_button_id=AYX4RADAYPEXQ"
 						target="_blank"
-						class="border rounded flex items-center gap-2 p-2 hover:shadow"
+						class="border rounded-sm flex items-center gap-2 p-2 hover:shadow-sm"
 					>
 						<Icon icon="logos:paypal" width="1.5rem" />
 						<span>Donate with PayPal</span>

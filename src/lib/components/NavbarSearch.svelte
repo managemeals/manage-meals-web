@@ -73,7 +73,7 @@
 	use:clickOutside={[]}
 	onclickoutside={handleOutsideClick}
 >
-	<div class="flex rounded w-96 border border-orange-500 hover:border-orange-600 relative">
+	<div class="flex rounded-sm w-96 border border-orange-500 hover:border-orange-600 relative">
 		<input
 			bind:value={searchInput}
 			onkeydown={handleKeydown}
@@ -82,7 +82,7 @@
 			id="q"
 			name="q"
 			placeholder="Search"
-			class="rounded-l p-2 outline-none bg-orange-600 text-white placeholder-white placeholder-opacity-40 w-full"
+			class="rounded-l p-2 outline-hidden bg-orange-600 text-white placeholder-white placeholder-opacity-40 w-full"
 		/>
 		<button type="submit" class="rounded-r bg-orange-600 px-3 hover:bg-orange-700" title="Search">
 			<span class:hidden={isSearching}>
@@ -93,13 +93,13 @@
 			</span>
 		</button>
 		<div
-			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded max-h-96"
+			class="absolute top-full bg-white shadow-lg right-0 -left-44 mt-2 flex flex-col overflow-auto rounded-sm max-h-96"
 			class:hidden={!searchResults || !searchResults.found}
 		>
 			{#each searchResults?.hits || [] as hit, i}
 				<a
 					href={`/recipes/${hit.document.slug}`}
-					class={`flex mb-1 last:mb-0 items-center hover:bg-gray-100${selectedSearchResultIndex === i ? ' bg-gray-100' : ''}`}
+					class={`flex mb-1 last:mb-0 items-center hover:bg-gray-100 ${selectedSearchResultIndex === i ? ' bg-gray-100' : ''}`}
 					onclick={() => {
 						searchInput = '';
 					}}

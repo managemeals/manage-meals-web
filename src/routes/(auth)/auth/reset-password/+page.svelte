@@ -34,7 +34,7 @@
 			id="password"
 			name="password"
 			placeholder="Password"
-			class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 		/>
 		{#if form?.errors?.password}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.password}</div>
@@ -43,7 +43,7 @@
 	<div class="pb-5 last:pb-0">
 		<button
 			type="submit"
-			class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 			>Reset</button
 		>
 	</div>

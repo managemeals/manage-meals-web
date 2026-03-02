@@ -66,7 +66,7 @@
 		<h1 class="text-2xl font-bold">Subscription</h1>
 		<button
 			type="button"
-			class="p-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500"
+			class="p-2 text-sm bg-red-500 text-white rounded-sm hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500"
 			disabled={data.user.subscriptionType === 'FREE'}
 			onclick={() => {
 				showCancelModal = true;
@@ -115,7 +115,7 @@
 
 		<p class="mt-5">There are two ways of setting up a subscription, PayPal or GoCardless.</p>
 
-		<div class="mt-10 border p-3 rounded bg-gray-100">
+		<div class="mt-10 border p-3 rounded-sm bg-gray-100">
 			<div bind:this={payPalButtonEl}></div>
 			<form bind:this={ppFormEl} method="post" action="?/paypal" use:enhance>
 				<input
@@ -127,7 +127,7 @@
 			</form>
 		</div>
 
-		<div class="mt-10 border p-3 rounded bg-gray-100">
+		<div class="mt-10 border p-3 rounded-sm bg-gray-100">
 			<div class="flex">
 				<a
 					data-sveltekit-preload-data="off"
@@ -154,7 +154,7 @@
 			};
 		}}
 	>
-		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
+		<button type="submit" class="p-3 bg-red-500 text-white rounded-sm hover:bg-red-600">
 			Cancel subscription
 		</button>
 	</form>

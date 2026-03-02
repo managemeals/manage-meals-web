@@ -10,15 +10,15 @@
 </script>
 
 {#if variant === 'success'}
-	<div class="bg-green-500 text-white p-2 border border-green-600 rounded">
+	<div class="bg-green-500 text-white p-2 border border-green-600 rounded-sm">
 		{@render children?.()}
 	</div>
 {:else if variant === 'warning'}
-	<div class="bg-amber-500 text-white p-2 border border-amber-600 rounded">
+	<div class="bg-amber-500 text-white p-2 border border-amber-600 rounded-sm">
 		{@render children?.()}
 	</div>
 {:else}
-	<div class="bg-red-500 text-white p-2 border border-red-600 rounded">
+	<div class="bg-red-500 text-white p-2 border border-red-600 rounded-sm">
 		{@render children?.()}
 	</div>
 {/if}

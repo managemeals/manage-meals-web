@@ -26,9 +26,9 @@
 
 <header
 	class={`
-		relative px-3 py-20 pb-40 before:absolute before:bg-slate-100 before:top-[-45rem] md:before:top-[-40rem]
-		lg:before:top-[-55rem] xl:before:top-[-50rem]
-		before:-right-60 overflow-hidden before:-left-60 before:h-[90rem]
+		relative px-3 py-20 pb-40 before:absolute before:bg-slate-100 before:-top-180 md:before:-top-160
+		lg:before:-top-220 xl:before:-top-200
+		before:-right-60 overflow-hidden before:-left-60 before:h-360
 		before:-rotate-6 before:border-b before:-z-10
 	`.trim()}
 >
@@ -43,14 +43,14 @@
 				<div class="flex gap-5 pt-8">
 					<a
 						href="/auth/register"
-						class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow"
+						class="bg-orange-500 rounded-sm p-3 text-white hover:bg-orange-600 shadow-sm"
 					>
 						Register
 					</a>
 					<a
 						href="https://demo.managemeals.com/auth/login"
 						target="_blank"
-						class="bg-green-500 rounded p-3 text-white hover:bg-green-600 shadow"
+						class="bg-green-500 rounded-sm p-3 text-white hover:bg-green-600 shadow-sm"
 					>
 						Demo
 					</a>
@@ -60,7 +60,7 @@
 				<img
 					src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/mmscreenshot7.webp"
 					alt="Web app screenshot"
-					class="transition-transform shadow scale-100 hover:lg:scale-105"
+					class="transition-transform shadow-sm scale-100 lg:hover:scale-105"
 				/>
 			</div>
 		</div>
@@ -407,7 +407,7 @@
 						<img
 							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/androidscrn.png"
 							alt="Android app screenshot"
-							class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+							class="w-96 transition-transform shadow-sm scale-100 lg:hover:scale-105"
 						/>
 					</a>
 				</div>
@@ -422,7 +422,7 @@
 						<img
 							src="https://whatacdn.fra1.cdn.digitaloceanspaces.com/mmeals/images/iphonescrn.png"
 							alt="iOS app screenshot"
-							class="w-96 transition-transform shadow scale-100 hover:lg:scale-105"
+							class="w-96 transition-transform shadow-sm scale-100 lg:hover:scale-105"
 						/>
 					</a>
 				</div>
@@ -450,7 +450,7 @@
 				</div>
 			</div>
 			<div>
-				<div class="bg-white p-5 shadow border rounded">
+				<div class="bg-white p-5 shadow-sm border rounded-sm">
 					<div class="font-semibold">Demo website URL</div>
 					<div>
 						<a

@@ -29,7 +29,7 @@
 			onclick={() => {
 				showDeleteModal = true;
 			}}
-			class="hover:bg-gray-200 p-1 rounded"
+			class="hover:bg-gray-200 p-1 rounded-sm"
 		>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
@@ -60,7 +60,7 @@
 						name="name"
 						value={form?.inputs?.name ?? data.user.name}
 						placeholder="Name"
-						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
+						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
 					{#if form?.errors?.name}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.name}</div>
@@ -74,7 +74,7 @@
 						name="email"
 						value={form?.inputs?.email ?? data.user.email}
 						placeholder="Email"
-						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
+						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
 					{#if env.PUBLIC_EMAIL_VERIFY_ENABLED === 'true'}
 						<p class="text-sm text-gray-500 pt-1">
@@ -92,7 +92,7 @@
 						id="password"
 						name="password"
 						placeholder="Password"
-						class="block border-2 border-gray-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-gray-300"
+						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
 					<p class="text-sm text-gray-500 pt-1">
 						Only fill this out if you want to change your password
@@ -104,7 +104,7 @@
 				<div class="pb-5 last:pb-0">
 					<button
 						type="submit"
-						class="p-3 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+						class="p-3 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 						>Save</button
 					>
 				</div>
@@ -127,7 +127,7 @@
 		recipes.
 	</p>
 	<form method="post" action="?/delete">
-		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
+		<button type="submit" class="p-3 bg-red-500 text-white rounded-sm hover:bg-red-600">
 			Delete
 		</button>
 	</form>

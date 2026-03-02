@@ -20,7 +20,7 @@
 	>
 		<div>
 			<a href="/" class="flex justify-center items-center gap-4 group">
-				<div class="transition-transform translate-y-0 group-hover:lg:-translate-y-1">
+				<div class="transition-transform translate-y-0 lg:group-hover:-translate-y-1">
 					<Icon icon="ph:cooking-pot" color="#f97316" width="3rem" />
 				</div>
 				<div class="text-xl md:text-3xl font-bold">
@@ -31,7 +31,7 @@
 		<div class="flex gap-5">
 			<a
 				href="/categories"
-				class="bg-orange-500 rounded p-3 text-white hover:bg-orange-600 shadow font-semibold"
+				class="bg-orange-500 rounded-sm p-3 text-white hover:bg-orange-600 shadow-sm font-semibold"
 				>Open App</a
 			>
 		</div>

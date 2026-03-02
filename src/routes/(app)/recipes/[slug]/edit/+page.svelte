@@ -77,7 +77,7 @@
 			onclick={() => {
 				showDeleteModal = true;
 			}}
-			class="hover:bg-gray-200 p-1 rounded"
+			class="hover:bg-gray-200 p-1 rounded-sm"
 		>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
@@ -100,7 +100,7 @@
 			<div>
 				<button
 					type="submit"
-					class="py-3 px-5 border rounded hover:bg-gray-100"
+					class="py-3 px-5 border rounded-sm hover:bg-gray-100"
 					onclick={() => {
 						showChangeImageModal = true;
 					}}>Change image</button
@@ -118,7 +118,7 @@
 				name="data.title"
 				value={form?.inputs?.data?.title ?? data.recipe.data.title}
 				placeholder="Title"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			{#if form?.errors?.data?.title}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.title}</div>
@@ -131,7 +131,7 @@
 				<button
 					type="button"
 					title="Create Category"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showCreateCategoryModal = true;
 					}}
@@ -144,7 +144,7 @@
 				{#each data.categories as category}
 					<div>
 						<button
-							class={`p-2 border rounded ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border rounded-sm ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
 							onclick={() => {
 								handleAddCategory(category);
@@ -161,7 +161,7 @@
 				<button
 					type="button"
 					title="Create Tag"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showCreateTagModal = true;
 					}}
@@ -174,7 +174,7 @@
 				{#each data.tags as tag}
 					<div>
 						<button
-							class={`p-2 border rounded ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border rounded-sm ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
 							type="button"
 							onclick={() => {
 								handleAddTag(tag);
@@ -191,7 +191,7 @@
 				name="data.description"
 				id="data.description"
 				placeholder="Description"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 				value={form?.inputs?.data?.description ?? data.recipe.data.description ?? ''}
 				rows="6"
 			></textarea>
@@ -208,7 +208,7 @@
 				name="data.canonical_url"
 				value={form?.inputs?.data?.canonical_url ?? data.recipe.data.canonical_url}
 				placeholder="Canonical URL"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			<p class="text-sm text-gray-500 pt-1">Where the recipe was imported from</p>
 			{#if form?.errors?.data?.canonical_url}
@@ -226,7 +226,7 @@
 						name="data.cook_time"
 						value={form?.inputs?.data?.cook_time ?? data.recipe.data.cook_time ?? ''}
 						placeholder="Cook time"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.cook_time}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.cook_time}</div>
@@ -240,7 +240,7 @@
 						name="data.prep_time"
 						value={form?.inputs?.data?.prep_time ?? data.recipe.data.prep_time ?? ''}
 						placeholder="Prep time"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.prep_time}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.prep_time}</div>
@@ -259,7 +259,7 @@
 						name="data.total_time"
 						value={form?.inputs?.data?.total_time ?? data.recipe.data.total_time ?? ''}
 						placeholder="Total time"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.total_time}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.total_time}</div>
@@ -273,7 +273,7 @@
 						name="data.yields"
 						value={form?.inputs?.data?.yields ?? data.recipe.data.yields ?? ''}
 						placeholder="Yields"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.yields}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.yields}</div>
@@ -288,7 +288,7 @@
 				name="data.ingredients"
 				id="data.ingredients"
 				placeholder="Ingredients"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 				value={form?.inputs?.data?.ingredients ?? (data.recipe.data.ingredients || []).join('\n\n')}
 				rows="12"
 			></textarea>
@@ -307,7 +307,7 @@
 				name="data.instructions_list"
 				id="data.instructions_list"
 				placeholder="Instructions"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 				value={form?.inputs?.data?.instructions_list ??
 					(data.recipe.data.instructions_list || []).join('\n\n')}
 				rows="12"
@@ -333,7 +333,7 @@
 							data.recipe.data.nutrients?.calories ??
 							''}
 						placeholder="Calories"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.calories}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.nutrients?.calories}</div>
@@ -351,7 +351,7 @@
 							data.recipe.data.nutrients?.carbohydrateContent ??
 							''}
 						placeholder="Carbohydrate"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.carbohydrateContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -371,7 +371,7 @@
 							data.recipe.data.nutrients?.cholesterolContent ??
 							''}
 						placeholder="Cholesterol"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.cholesterolContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -394,7 +394,7 @@
 							data.recipe.data.nutrients?.fatContent ??
 							''}
 						placeholder="Fat"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.fatContent}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.nutrients?.fatContent}</div>
@@ -410,7 +410,7 @@
 							data.recipe.data.nutrients?.fiberContent ??
 							''}
 						placeholder="Fiber"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.fiberContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -429,7 +429,7 @@
 							data.recipe.data.nutrients?.proteinContent ??
 							''}
 						placeholder="Protein"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.proteinContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -454,7 +454,7 @@
 							data.recipe.data.nutrients?.saturatedFatContent ??
 							''}
 						placeholder="Saturated fat"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.saturatedFatContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -472,7 +472,7 @@
 							data.recipe.data.nutrients?.sodiumContent ??
 							''}
 						placeholder="Sodium"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.sodiumContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -490,7 +490,7 @@
 							data.recipe.data.nutrients?.sugarContent ??
 							''}
 						placeholder="Sugar"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.sugarContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -515,7 +515,7 @@
 							data.recipe.data.nutrients?.unsaturatedFatContent ??
 							''}
 						placeholder="Unsaturated fat"
-						class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.data?.nutrients?.unsaturatedFatContent}
 						<div class="text-sm pt-1 text-red-500">
@@ -529,7 +529,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Save</button
 			>
 		</div>
@@ -547,7 +547,7 @@
 	{/if}
 	<p class="py-3 pb-5">Click the button below to permanently delete the recipe.</p>
 	<form method="post" action="?/delete">
-		<button type="submit" class="p-3 bg-red-500 text-white rounded hover:bg-red-600">
+		<button type="submit" class="p-3 bg-red-500 text-white rounded-sm hover:bg-red-600">
 			Delete
 		</button>
 	</form>
@@ -573,7 +573,7 @@
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.createCategoryName}
@@ -583,7 +583,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Create</button
 			>
 		</div>
@@ -610,7 +610,7 @@
 				placeholder="Name"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.createTagName}
@@ -620,7 +620,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Create</button
 			>
 		</div>
@@ -659,7 +659,7 @@
 				placeholder="URL"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.changeImageUrl}
@@ -677,7 +677,7 @@
 				placeholder="File"
 				class={`
 				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
-				outline-none hover:border-slate-300
+				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
 			{#if form?.errors?.changeImageFile}
@@ -689,7 +689,7 @@
 			<button
 				type="submit"
 				disabled={changeImageSubmitting}
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Save</button
 			>
 		</div>

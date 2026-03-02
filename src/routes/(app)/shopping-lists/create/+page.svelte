@@ -88,7 +88,7 @@
 				name="title"
 				value={form?.inputs?.title ?? ''}
 				placeholder="Title"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			{#if form?.errors?.title}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.title}</div>
@@ -101,7 +101,7 @@
 				name="ingredients"
 				id="ingredients"
 				placeholder="Ingredients"
-				class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 				value={form?.inputs?.ingredients ?? ''}
 				rows="20"
 			></textarea>
@@ -120,7 +120,7 @@
 				<button
 					type="button"
 					title="Link Recipe"
-					class="hover:bg-gray-200 p-1 rounded"
+					class="hover:bg-gray-200 p-1 rounded-sm"
 					onclick={() => {
 						showAddLinkRecipeModal = true;
 					}}
@@ -134,7 +134,7 @@
 			{/if}
 			<div class="flex flex-col gap-3">
 				{#each addedLinkRecipes as recipe}
-					<div class="border rounded flex flex-col md:flex-row">
+					<div class="border rounded-sm flex flex-col md:flex-row">
 						<div
 							style={`background-image: url("${recipe.imageUrl}")`}
 							class="bg-center bg-no-repeat bg-cover w-full md:w-60 h-28"
@@ -145,7 +145,7 @@
 								<button
 									type="button"
 									title="Remove Recipe"
-									class="hover:bg-gray-200 p-1 rounded"
+									class="hover:bg-gray-200 p-1 rounded-sm"
 									onclick={() => {
 										handleRemoveLinkRecipe(recipe.id);
 									}}
@@ -194,7 +194,7 @@
 		<div class="pb-5 last:pb-0">
 			<button
 				type="submit"
-				class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+				class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 				>Create</button
 			>
 		</div>
@@ -208,7 +208,7 @@
 	<div>
 		<label for="search" class="font-semibold pb-2 block">Search</label>
 		<div
-			class="flex border-2 border-slate-200 rounded w-full focus:border-orange-500 outline-none hover:border-slate-300"
+			class="flex border-2 border-slate-200 rounded-sm w-full focus:border-orange-500 outline-hidden hover:border-slate-300"
 		>
 			<input
 				bind:value={searchInput}
@@ -216,7 +216,7 @@
 				id="search"
 				name="search"
 				placeholder="Search"
-				class="p-3 w-full rounded outline-none"
+				class="p-3 w-full rounded-sm outline-hidden"
 			/>
 			<button
 				type="button"
@@ -241,14 +241,14 @@
 		{#each searchResults?.hits || [] as hit}
 			<button
 				type="submit"
-				class="flex flex-col sm:flex-row gap-5 border rounded p-3 hover:bg-gray-50 w-full"
+				class="flex flex-col sm:flex-row gap-5 border rounded-sm p-3 hover:bg-gray-50 w-full"
 				onclick={() => {
 					handleAddLinkRecipe(hit.document);
 				}}
 			>
 				<div
 					style={`background-image: url("${hit.document.imageUrl}")`}
-					class="bg-center bg-no-repeat bg-cover w-full h-24 rounded basis-32"
+					class="bg-center bg-no-repeat bg-cover w-full h-24 rounded-sm basis-32"
 				></div>
 				<div>
 					<h4 class="mb-3 flex text-left gap-2">
@@ -256,7 +256,7 @@
 						<a
 							href={`/recipes/${hit.document.slug}`}
 							target="_blank"
-							class="hover:bg-gray-200 p-1 rounded"
+							class="hover:bg-gray-200 p-1 rounded-sm"
 							title="Open recipe"
 							onclick={(e) => {
 								e.stopPropagation();

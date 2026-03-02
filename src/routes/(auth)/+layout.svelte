@@ -19,7 +19,7 @@
 		<div class="basis-full xl:basis-3/4 2xl:basis-3/5">
 			<div class="flex justify-center items-center pb-10">
 				<a href="/" class="flex justify-center items-center gap-4 group">
-					<div class="transition-transform translate-y-0 group-hover:lg:-translate-y-1">
+					<div class="transition-transform translate-y-0 lg:group-hover:-translate-y-1">
 						<Icon icon="ph:cooking-pot" color="#f97316" width="3rem" />
 					</div>
 					<div class="text-3xl font-bold">
@@ -27,7 +27,7 @@
 					</div></a
 				>
 			</div>
-			<div class="shadow-lg p-5 rounded border bg-white">
+			<div class="shadow-lg p-5 rounded-sm border bg-white">
 				{@render children?.()}
 			</div>
 		</div>

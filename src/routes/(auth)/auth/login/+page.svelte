@@ -34,7 +34,7 @@
 	<div class="flex pb-5">
 		<a
 			href={env.PUBLIC_GOOGLE_OAUTH_URL}
-			class="border rounded flex items-center gap-2 p-2 hover:shadow"
+			class="border rounded-sm flex items-center gap-2 p-2 hover:shadow-sm"
 		>
 			<Icon icon="logos:google-icon" width="1.5rem" />
 			<span>Login with Google</span>
@@ -82,7 +82,7 @@
 			name="email"
 			value={form?.inputs?.email ?? ''}
 			placeholder="Email"
-			class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 		/>
 		{#if form?.errors?.email}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.email}</div>
@@ -95,7 +95,7 @@
 			id="password"
 			name="password"
 			placeholder="Password"
-			class="block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500 outline-none hover:border-slate-300"
+			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 		/>
 		{#if form?.errors?.password}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.password}</div>
@@ -105,7 +105,7 @@
 		<button
 			type="submit"
 			disabled={submitting}
-			class="py-3 px-5 bg-orange-500 rounded text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
+			class="py-3 px-5 bg-orange-500 rounded-sm text-white font-semibold hover:bg-orange-600 disabled:bg-orange-200"
 		>
 			Login
 		</button>

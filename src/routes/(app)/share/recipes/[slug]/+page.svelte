@@ -94,30 +94,30 @@
 			class="bg-center bg-no-repeat bg-cover w-full h-64 lg:h-96 relative"
 		>
 			<div
-				class="absolute right-0 bottom-0 left-0 md:left-auto overflow-auto bg-slate-100 opacity-90"
+				class="absolute right-0 bottom-0 left-0 md:left-auto overflow-auto bg-slate-100 dark:bg-gray-800 opacity-90"
 				class:hidden={!data.shareRecipe.recipe?.data.prep_time &&
 					!data.shareRecipe.recipe?.data.cook_time &&
 					!data.shareRecipe.recipe?.data.total_time}
 			>
 				<div class="flex items-center h-14">
-					<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
+					<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
 						<Icon icon="ph:clock" width="1.8rem" color="#4b5563" />
 					</div>
 					{#if data.shareRecipe.recipe?.data.prep_time}
-						<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Prep time</div>
+						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Prep time</div>
 							<div class="whitespace-nowrap">{data.shareRecipe.recipe?.data.prep_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.shareRecipe.recipe?.data.cook_time}
-						<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Cook time</div>
+						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Cook time</div>
 							<div class="whitespace-nowrap">{data.shareRecipe.recipe?.data.cook_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.shareRecipe.recipe?.data.total_time}
 						<div class="h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Total time</div>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Total time</div>
 							<div class="whitespace-nowrap">
 								{data.shareRecipe.recipe?.data.total_time} minutes
 							</div>

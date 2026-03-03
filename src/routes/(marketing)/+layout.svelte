@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { env } from '$env/dynamic/public';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -14,7 +15,7 @@
 	</div>
 {/if}
 
-<nav class="bg-slate-100 px-3 py-5">
+<nav class="bg-slate-100 dark:bg-gray-900 px-3 py-5">
 	<div
 		class="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
 	>
@@ -28,7 +29,8 @@
 				</div>
 			</a>
 		</div>
-		<div class="flex gap-5">
+		<div class="flex items-center gap-5">
+			<ThemeToggle />
 			<a
 				href="/categories"
 				class="bg-orange-500 rounded-sm p-3 text-white hover:bg-orange-600 shadow-sm font-semibold"
@@ -42,7 +44,7 @@
 	{@render children?.()}
 </main>
 
-<footer class="bg-slate-200 px-3 py-10">
+<footer class="bg-slate-200 dark:bg-gray-800 px-3 py-10">
 	<div class="container mx-auto flex flex-col lg:flex-row gap-5 justify-between">
 		<div class="flex flex-col gap-5">
 			<div>

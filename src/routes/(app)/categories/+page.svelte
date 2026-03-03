@@ -28,7 +28,7 @@
 	<div class="flex flex-col xl:flex-row gap-3 mb-5">
 		<div class="flex items-center gap-3">
 			<h1 class="text-2xl font-bold">All Categories</h1>
-			<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+			<div class="text-sm text-gray-500 dark:text-gray-400">{data.recipes.total} recipes</div>
 		</div>
 
 		<div class="flex flex-col md:flex-row gap-3">
@@ -36,7 +36,7 @@
 				<button
 					bind:this={categoriesBtnEl}
 					onclick={() => (showCategoriesDropdown = !showCategoriesDropdown)}
-					class="p-2 border rounded-sm hover:bg-gray-100 flex items-center gap-2 justify-between w-full md:w-auto"
+					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
 				>
 					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
 						{data.selectedCategories.join(', ')}
@@ -45,7 +45,7 @@
 				</button>
 				{#if categoriesBtnEl}
 					<div
-						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded-sm border z-10 max-h-96 overflow-auto"
+						class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10 max-h-96 overflow-auto"
 						class:hidden={!showCategoriesDropdown}
 						use:clickOutside={[categoriesBtnEl]}
 						onclickoutside={() => {
@@ -73,7 +73,7 @@
 								})
 									.toString()
 									.trim()}`}
-								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b ${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100' : ''}`}
+								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
 							>
 								<span>{category.name}</span>
 								<input
@@ -91,7 +91,7 @@
 				<button
 					bind:this={tagsBtnEl}
 					onclick={() => (showTagsDropdown = !showTagsDropdown)}
-					class="p-2 border rounded-sm hover:bg-gray-100 flex items-center gap-2 justify-between w-full md:w-auto"
+					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
 				>
 					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
 						{data.selectedTags.join(', ')}
@@ -100,7 +100,7 @@
 				</button>
 				{#if tagsBtnEl}
 					<div
-						class="absolute left-0 right-0 w-full top-full bg-white shadow-lg flex flex-col rounded-sm border z-10 max-h-96 overflow-auto"
+						class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10 max-h-96 overflow-auto"
 						class:hidden={!showTagsDropdown}
 						use:clickOutside={[tagsBtnEl]}
 						onclickoutside={() => {
@@ -125,7 +125,7 @@
 								})
 									.toString()
 									.trim()}`}
-								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b ${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100' : ''}`}
+								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
 							>
 								<span>{tag.name}</span>
 								<input

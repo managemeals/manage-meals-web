@@ -39,7 +39,7 @@
 						name="subject"
 						value={form?.inputs?.subject ?? ''}
 						placeholder="Subject"
-						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+						class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 					/>
 					{#if form?.errors?.subject}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.subject}</div>
@@ -51,7 +51,7 @@
 						name="message"
 						id="message"
 						placeholder="Message"
-						class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+						class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 						value={form?.inputs?.message ?? ''}
 						rows="10"
 					></textarea>

@@ -46,7 +46,7 @@
 			{#each { length: pages } as _, i}
 				<a
 					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (i + 1).toString() }).toString()}`}
-					class={`border py-2 px-4 ${i + 1 === page ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
+					class={`border py-2 px-4 ${i + 1 === page ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 					>{i + 1}</a
 				>
 			{/each}
@@ -74,21 +74,21 @@
 			{/if}
 			<a
 				href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: '1' }).toString()}`}
-				class={`border py-2 px-4 ${page < 2 ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
+				class={`border py-2 px-4 ${page < 2 ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 				>1</a
 			>
 			<div class="border py-2 px-4">...</div>
 			{#each middleItems as middleItem}
 				<a
 					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: middleItem.toString() }).toString()}`}
-					class={`border py-2 px-4 ${page === middleItem ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
+					class={`border py-2 px-4 ${page === middleItem ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 					>{middleItem}</a
 				>
 			{/each}
 			<div class="border py-2 px-4">...</div>
 			<a
 				href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: pages.toString() }).toString()}`}
-				class={`border py-2 px-4 ${page >= pages ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100'}`}
+				class={`border py-2 px-4 ${page >= pages ? 'bg-orange-500 hover:bg-orange-500 text-white border-orange-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 				>{pages}</a
 			>
 			{#if page >= pages}
@@ -98,7 +98,7 @@
 			{:else}
 				<a
 					href={`?${new URLSearchParams({ ...Object.fromEntries($storePage.url.searchParams), page: (page + 1).toString() }).toString()}`}
-					class="border p-2 rounded-r flex justify-center items-center hover:bg-gray-100"
+					class="border p-2 rounded-r flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-800"
 					title="Next"
 				>
 					<Icon icon="ph:caret-right" width="1rem" />

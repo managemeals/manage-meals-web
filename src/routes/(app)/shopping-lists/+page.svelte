@@ -50,7 +50,7 @@
 			<a
 				href="/shopping-lists/create"
 				title="Create Shopping List"
-				class="hover:bg-gray-200 p-1 rounded-sm"
+				class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 			>
 				<Icon icon="ph:plus" color="#000" width="1.5rem" />
 			</a>
@@ -69,7 +69,7 @@
 					<!-- Expand toggle button -->
 					<button
 						type="button"
-						class="mt-0.5 shrink-0 p-0.5 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+						class="mt-0.5 shrink-0 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
 						title={expandedSlug === shoppingList.slug ? 'Collapse' : 'Expand'}
 						onclick={() => toggleExpand(shoppingList.slug, shoppingList.ingredients?.length || 0)}
 					>
@@ -84,7 +84,7 @@
 						<a href={`/shopping-lists/${shoppingList.slug}`} class="font-semibold hover:underline">
 							{shoppingList.title}
 						</a>
-						<div class="flex flex-wrap gap-3 mt-1 text-sm text-gray-500">
+						<div class="flex flex-wrap gap-3 mt-1 text-sm text-gray-500 dark:text-gray-400">
 							<span class="flex items-center gap-1">
 								<Icon icon="ph:list-bullets" width="0.85rem" />
 								{shoppingList.ingredients?.length || 0}
@@ -106,14 +106,14 @@
 						<a
 							href={`/shopping-lists/${shoppingList.slug}/edit`}
 							title="Edit"
-							class="hover:bg-gray-200 p-1 rounded-sm"
+							class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 						>
 							<Icon icon="ph:pencil" color="#3b82f6" width="1.2rem" />
 						</a>
 						<button
 							type="button"
 							title="Delete"
-							class="hover:bg-gray-200 p-1 rounded-sm"
+							class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 							onclick={() =>
 								(confirmingDeleteSlug =
 									confirmingDeleteSlug === shoppingList.slug ? null : shoppingList.slug)}
@@ -126,7 +126,7 @@
 				<!-- Delete confirmation -->
 				{#if confirmingDeleteSlug === shoppingList.slug}
 					<div class="px-3 py-2 flex items-center gap-3 border-t bg-red-50">
-						<span class="text-sm text-gray-700">Delete "{shoppingList.title}"?</span>
+						<span class="text-sm text-gray-700 dark:text-gray-300">Delete "{shoppingList.title}"?</span>
 						<form method="POST" action="?/delete" use:enhance>
 							<input type="hidden" name="slug" value={shoppingList.slug} />
 							<button type="submit" class="text-sm text-red-600 hover:underline font-semibold">
@@ -135,7 +135,7 @@
 						</form>
 						<button
 							type="button"
-							class="text-sm text-gray-500 hover:underline"
+							class="text-sm text-gray-500 dark:text-gray-400 hover:underline"
 							onclick={() => (confirmingDeleteSlug = null)}
 						>
 							Cancel
@@ -147,7 +147,7 @@
 				{#if expandedSlug === shoppingList.slug}
 					<div class="border-t px-3 py-3 flex flex-col gap-2">
 						{#if !shoppingList.ingredients?.length}
-							<p class="text-sm italic text-gray-500">No items in this list</p>
+							<p class="text-sm italic text-gray-500 dark:text-gray-400">No items in this list</p>
 						{:else}
 							{#each shoppingList.ingredients as ingredient, i}
 								<div class="flex items-start gap-3">

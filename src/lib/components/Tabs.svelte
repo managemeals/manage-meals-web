@@ -12,7 +12,7 @@
 	<ul class="flex">
 		{#each items as item}
 			<li>
-				<button class="p-4 border-b-2 border-transparent hover:border-gray-300">{item.title}</button
+				<button class="p-4 border-b-2 border-transparent hover:border-gray-300 dark:hover:border-gray-500">{item.title}</button
 				>
 			</li>
 		{/each}

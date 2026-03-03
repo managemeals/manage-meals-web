@@ -36,7 +36,7 @@
 	<div class="flex justify-between items-start mb-5">
 		<div class="flex items-start gap-1 flex-col md:flex-row md:gap-3 md:items-center">
 			<h1 class="text-2xl font-bold">{data.shoppingList.title}</h1>
-			<div class="text-sm text-gray-500">
+			<div class="text-sm text-gray-500 dark:text-gray-400">
 				{data.shoppingList.ingredients?.length || 0}
 				{(data.shoppingList.ingredients?.length || 0) === 1 ? 'item' : 'items'}
 			</div>
@@ -44,7 +44,7 @@
 		<a
 			href={`/shopping-lists/${data.shoppingList.slug}/edit`}
 			title="Edit"
-			class="hover:bg-gray-200 p-1 rounded-sm"
+			class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 		>
 			<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
 		</a>

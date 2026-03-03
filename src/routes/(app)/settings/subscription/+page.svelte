@@ -115,7 +115,7 @@
 
 		<p class="mt-5">There are two ways of setting up a subscription, PayPal or GoCardless.</p>
 
-		<div class="mt-10 border p-3 rounded-sm bg-gray-100">
+		<div class="mt-10 border p-3 rounded-sm bg-gray-100 dark:bg-gray-800">
 			<div bind:this={payPalButtonEl}></div>
 			<form bind:this={ppFormEl} method="post" action="?/paypal" use:enhance>
 				<input
@@ -127,12 +127,12 @@
 			</form>
 		</div>
 
-		<div class="mt-10 border p-3 rounded-sm bg-gray-100">
+		<div class="mt-10 border p-3 rounded-sm bg-gray-100 dark:bg-gray-800">
 			<div class="flex">
 				<a
 					data-sveltekit-preload-data="off"
 					href="/settings/subscription/mandate"
-					class="rounded-full border-2 hover:border-gray-300"
+					class="rounded-full border-2 hover:border-gray-300 dark:hover:border-gray-600"
 				>
 					<GoCardlessIcon />
 				</a>

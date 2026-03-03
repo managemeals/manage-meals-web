@@ -53,7 +53,7 @@
 			onclick={() => {
 				showDeleteModal = true;
 			}}
-			class="hover:bg-gray-200 p-1 rounded-sm"
+			class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 		>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
@@ -82,7 +82,7 @@
 				name="name"
 				value={form?.inputs?.name ?? data.category.name}
 				placeholder="Name"
-				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+				class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			{#if form?.errors?.name}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.name}</div>

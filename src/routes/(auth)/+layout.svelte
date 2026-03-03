@@ -14,8 +14,8 @@
 	</div>
 {/if}
 
-<div class="absolute top-0 right-0 bottom-0 left-0 bg-slate-100">
-	<div class="flex justify-center items-center p-3 pt-20 pb-10 bg-slate-100">
+<div class="absolute top-0 right-0 bottom-0 left-0 bg-slate-100 dark:bg-gray-900">
+	<div class="flex justify-center items-center p-3 pt-20 pb-10 bg-slate-100 dark:bg-gray-900">
 		<div class="basis-full xl:basis-3/4 2xl:basis-3/5">
 			<div class="flex justify-center items-center pb-10">
 				<a href="/" class="flex justify-center items-center gap-4 group">
@@ -27,7 +27,7 @@
 					</div></a
 				>
 			</div>
-			<div class="shadow-lg p-5 rounded-sm border bg-white">
+			<div class="shadow-lg p-5 rounded-sm border bg-white dark:bg-gray-800 dark:border-gray-700">
 				{@render children?.()}
 			</div>
 		</div>

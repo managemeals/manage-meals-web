@@ -91,9 +91,9 @@
 				name="url"
 				value={form?.inputs?.url ?? $page.url.searchParams.get('url') ?? ''}
 				placeholder="https://www.bbcgoodfood.com/recipes/chicken-leek-brown-rice-stir-fry"
-				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+				class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
-			<p class="text-sm text-gray-500 pt-1">The URL of the recipe you want to save</p>
+			<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">The URL of the recipe you want to save</p>
 			{#if form?.errors?.url}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.url}</div>
 			{/if}
@@ -104,7 +104,7 @@
 				<button
 					type="button"
 					title="Create Category"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 					onclick={() => {
 						showCreateCategoryModal = true;
 					}}
@@ -112,13 +112,13 @@
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
-			<p class="text-sm text-gray-500">Optionally choose any categories to add the recipe to</p>
+			<p class="text-sm text-gray-500 dark:text-gray-400">Optionally choose any categories to add the recipe to</p>
 			<input type="hidden" id="categories" name="categories" bind:value={selectedCategoriesValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.categories as category}
 					<div>
 						<button
-							class={`p-2 border border-slate-200 rounded-sm ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 dark:border-gray-600 rounded-sm ${selectedCategories.includes(category.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 							type="button"
 							onclick={() => {
 								handleAddCategory(category);
@@ -134,7 +134,7 @@
 				<button
 					type="button"
 					title="Create Tag"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 					onclick={() => {
 						showCreateTagModal = true;
 					}}
@@ -142,13 +142,13 @@
 					<Icon icon="ph:plus" color="#000" width="1.5rem" />
 				</button>
 			</label>
-			<p class="text-sm text-gray-500">Optionally choose any tags to tag the recipe with</p>
+			<p class="text-sm text-gray-500 dark:text-gray-400">Optionally choose any tags to tag the recipe with</p>
 			<input type="hidden" id="tags" name="tags" bind:value={selectedTagsValue} />
 			<div class="flex gap-2 flex-wrap pt-3">
 				{#each data.tags as tag}
 					<div>
 						<button
-							class={`p-2 border border-slate-200 rounded-sm ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100'}`}
+							class={`p-2 border border-slate-200 dark:border-gray-600 rounded-sm ${selectedTags.includes(tag.uuid) ? 'bg-orange-500 text-white' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
 							type="button"
 							onclick={() => {
 								handleAddTag(tag);
@@ -192,7 +192,7 @@
 				value={form?.inputs?.createCategoryName ?? ''}
 				placeholder="Name"
 				class={`
-				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded w-full p-3 focus:border-orange-500
 				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>
@@ -229,7 +229,7 @@
 				value={form?.inputs?.createTagName ?? ''}
 				placeholder="Name"
 				class={`
-				block border-2 border-slate-200 rounded w-full p-3 focus:border-orange-500
+				block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded w-full p-3 focus:border-orange-500
 				outline-hidden hover:border-slate-300
 				`.trim()}
 			/>

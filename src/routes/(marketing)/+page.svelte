@@ -26,7 +26,7 @@
 
 <header
 	class={`
-		relative px-3 py-20 pb-40 before:absolute before:bg-slate-100 before:-top-180 md:before:-top-160
+		relative px-3 py-20 pb-40 before:absolute before:bg-slate-100 dark:before:bg-gray-800 before:-top-180 md:before:-top-160
 		lg:before:-top-220 xl:before:-top-200
 		before:-right-60 overflow-hidden before:-left-60 before:h-360
 		before:-rotate-6 before:border-b before:-z-10
@@ -121,6 +121,16 @@
 				<p class="pt-3">
 					Powerful and fast search that finds what you're looking for almost instantly. Can handle
 					spelling mistakes.
+				</p>
+			</div>
+
+			<div>
+				<div class="flex items-center gap-2">
+					<Icon icon="ph:moon" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Dark Mode</h4>
+				</div>
+				<p class="pt-3">
+					Switch between light and dark mode to suit your preference and environment.
 				</p>
 			</div>
 
@@ -357,7 +367,7 @@
 </section>
 
 {#if env.PUBLIC_SHOW_SCREEN_RECORDINGS === 'true'}
-	<section class="px-3 py-20 bg-slate-50">
+	<section class="px-3 py-20 bg-slate-50 dark:bg-gray-900">
 		<div class="container mx-auto">
 			<h3 class="text-3xl font-bold text-center pb-10">Screen Recordings</h3>
 			<div class="flex flex-col lg:flex-row gap-10">
@@ -388,7 +398,7 @@
 {/if}
 
 {#if env.PUBLIC_SHOW_MOBILE_APPS === 'true'}
-	<section class="px-3 py-20 bg-slate-100" id="mobile-apps">
+	<section class="px-3 py-20 bg-slate-100 dark:bg-gray-800" id="mobile-apps">
 		<div class="container mx-auto">
 			<h3 class="text-3xl font-bold text-center pb-10">Mobile Apps</h3>
 			<div class="flex flex-col lg:flex-row gap-10">
@@ -426,10 +436,10 @@
 	</section>
 {/if}
 
-<section class="px-3 py-20 bg-slate-50">
+<section class="px-3 py-20 bg-slate-50 dark:bg-gray-900">
 	<div class="container mx-auto text-center">
 		<h3 class="text-3xl font-bold pb-4">Get Started for Free</h3>
-		<p class="text-lg text-slate-600 pb-8">
+		<p class="text-lg text-slate-600 dark:text-gray-400 pb-8">
 			No credit card required. Import your first recipe in seconds.
 		</p>
 		<a

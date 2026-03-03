@@ -58,7 +58,7 @@
 			name="name"
 			value={form?.inputs?.name ?? ''}
 			placeholder="Name"
-			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+			class="block border-2 border-slate-200 dark:border-gray-600 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300 dark:hover:border-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
 		/>
 		{#if form?.errors?.name}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.name}</div>
@@ -72,7 +72,7 @@
 			name="email"
 			value={form?.inputs?.email ?? ''}
 			placeholder="Email"
-			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+			class="block border-2 border-slate-200 dark:border-gray-600 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300 dark:hover:border-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
 		/>
 		{#if form?.errors?.email}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.email}</div>
@@ -85,7 +85,7 @@
 			id="password"
 			name="password"
 			placeholder="Password"
-			class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+			class="block border-2 border-slate-200 dark:border-gray-600 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300 dark:hover:border-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
 		/>
 		{#if form?.errors?.password}
 			<div class="text-sm pt-1 text-red-500">{form?.errors?.password}</div>

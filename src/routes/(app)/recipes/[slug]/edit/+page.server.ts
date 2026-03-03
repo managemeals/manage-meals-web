@@ -50,6 +50,32 @@ export const actions = {
 		const dataNutrientsUnsaturatedFat = data.get('data.nutrients.unsaturatedFatContent') as string;
 
 		try {
+			const ingredientChunks = dataIngredients
+				.replaceAll('\r', '\n')
+				.split('\n\n')
+				.filter((d) => d.trim())
+				.map((d) => d.trim())
+
+			const hasGroups = ingredientChunks.some((c) => c.startsWith('## '))
+			const parsedIngredientGroups: { purpose: string; ingredients: string[] }[] = []
+
+			if (hasGroups) {
+				let current: { purpose: string; ingredients: string[] } | null = null
+				for (const chunk of ingredientChunks) {
+					if (chunk.startsWith('## ')) {
+						if (current) parsedIngredientGroups.push(current)
+						current = { purpose: chunk.slice(3).trim(), ingredients: [] }
+					} else if (current) {
+						current.ingredients.push(chunk)
+					}
+				}
+				if (current) parsedIngredientGroups.push(current)
+			}
+
+			const parsedIngredients = hasGroups
+				? parsedIngredientGroups.flatMap((g) => g.ingredients)
+				: ingredientChunks
+
 			const recipeRes = await apiClient(cookies.getAll()).get(`/recipes/${slug}`);
 			await apiClient(cookies.getAll()).put(`/recipes/${slug}`, {
 				categoryUuids: categories ? categories.split(',') : [],
@@ -64,11 +90,8 @@ export const actions = {
 					prep_time: dataPrepTime,
 					total_time: dataTotalTime,
 					yields: dataYields,
-					ingredients: dataIngredients
-						.replaceAll('\r', '\n')
-						.split('\n\n')
-						.filter((d) => d)
-						.map((d) => d.trim()),
+					ingredients: parsedIngredients,
+					ingredient_groups: parsedIngredientGroups,
 					instructions_list: dataInstructions
 						.replaceAll('\r', '\n')
 						.split('\n\n')

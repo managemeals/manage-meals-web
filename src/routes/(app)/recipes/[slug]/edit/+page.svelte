@@ -289,12 +289,22 @@
 				id="data.ingredients"
 				placeholder="Ingredients"
 				class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
-				value={form?.inputs?.data?.ingredients ?? (data.recipe.data.ingredients || []).join('\n\n')}
+				value={form?.inputs?.data?.ingredients ??
+					(data.recipe.data.ingredient_groups?.length
+						? data.recipe.data.ingredient_groups
+								.map((g) =>
+									[...(g.purpose ? [`## ${g.purpose}`] : []), ...g.ingredients].join(
+										'\n\n'
+									)
+								)
+								.join('\n\n')
+						: (data.recipe.data.ingredients || []).join('\n\n'))}
 				rows="12"
 			></textarea>
 			<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">
-				Split up the ingredients by putting an empty line in between. To make the text input bigger,
-				drag down in the bottom right.
+				Split up the ingredients by putting an empty line in between. To group ingredients, start a
+				section with <code>## Group Name</code> on its own line. To make the text input bigger, drag
+				down in the bottom right.
 			</p>
 			{#if form?.errors?.data?.ingredients}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.ingredients}</div>

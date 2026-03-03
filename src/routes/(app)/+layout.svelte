@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import type { IIconHelpLink, IIconLink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { LayoutData } from './$types';
@@ -126,38 +127,44 @@
 
 <div class="w-screen z-10" bind:clientWidth={clientW}></div>
 <nav
-	class="bg-orange-500 h-16 shadow-sm flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-3 md:gap-1"
+	class="bg-orange-500 dark:bg-orange-800 h-16 shadow-sm flex justify-between items-center fixed top-0 w-full z-40 px-3 gap-3 md:gap-1"
 >
 	<div class="flex items-center gap-3">
 		<button
 			onclick={handleToggleSidebar}
 			class={`
 				p-1 rounded
-				${!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? 'hover:bg-orange-500 cursor-auto' : 'hover:bg-orange-600'}
+				${!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? 'hover:bg-orange-500 dark:hover:bg-orange-800 cursor-auto' : 'hover:bg-orange-600 dark:hover:bg-orange-700'}
 			`.trim()}
 			bind:this={sidebarBtnEl}
 		>
-			<Icon
-				icon="ph:list"
-				color={!$sidebarLinks.length && clientW >= SM_BREAKPOINT ? '#fb923c' : '#fff'}
-				width="1.5rem"
-			/>
+			<span
+				class={!$sidebarLinks.length && clientW >= SM_BREAKPOINT
+					? 'text-orange-400 dark:text-orange-900'
+					: 'text-white dark:text-slate-200'}
+			>
+				<Icon icon="ph:list" width="1.5rem" />
+			</span>
 		</button>
 		<a
 			href="/categories"
-			class="text-white text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
+			class="text-white dark:text-slate-200 text-xl md:text-2xl font-semibold tracking-wide flex gap-3 items-center group ml-1"
 		>
 			<div class="transition-transform translate-y-0 lg:group-hover:-translate-y-1">
-				<Icon icon="ph:cooking-pot" color="#fff" width="2.2rem" />
+				<Icon icon="ph:cooking-pot" width="2.2rem" />
 			</div>
-			<div>Manage<span class="text-white">Meals</span></div>
+			<div>ManageMeals</div>
 		</a>
 	</div>
 	<div
 		class="flex items-center gap-1 md:gap-4 flex-1 md:flex-none justify-between md:justify-start"
 	>
-		<a href="/help/donate" class="p-1 rounded-sm hover:bg-orange-600" title="Donate">
-			<Icon icon="ph:tip-jar" color="#fff" width="2rem" />
+		<a
+			href="/help/donate"
+			class="p-1 rounded-sm hover:bg-orange-600 dark:hover:bg-orange-700 text-white dark:text-slate-200"
+			title="Donate"
+		>
+			<Icon icon="ph:tip-jar" width="2rem" />
 		</a>
 		<div class="hidden md:block">
 			<NavbarSearch />
@@ -165,15 +172,15 @@
 		<div class="relative">
 			<button
 				onclick={() => (showCreateDropdown = !showCreateDropdown)}
-				class="p-1 rounded-sm hover:bg-orange-600"
+				class="p-1 rounded-sm hover:bg-orange-600 dark:hover:bg-orange-700 text-white dark:text-slate-200"
 				bind:this={createBtnEl}
 				title="Create"
 			>
-				<Icon icon="ph:plus" color="#fff" width="2rem" />
+				<Icon icon="ph:plus" width="2rem" />
 			</button>
 			{#if createBtnEl}
 				<div
-					class="absolute right-0 top-full bg-white shadow-lg w-52 sm:w-64 flex flex-col rounded-sm border border-slate-200"
+					class="absolute right-0 top-full bg-white dark:bg-gray-900 shadow-lg w-52 sm:w-64 flex flex-col rounded-sm border border-slate-200 dark:border-gray-700"
 					class:hidden={!showCreateDropdown}
 					use:clickOutside={[createBtnEl]}
 					onclickoutside={() => {
@@ -183,7 +190,7 @@
 					{#each createLinks as createLink}
 						<a
 							href={createLink.href}
-							class="w-full p-3 hover:bg-gray-100 first:rounded-t last:rounded-b flex items-center gap-3"
+							class="w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b flex items-center gap-3"
 							onclick={() => {
 								showCreateDropdown = false;
 							}}
@@ -196,7 +203,7 @@
 							</div>
 							<div>
 								<div>{createLink.title}</div>
-								<div class="text-sm text-gray-500">{createLink.help}</div>
+								<div class="text-sm text-gray-500 dark:text-gray-400">{createLink.help}</div>
 							</div>
 						</a>
 					{/each}
@@ -208,15 +215,15 @@
 
 <div
 	class={`
-		fixed h-[calc(100vh-4rem)] top-16 w-16 flex flex-col items-center border-r-2 z-30 bg-white transition-transform
+		fixed h-[calc(100vh-4rem)] top-16 w-16 flex flex-col items-center border-r-2 z-30 bg-white dark:bg-gray-900 dark:border-gray-700 transition-transform
 		${showSidebar ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}
 	`.trim()}
 >
-	<nav class="h-full flex flex-col items-center overflow-y-auto w-full">
+	<nav class="flex-1 flex flex-col items-center overflow-y-auto w-full">
 		{#each leftNavLinks as leftNavLink}
 			<a
 				href={leftNavLink.href}
-				class={`hover:bg-gray-200 my-1 p-1 first:mt-3 last:mb-3 rounded ${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200' : ''}`}
+				class={`hover:bg-gray-200 dark:hover:bg-gray-700 my-1 p-1 first:mt-3 last:mb-3 rounded ${$page.url.pathname.startsWith('/' + leftNavLink.href.split('/')[1]) && leftNavLink.href !== '/recipes/random' ? ' bg-gray-200 dark:bg-gray-700' : ''}`}
 				title={leftNavLink.title}
 				onclick={handleCloseSidebar}
 			>
@@ -224,6 +231,9 @@
 			</a>
 		{/each}
 	</nav>
+	<div class="mb-3">
+		<ThemeToggle />
+	</div>
 </div>
 
 {#if sidebarBtnEl}
@@ -237,14 +247,14 @@
 		}}
 		class={`
 			fixed h-[calc(100vh-4rem)] top-16 w-60 sm:w-80 border-r-2 left-16 z-20
-			overflow-y-auto bg-white transition-transform
+			overflow-y-auto bg-white dark:bg-gray-900 dark:border-gray-700 transition-transform
 			${showSidebar && $sidebarLinks.length ? 'translate-x-0' : '-translate-x-96 sm:-translate-x-80'}
 		`.trim()}
 	>
 		{#each $sidebarLinks as sidebarLink}
 			<a
 				href={sidebarLink.href}
-				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 py-3 px-2 ${$page.url.pathname === sidebarLink.href ? 'bg-gray-100' : ''}`}
+				class={`flex items-center gap-2 border-b last:border-b-0 hover:bg-gray-100 dark:hover:bg-gray-800 py-3 px-2 ${$page.url.pathname === sidebarLink.href ? 'bg-gray-100 dark:bg-gray-800' : ''}`}
 				onclick={handleCloseSidebar}
 			>
 				<Icon

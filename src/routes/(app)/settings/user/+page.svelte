@@ -29,7 +29,7 @@
 			onclick={() => {
 				showDeleteModal = true;
 			}}
-			class="hover:bg-gray-200 p-1 rounded-sm"
+			class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 		>
 			<Icon icon="ph:trash" color="#ef4444" width="1.5rem" />
 		</button>
@@ -60,7 +60,7 @@
 						name="name"
 						value={form?.inputs?.name ?? data.user.name}
 						placeholder="Name"
-						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
+						class="block border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
 					{#if form?.errors?.name}
 						<div class="text-sm pt-1 text-red-500">{form?.errors?.name}</div>
@@ -74,10 +74,10 @@
 						name="email"
 						value={form?.inputs?.email ?? data.user.email}
 						placeholder="Email"
-						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
+						class="block border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
 					{#if env.PUBLIC_EMAIL_VERIFY_ENABLED === 'true'}
-						<p class="text-sm text-gray-500 pt-1">
+						<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">
 							Changing your email will send a verification email
 						</p>
 					{/if}
@@ -92,9 +92,9 @@
 						id="password"
 						name="password"
 						placeholder="Password"
-						class="block border-2 border-gray-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
+						class="block border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-gray-300"
 					/>
-					<p class="text-sm text-gray-500 pt-1">
+					<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">
 						Only fill this out if you want to change your password
 					</p>
 					{#if form?.errors?.password}

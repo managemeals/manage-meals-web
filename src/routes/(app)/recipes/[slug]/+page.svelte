@@ -113,30 +113,30 @@
 			class="bg-center bg-no-repeat bg-cover w-full h-64 lg:h-96 relative"
 		>
 			<div
-				class="absolute right-0 bottom-0 left-0 md:left-auto overflow-auto bg-slate-100 opacity-90"
+				class="absolute right-0 bottom-0 left-0 md:left-auto overflow-auto bg-slate-100 dark:bg-gray-800 opacity-90"
 				class:hidden={!data.recipe.data.prep_time &&
 					!data.recipe.data.cook_time &&
 					!data.recipe.data.total_time}
 			>
 				<div class="flex items-center h-14">
-					<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
+					<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
 						<Icon icon="ph:clock" width="1.8rem" color="#4b5563" />
 					</div>
 					{#if data.recipe.data.prep_time}
-						<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Prep time</div>
+						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Prep time</div>
 							<div class="whitespace-nowrap">{data.recipe.data.prep_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.recipe.data.cook_time}
-						<div class="border-r-2 border-gray-300 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Cook time</div>
+						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Cook time</div>
 							<div class="whitespace-nowrap">{data.recipe.data.cook_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.recipe.data.total_time}
 						<div class="h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 whitespace-nowrap">Total time</div>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Total time</div>
 							<div class="whitespace-nowrap">{data.recipe.data.total_time} minutes</div>
 						</div>
 					{/if}
@@ -200,7 +200,7 @@
 				<button
 					type="button"
 					title="Share"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 					onclick={() => {
 						showShareModal = true;
 					}}
@@ -210,7 +210,7 @@
 				<button
 					type="button"
 					title="Shopping list"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 					onclick={() => {
 						showShoppingListModal = true;
 					}}
@@ -220,7 +220,7 @@
 				<a
 					href={`/recipes/${data.recipe.slug}/edit`}
 					title="Edit"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 				>
 					<Icon icon="ph:pencil" color="#3b82f6" width="1.4rem" />
 				</a>
@@ -440,7 +440,7 @@
 				<div>https://managemeals.com/share/recipes/{recipeShare.slug}</div>
 				<div class="flex items-center gap-2">
 					<button
-						class="flex items-center gap-2 text-left hover:bg-gray-200 p-1 rounded-sm"
+						class="flex items-center gap-2 text-left hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 						title="Copy"
 						onclick={async () => {
 							await window.navigator.clipboard.writeText(
@@ -452,7 +452,7 @@
 					</button>
 					<form method="post" action="?/deleteshare" use:enhance>
 						<input type="hidden" id="slug" name="slug" value={recipeShare.slug} />
-						<button class="hover:bg-gray-200 p-1 rounded-sm" title="Delete">
+						<button class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm" title="Delete">
 							<Icon icon="ph:x" color="#000" width="1.2rem" />
 						</button>
 					</form>

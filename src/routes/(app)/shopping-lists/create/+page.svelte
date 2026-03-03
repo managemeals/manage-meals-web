@@ -88,7 +88,7 @@
 				name="title"
 				value={form?.inputs?.title ?? ''}
 				placeholder="Title"
-				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+				class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 			/>
 			{#if form?.errors?.title}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.title}</div>
@@ -101,11 +101,11 @@
 				name="ingredients"
 				id="ingredients"
 				placeholder="Ingredients"
-				class="block border-2 border-slate-200 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
+				class="block border-2 border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:border-gray-500 rounded-sm w-full p-3 focus:border-orange-500 outline-hidden hover:border-slate-300"
 				value={form?.inputs?.ingredients ?? ''}
 				rows="20"
 			></textarea>
-			<p class="text-sm text-gray-500 pt-1">
+			<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">
 				Split up the ingredients by putting an empty line in between. To make the text input bigger,
 				drag down in the bottom right.
 			</p>
@@ -120,7 +120,7 @@
 				<button
 					type="button"
 					title="Link Recipe"
-					class="hover:bg-gray-200 p-1 rounded-sm"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 					onclick={() => {
 						showAddLinkRecipeModal = true;
 					}}
@@ -145,7 +145,7 @@
 								<button
 									type="button"
 									title="Remove Recipe"
-									class="hover:bg-gray-200 p-1 rounded-sm"
+									class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 									onclick={() => {
 										handleRemoveLinkRecipe(recipe.id);
 									}}
@@ -208,7 +208,7 @@
 	<div>
 		<label for="search" class="font-semibold pb-2 block">Search</label>
 		<div
-			class="flex border-2 border-slate-200 rounded-sm w-full focus:border-orange-500 outline-hidden hover:border-slate-300"
+			class="flex border-2 border-slate-200 dark:border-gray-600 rounded-sm w-full focus:border-orange-500 outline-hidden hover:border-slate-300 dark:hover:border-gray-500"
 		>
 			<input
 				bind:value={searchInput}
@@ -220,7 +220,7 @@
 			/>
 			<button
 				type="button"
-				class="rounded-r px-3 hover:bg-slate-100"
+				class="rounded-r px-3 hover:bg-slate-100 dark:hover:bg-gray-800"
 				onclick={handleSearchInput}
 				title="Search"
 			>
@@ -241,7 +241,7 @@
 		{#each searchResults?.hits || [] as hit}
 			<button
 				type="submit"
-				class="flex flex-col sm:flex-row gap-5 border rounded-sm p-3 hover:bg-gray-50 w-full"
+				class="flex flex-col sm:flex-row gap-5 border rounded-sm p-3 hover:bg-gray-50 dark:hover:bg-gray-800 w-full"
 				onclick={() => {
 					handleAddLinkRecipe(hit.document);
 				}}
@@ -256,7 +256,7 @@
 						<a
 							href={`/recipes/${hit.document.slug}`}
 							target="_blank"
-							class="hover:bg-gray-200 p-1 rounded-sm"
+							class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
 							title="Open recipe"
 							onclick={(e) => {
 								e.stopPropagation();

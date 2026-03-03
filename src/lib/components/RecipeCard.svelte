@@ -17,7 +17,7 @@
 	}: Props = $props();
 </script>
 
-<div class="border hover:shadow-sm rounded-sm">
+<div class="border hover:shadow-sm rounded-sm dark:bg-gray-900">
 	<a href={`${urlPrefix}/recipes/${recipe.slug}`}>
 		<div
 			style={`background-image: url("${recipe.data.image}")`}

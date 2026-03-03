@@ -12,7 +12,7 @@
 </script>
 
 {#if hasTitleLink}
-	<div class="border rounded-sm flex flex-col md:flex-row">
+	<div class="border rounded-sm flex flex-col md:flex-row dark:bg-gray-900">
 		<div
 			style={`background-image: url("${recipe.data.image}")`}
 			class={`
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 {:else}
-	<a href={`/recipes/${recipe.slug}`} class="border hover:shadow-sm rounded-sm flex flex-col md:flex-row">
+	<a href={`/recipes/${recipe.slug}`} class="border hover:shadow-sm rounded-sm flex flex-col md:flex-row dark:bg-gray-900">
 		<div
 			style={`background-image: url("${recipe.data.image}")`}
 			class={`

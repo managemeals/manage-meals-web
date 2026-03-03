@@ -18,7 +18,7 @@
 <div class="p-5">
 	<div class="flex items-center gap-3 mb-5">
 		<h1 class="text-2xl font-bold">Latest Recipes</h1>
-		<div class="text-sm text-gray-500">{data.recipes.total} recipes</div>
+		<div class="text-sm text-gray-500 dark:text-gray-400">{data.recipes.total} recipes</div>
 	</div>
 
 	{#if !data.recipes.total}

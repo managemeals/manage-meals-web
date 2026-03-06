@@ -10,5 +10,19 @@
 	"icons": [
 		{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
 		{ "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+	],
+	"screenshots": [
+		{
+			"src": "/screenshot-narrow.png",
+			"sizes": "390x844",
+			"type": "image/png",
+			"form_factor": "narrow"
+		},
+		{
+			"src": "/screenshot-wide.png",
+			"sizes": "1280x800",
+			"type": "image/png",
+			"form_factor": "wide"
+		}
 	]
 }

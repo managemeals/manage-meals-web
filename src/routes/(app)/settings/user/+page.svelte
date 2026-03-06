@@ -5,7 +5,8 @@
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import Modal from '$lib/components/Modal.svelte';
-
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import { isDark } from '$lib/stores';
 
 	interface Props {
 		form: ActionData;
@@ -109,6 +110,13 @@
 					>
 				</div>
 			</form>
+		</div>
+	</div>
+	<div class="mt-8">
+		<h2 class="text-lg font-semibold mb-3">Appearance</h2>
+		<div class="flex items-center gap-3">
+			<ThemeToggle />
+			<span>{$isDark ? 'Dark mode' : 'Light mode'}</span>
 		</div>
 	</div>
 </div>

@@ -6,7 +6,6 @@
 	import { page } from '$app/stores';
 	import type { IIconHelpLink, IIconLink } from '$lib/types';
 	import NavbarSearch from '$lib/components/NavbarSearch.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { LayoutData } from './$types';
@@ -25,12 +24,13 @@
 	let createBtnEl: HTMLButtonElement | undefined = $state();
 
 	let clientW: number = $state(0);
-	let showSidebar = $state(true);
+	let showSidebar = $state(false);
 
 	let showCreateDropdown = $state(false);
 
 	const handleWidthChange = (w: number) => {
-		if (w && w < LG_BREAKPOINT) {
+		if (!w) return;
+		if (w < LG_BREAKPOINT) {
 			showSidebar = false;
 		} else {
 			showSidebar = true;
@@ -231,9 +231,6 @@
 			</a>
 		{/each}
 	</nav>
-	<div class="mb-3">
-		<ThemeToggle />
-	</div>
 </div>
 
 {#if sidebarBtnEl}

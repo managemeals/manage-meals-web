@@ -106,8 +106,7 @@
 				rows="20"
 			></textarea>
 			<p class="text-sm text-gray-500 dark:text-gray-400 pt-1">
-				Split up the ingredients by putting an empty line in between. To make the text input bigger,
-				drag down in the bottom right.
+				Split up the ingredients by putting an empty line in between.
 			</p>
 			{#if form?.errors?.data?.ingredients}
 				<div class="text-sm pt-1 text-red-500">{form?.errors?.data?.ingredients}</div>

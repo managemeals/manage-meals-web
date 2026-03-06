@@ -12,7 +12,6 @@
 	import { enhance } from '$app/forms';
 	import type { IShareRecipe } from '$lib/types';
 
-
 	interface Props {
 		data: PageData;
 		form: ActionData;
@@ -119,24 +118,36 @@
 					!data.recipe.data.total_time}
 			>
 				<div class="flex items-center h-14">
-					<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+					<div
+						class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+					>
 						<Icon icon="ph:clock" width="1.8rem" color="#4b5563" />
 					</div>
 					{#if data.recipe.data.prep_time}
-						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Prep time</div>
+						<div
+							class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+						>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Prep time
+							</div>
 							<div class="whitespace-nowrap">{data.recipe.data.prep_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.recipe.data.cook_time}
-						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Cook time</div>
+						<div
+							class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+						>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Cook time
+							</div>
 							<div class="whitespace-nowrap">{data.recipe.data.cook_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.recipe.data.total_time}
 						<div class="h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Total time</div>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Total time
+							</div>
 							<div class="whitespace-nowrap">{data.recipe.data.total_time} minutes</div>
 						</div>
 					{/if}
@@ -247,7 +258,7 @@
 		<div class="flex flex-col md:flex-row gap-5 mb-5">
 			<div class="basis-1/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
-				{#if data.recipe.data.ingredient_groups?.length}
+				{#if data.recipe.data.ingredient_groups?.some((g) => g.purpose)}
 					{#each data.recipe.data.ingredient_groups as group, i}
 						{#if group.purpose}
 							<h4 class="font-semibold mb-1 {i > 0 ? 'mt-4' : ''}">{group.purpose}</h4>

@@ -142,8 +142,8 @@
 				<p class="pt-3">
 					People use all kinds of devices to look at recipes in the kitchen; phones, tablets,
 					laptops, etc. ManageMeals works on any screen size. It's set up so that all closely
-					related information, such as ingredients and directions, stay close together even on small
-					screen sizes.
+					related information, such as ingredients and instructions, stay close together even on
+					small screen sizes.
 				</p>
 			</div>
 

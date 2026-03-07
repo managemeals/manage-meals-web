@@ -14,8 +14,8 @@
 		<div class="basis-full xl:basis-3/4">
 			<p class="pb-3">
 				ManageMeals started as a hobby project. I wanted a way to save recipes I found online,
-				without the wall of text and all the ads. Just the recipe ingredients and directions. Then I
-				decided to open it up for registration and make it fully <a
+				without the wall of text and all the ads. Just the recipe ingredients and instructions. Then
+				I decided to open it up for registration and make it fully <a
 					href="https://github.com/managemeals"
 					class="hover:underline text-blue-500">open source</a
 				>

@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { page as storePage } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	interface Props {
 		data: PageData;
@@ -18,6 +19,42 @@
 
 	let showCategoriesDropdown = $state(false);
 	let showTagsDropdown = $state(false);
+
+	const sortOptions = [
+		{ label: 'Name (A-Z)', value: '' },
+		{ label: 'Calories ↑', value: 'calories' },
+		{ label: 'Calories ↓', value: '-calories' },
+		{ label: 'Protein ↑', value: 'protein' },
+		{ label: 'Protein ↓', value: '-protein' },
+		{ label: 'Rating ↑', value: 'rating' },
+		{ label: 'Rating ↓', value: '-rating' },
+		{ label: 'Cook Time ↑', value: 'totalTime' },
+		{ label: 'Cook Time ↓', value: '-totalTime' }
+	];
+
+	function onSortChange(e: Event) {
+		const sort = (e.target as HTMLSelectElement).value;
+		const params = new URLSearchParams($storePage.url.searchParams);
+		params.set('page', '1');
+		if (sort) {
+			params.set('sort', sort);
+		} else {
+			params.delete('sort');
+		}
+		goto(`?${params.toString()}`);
+	}
+
+	function onNutritionChange(key: string, e: Event) {
+		const value = (e.target as HTMLInputElement).value;
+		const params = new URLSearchParams($storePage.url.searchParams);
+		params.set('page', '1');
+		if (value) {
+			params.set(key, value);
+		} else {
+			params.delete(key);
+		}
+		goto(`?${params.toString()}`);
+	}
 </script>
 
 <svelte:head>
@@ -31,7 +68,7 @@
 			<div class="text-sm text-gray-500 dark:text-gray-400">{data.recipes.total} recipes</div>
 		</div>
 
-		<div class="flex flex-col md:flex-row gap-3">
+		<div class="flex flex-col md:flex-row md:flex-wrap gap-3">
 			<div class="relative">
 				<button
 					bind:this={categoriesBtnEl}
@@ -137,6 +174,54 @@
 						{/each}
 					</div>
 				{/if}
+			</div>
+
+			<select
+				value={data.selectedSort}
+				onchange={onSortChange}
+				class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900 bg-white"
+			>
+				{#each sortOptions as opt}
+					<option value={opt.value}>{opt.label}</option>
+				{/each}
+			</select>
+
+			<div class="flex items-center gap-2">
+				<input
+					type="number"
+					placeholder="Min cal"
+					value={data.minCalories}
+					onchange={(e) => onNutritionChange('minCalories', e)}
+					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+					min="0"
+				/>
+				<input
+					type="number"
+					placeholder="Max cal"
+					value={data.maxCalories}
+					onchange={(e) => onNutritionChange('maxCalories', e)}
+					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+					min="0"
+				/>
+			</div>
+
+			<div class="flex items-center gap-2">
+				<input
+					type="number"
+					placeholder="Min prot"
+					value={data.minProtein}
+					onchange={(e) => onNutritionChange('minProtein', e)}
+					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+					min="0"
+				/>
+				<input
+					type="number"
+					placeholder="Max prot"
+					value={data.maxProtein}
+					onchange={(e) => onNutritionChange('maxProtein', e)}
+					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+					min="0"
+				/>
 			</div>
 		</div>
 	</div>

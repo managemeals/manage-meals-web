@@ -80,6 +80,7 @@ export interface IRecipe {
 	categories: ICategory[];
 	tags: ITag[];
 	rating: number;
+	favorite?: boolean;
 	data: IRecipeData;
 }
 

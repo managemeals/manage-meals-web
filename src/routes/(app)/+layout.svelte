@@ -72,6 +72,11 @@
 			title: 'Search'
 		},
 		{
+			href: '/favorites',
+			icon: 'ph:heart',
+			title: 'Favorites'
+		},
+		{
 			href: '/meal-plans',
 			icon: 'ph:calendar-dots',
 			title: 'Meal Plans'

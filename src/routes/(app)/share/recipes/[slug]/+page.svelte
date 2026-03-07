@@ -19,6 +19,7 @@
 
 	let toggleWakelock = $state(false);
 	let hasWakeLock = $state(false);
+	// eslint-disable-next-line no-undef
 	let wakeLock: WakeLockSentinel | undefined;
 	let showWakeLockModal = $state(false);
 	let wakeLockError = $state('');
@@ -100,24 +101,36 @@
 					!data.shareRecipe.recipe?.data.total_time}
 			>
 				<div class="flex items-center h-14">
-					<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
+					<div
+						class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+					>
 						<Icon icon="ph:clock" width="1.8rem" color="#4b5563" />
 					</div>
 					{#if data.shareRecipe.recipe?.data.prep_time}
-						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Prep time</div>
+						<div
+							class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+						>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Prep time
+							</div>
 							<div class="whitespace-nowrap">{data.shareRecipe.recipe?.data.prep_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.shareRecipe.recipe?.data.cook_time}
-						<div class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Cook time</div>
+						<div
+							class="border-r-2 border-gray-300 dark:border-gray-600 h-full px-3 flex flex-col justify-center"
+						>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Cook time
+							</div>
 							<div class="whitespace-nowrap">{data.shareRecipe.recipe?.data.cook_time} minutes</div>
 						</div>
 					{/if}
 					{#if data.shareRecipe.recipe?.data.total_time}
 						<div class="h-full px-3 flex flex-col justify-center">
-							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Total time</div>
+							<div class="uppercase text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+								Total time
+							</div>
 							<div class="whitespace-nowrap">
 								{data.shareRecipe.recipe?.data.total_time} minutes
 							</div>
@@ -210,7 +223,7 @@
 				{/if}
 			</div>
 			<div class="basis-2/3">
-				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Directions</h3>
+				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Instructions</h3>
 				<ol class="list-decimal list-inside">
 					{#each data.shareRecipe.recipe?.data.instructions_list || [] as instruction}
 						<li class="mb-3 last:mb-0">{instruction}</li>

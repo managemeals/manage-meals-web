@@ -255,7 +255,9 @@
 							{#each mealPlan.mealTypes as mealType}
 								<div class="text-xs leading-tight">
 									<div class="text-gray-400">{mealType.mealType}</div>
-									<div class="truncate text-gray-700 dark:text-gray-300">{mealType.recipe?.data.title || ''}</div>
+									<div class="truncate text-gray-700 dark:text-gray-300">
+										{mealType.recipe?.data.title || ''}
+									</div>
 								</div>
 							{/each}
 						</div>
@@ -427,8 +429,8 @@
 <Modal bind:show={showSelectDayModal}>
 	<h4 class="text-xl font-bold mb-1">Pick a Recipe</h4>
 	<p class="text-sm text-gray-500 dark:text-gray-400 mb-5">
-		Search and select a specific recipe for <span class="font-semibold text-gray-700 dark:text-gray-300"
-			>{selectDayMealType}</span
+		Search and select a specific recipe for <span
+			class="font-semibold text-gray-700 dark:text-gray-300">{selectDayMealType}</span
 		>.
 	</p>
 	{#if form?.selectDayMessage}
@@ -453,7 +455,11 @@
 				placeholder="Search recipes…"
 				class="p-3 w-full rounded-sm outline-hidden dark:bg-gray-900 dark:text-white"
 			/>
-			<button type="submit" class="rounded-r px-3 hover:bg-slate-100 dark:hover:bg-gray-800" title="Search">
+			<button
+				type="submit"
+				class="rounded-r px-3 hover:bg-slate-100 dark:hover:bg-gray-800"
+				title="Search"
+			>
 				{#if isSearching}
 					<Icon icon="ph:circle-notch" color="#000" width="1.4rem" class="animate-spin" />
 				{:else}
@@ -522,7 +528,9 @@
 <!-- ─── Plan Day Modal ──────────────────────────────────────────── -->
 <Modal bind:show={showPlanDayModal}>
 	<h4 class="text-xl font-bold mb-1">Plan Day</h4>
-	<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{format(data.date, 'EEE d MMMM yyyy')}</p>
+	<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+		{format(data.date, 'EEE d MMMM yyyy')}
+	</p>
 
 	{#if form?.planDayMessage}
 		<div class="pb-4">
@@ -890,7 +898,8 @@
 		</div>
 	{/if}
 	<p class="pb-5 text-gray-600 dark:text-gray-400">
-		Permanently delete the meal plan for <span class="font-semibold text-gray-900 dark:text-gray-100"
+		Permanently delete the meal plan for <span
+			class="font-semibold text-gray-900 dark:text-gray-100"
 			>{format(data.date, 'EEE d MMMM yyyy')}</span
 		>?
 	</p>
@@ -910,7 +919,9 @@
 <Modal bind:show={showShoppingListDayModal}>
 	<h4 class="text-xl font-bold mb-1">Create Shopping List</h4>
 	<p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-		For <span class="font-semibold text-gray-700 dark:text-gray-300">{format(data.date, 'EEE d MMMM yyyy')}</span>
+		For <span class="font-semibold text-gray-700 dark:text-gray-300"
+			>{format(data.date, 'EEE d MMMM yyyy')}</span
+		>
 	</p>
 	{#if data.dateMealPlanRecipes.length}
 		<ul class="list-disc list-inside mb-5 text-sm text-gray-700 dark:text-gray-300">

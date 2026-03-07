@@ -19,6 +19,42 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 };
 
 export const actions = {
+	favorite: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const slug = data.get('slug') as string;
+
+		try {
+			await apiClient(cookies.getAll()).post(`/recipes/${slug}/favorite`, {});
+		} catch (e) {
+			console.log(e);
+			const failObj: IEnhanceFailRes = { inputs: {}, errors: {} };
+			failObj.messageType = 'error';
+			failObj.message = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		return {};
+	},
+
+	unfavorite: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const slug = data.get('slug') as string;
+
+		try {
+			await apiClient(cookies.getAll()).delete(`/recipes/${slug}/favorite`, {
+				headers: { 'Content-Type': null }
+			});
+		} catch (e) {
+			console.log(e);
+			const failObj: IEnhanceFailRes = { inputs: {}, errors: {} };
+			failObj.messageType = 'error';
+			failObj.message = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		return {};
+	},
+
 	shoppinglist: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const title = data.get('title') as string;

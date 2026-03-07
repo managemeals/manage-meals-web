@@ -42,8 +42,23 @@ export const load: PageServerLoad = async ({ cookies, url, parent }) => {
 			});
 		}
 
+		const sort = url.searchParams.get('sort') || '';
+		const minCalories = url.searchParams.get('minCalories') || '';
+		const maxCalories = url.searchParams.get('maxCalories') || '';
+		const minProtein = url.searchParams.get('minProtein') || '';
+		const maxProtein = url.searchParams.get('maxProtein') || '';
+
+		const nutritionFilter = [
+			minCalories ? `minCalories=${minCalories}` : '',
+			maxCalories ? `maxCalories=${maxCalories}` : '',
+			minProtein ? `minProtein=${minProtein}` : '',
+			maxProtein ? `maxProtein=${maxProtein}` : ''
+		]
+			.filter(Boolean)
+			.join('&');
+
 		const recipesRes = await apiClient(cookies.getAll()).get(
-			`/recipes?page=${page}${categoriesFilter.length ? `&${categoriesFilter.join('&')}` : ''}${tagsFilter.length ? `&${tagsFilter.join('&')}` : ''}`
+			`/recipes?page=${page}${categoriesFilter.length ? `&${categoriesFilter.join('&')}` : ''}${tagsFilter.length ? `&${tagsFilter.join('&')}` : ''}${sort ? `&sort=${sort}` : ''}${nutritionFilter ? `&${nutritionFilter}` : ''}`
 		);
 
 		return {
@@ -52,7 +67,12 @@ export const load: PageServerLoad = async ({ cookies, url, parent }) => {
 			selectedCategories,
 			selectedTags,
 			selectedCategoriesSlugs: (categoriesQ || '').split(','),
-			selectedTagsSlugs: (tagsQ || '').split(',')
+			selectedTagsSlugs: (tagsQ || '').split(','),
+			selectedSort: sort,
+			minCalories,
+			maxCalories,
+			minProtein,
+			maxProtein
 		};
 	} catch (e) {
 		console.log(e);

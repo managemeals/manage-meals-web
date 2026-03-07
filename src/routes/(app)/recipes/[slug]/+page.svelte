@@ -208,6 +208,28 @@
 				</div>
 			</div>
 			<div class="flex items-start gap-2">
+				<form
+					method="post"
+					action={data.recipe.favorite ? '?/unfavorite' : '?/favorite'}
+					use:enhance={() => {
+						return async ({ update }) => {
+							await update();
+						};
+					}}
+				>
+					<input type="hidden" name="slug" value={data.recipe.slug} />
+					<button
+						type="submit"
+						title={data.recipe.favorite ? 'Unfavorite' : 'Favorite'}
+						class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
+					>
+						<Icon
+							icon={data.recipe.favorite ? 'ph:heart-fill' : 'ph:heart'}
+							color="#ef4444"
+							width="1.4rem"
+						/>
+					</button>
+				</form>
 				<button
 					type="button"
 					title="Share"
@@ -278,7 +300,7 @@
 				{/if}
 			</div>
 			<div class="basis-2/3">
-				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Directions</h3>
+				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Instructions</h3>
 				<ol class="list-decimal list-inside">
 					{#each data.recipe.data.instructions_list || [] as instruction}
 						<li class="mb-3 last:mb-0">{instruction}</li>

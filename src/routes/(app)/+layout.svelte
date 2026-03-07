@@ -77,6 +77,11 @@
 			title: 'Favorites'
 		},
 		{
+			href: '/cookbooks',
+			icon: 'ph:book-bookmark',
+			title: 'Cookbooks'
+		},
+		{
 			href: '/meal-plans',
 			icon: 'ph:calendar-dots',
 			title: 'Meal Plans'

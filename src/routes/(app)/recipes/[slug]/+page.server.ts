@@ -1,5 +1,5 @@
 import apiClient from '$lib/server/api/client';
-import type { IEnhanceFailRes, IEnhanceRes, IRecipe } from '$lib/types';
+import type { ICookbook, IEnhanceFailRes, IEnhanceRes, IRecipe } from '$lib/types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getErrorMessage } from '$lib/errors';
@@ -8,9 +8,13 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	const { slug } = params;
 
 	try {
-		const recipeRes = await apiClient(cookies.getAll()).get(`/recipes/${slug}`);
+		const [recipeRes, cookbooksRes] = await Promise.all([
+			apiClient(cookies.getAll()).get(`/recipes/${slug}`),
+			apiClient(cookies.getAll()).get('/cookbooks')
+		]);
 		return {
-			recipe: recipeRes.data as IRecipe
+			recipe: recipeRes.data as IRecipe,
+			cookbooks: cookbooksRes.data as ICookbook[]
 		};
 	} catch (e) {
 		console.log(e);
@@ -155,6 +159,43 @@ export const actions = {
 
 		const successObj: IEnhanceRes = {
 			shareDeleteSlug: slug
+		};
+
+		return successObj;
+	},
+
+	addtocookbook: async ({ request, cookies }) => {
+		const data = await request.formData();
+		const cookbookSlug = data.get('cookbookSlug') as string;
+		const recipeUuid = data.get('recipeUuid') as string;
+
+		const failObj: IEnhanceFailRes = { inputs: {}, errors: {} };
+
+		if (!cookbookSlug || !recipeUuid) {
+			failObj.cookbookMessageType = 'error';
+			failObj.cookbookMessage = 'Missing inputs';
+			return fail(400, failObj);
+		}
+
+		try {
+			const cookbookRes = await apiClient(cookies.getAll()).get(`/cookbooks/${cookbookSlug}`);
+			const cookbook: ICookbook = cookbookRes.data;
+			const recipeUuids = [...(cookbook.recipeUuids || [])];
+			if (!recipeUuids.includes(recipeUuid)) {
+				recipeUuids.push(recipeUuid);
+				await apiClient(cookies.getAll()).patch(`/cookbooks/${cookbookSlug}`, { recipeUuids });
+			}
+		} catch (e) {
+			console.log(e);
+			failObj.cookbookMessageType = 'error';
+			failObj.cookbookMessage = getErrorMessage(e);
+			return fail(500, failObj);
+		}
+
+		const successObj: IEnhanceRes = {
+			cookbookMessage: 'Recipe added to cookbook.',
+			cookbookMessageType: 'success',
+			addedToCookbookSlug: cookbookSlug
 		};
 
 		return successObj;

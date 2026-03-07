@@ -279,6 +279,18 @@ export interface IShoppingList {
 	recipes?: IRecipe[];
 }
 
+export interface ICookbook {
+	uuid: string;
+	slug: string;
+	title: string;
+	description?: string;
+	createdAt: string;
+	updatedAt: string;
+	createdByUuid: string;
+	recipeUuids?: string[];
+	recipes?: IRecipe[];
+}
+
 export interface IAdminStatus {
 	totalUsers: number;
 	totalRecipes: number;

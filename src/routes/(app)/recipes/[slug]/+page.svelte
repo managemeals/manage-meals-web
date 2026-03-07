@@ -28,6 +28,7 @@
 	let hasWakeLockListener = false;
 	let showShoppingListModal = $state(false);
 	let showShareModal = $state(false);
+	let showCookbookModal = $state(false);
 	let recipeShares: IShareRecipe[] = $state([]);
 	let loadingRecipeShares = $state(false);
 
@@ -250,6 +251,16 @@
 				>
 					<Icon icon="ph:shopping-cart" color="#3b82f6" width="1.4rem" />
 				</button>
+				<button
+					type="button"
+					title="Add to Cookbook"
+					class="hover:bg-gray-200 dark:hover:bg-gray-700 p-1 rounded-sm"
+					onclick={() => {
+						showCookbookModal = true;
+					}}
+				>
+					<Icon icon="ph:book-bookmark" color="#3b82f6" width="1.4rem" />
+				</button>
 				<a
 					href={`/recipes/${data.recipe.slug}/edit`}
 					title="Edit"
@@ -436,6 +447,49 @@
 			</button>
 		</div>
 	</form>
+</Modal>
+
+<Modal bind:show={showCookbookModal}>
+	<h4 class="text-xl font-bold mb-3">Add to Cookbook</h4>
+	<p class="mb-3">
+		Add <span class="font-bold">{data.recipe.data.title}</span> to a cookbook.
+	</p>
+	{#if form?.cookbookMessage}
+		<div class="py-4">
+			<Alert variant={form?.cookbookMessageType || 'error'}>
+				{form?.cookbookMessage}
+			</Alert>
+		</div>
+	{/if}
+	{#if !data.cookbooks || !data.cookbooks.length}
+		<p class="italic text-gray-500">
+			No cookbooks yet. <a href="/cookbooks/create" class="text-orange-500 hover:underline"
+				>Create one first.</a
+			>
+		</p>
+	{/if}
+	<div class="flex flex-col gap-2">
+		{#each data.cookbooks as cookbook}
+			{@const alreadyAdded = cookbook.recipeUuids?.includes(data.recipe.uuid)}
+			<div class="flex items-center justify-between border rounded-sm p-2">
+				<span class="font-semibold">{cookbook.title}</span>
+				{#if alreadyAdded}
+					<span class="text-sm text-gray-400 italic">Already added</span>
+				{:else}
+					<form method="post" action="?/addtocookbook" use:enhance>
+						<input type="hidden" name="cookbookSlug" value={cookbook.slug} />
+						<input type="hidden" name="recipeUuid" value={data.recipe.uuid} />
+						<button
+							type="submit"
+							class="py-1 px-3 bg-orange-500 rounded-sm text-white text-sm font-semibold hover:bg-orange-600"
+						>
+							Add
+						</button>
+					</form>
+				{/if}
+			</div>
+		{/each}
+	</div>
 </Modal>
 
 <Modal bind:show={showShareModal}>

@@ -19,6 +19,11 @@
 
 	let showCategoriesDropdown = $state(false);
 	let showTagsDropdown = $state(false);
+	let showNutritionFilters = $state(false);
+
+	let activeNutritionCount = $derived(
+		[data.minCalories, data.maxCalories, data.minProtein, data.maxProtein].filter(Boolean).length
+	);
 
 	const sortOptions = [
 		{ label: 'Name (A–Z)', value: '' },
@@ -68,161 +73,178 @@
 			<div class="text-sm text-gray-500 dark:text-gray-400">{data.recipes.total} recipes</div>
 		</div>
 
-		<div class="flex flex-col md:flex-row md:flex-wrap gap-3">
-			<div class="relative">
-				<button
-					bind:this={categoriesBtnEl}
-					onclick={() => (showCategoriesDropdown = !showCategoriesDropdown)}
-					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
-				>
-					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
-						{data.selectedCategories.join(', ')}
-					</div>
-					<Icon icon="ph:caret-down" color="#000" width="1.2rem" />
-				</button>
-				{#if categoriesBtnEl}
-					<div
-						class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10"
-						class:hidden={!showCategoriesDropdown}
-						use:clickOutside={[categoriesBtnEl]}
-						onclickoutside={() => {
-							showCategoriesDropdown = false;
-						}}
+		<div class="flex flex-col gap-3">
+			<div class="flex flex-col md:flex-row md:flex-wrap gap-3">
+				<div class="relative">
+					<button
+						bind:this={categoriesBtnEl}
+						onclick={() => (showCategoriesDropdown = !showCategoriesDropdown)}
+						class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
 					>
-						{#each data.categories as category}
-							<a
-								href={`?${new URLSearchParams({
-									...Object.fromEntries($storePage.url.searchParams),
-									page: '1',
-									categories: ($storePage.url.searchParams.get('categories') || '')
-										.split(',')
-										.includes(category.slug)
-										? ($storePage.url.searchParams.get('categories') || '')
-												.split(',')
-												.filter((c) => c !== category.slug)
-												.join(',')
-										: [
-												...($storePage.url.searchParams.get('categories') || '').split(','),
-												category.slug
-											]
-												.filter((c) => c)
-												.join(',')
-								})
-									.toString()
-									.trim()}`}
-								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
-							>
-								<span>{category.name}</span>
-								<input
-									type="checkbox"
-									class="w-4 h-4 hover:cursor-pointer pointer-events-none"
-									checked={data.selectedCategoriesSlugs.includes(category.slug)}
-								/>
-							</a>
-						{/each}
-					</div>
-				{/if}
-			</div>
+						<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
+							{data.selectedCategories.join(', ')}
+						</div>
+						<Icon icon="ph:caret-down" color="#000" width="1.2rem" />
+					</button>
+					{#if categoriesBtnEl}
+						<div
+							class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10"
+							class:hidden={!showCategoriesDropdown}
+							use:clickOutside={[categoriesBtnEl]}
+							onclickoutside={() => {
+								showCategoriesDropdown = false;
+							}}
+						>
+							{#each data.categories as category}
+								<a
+									href={`?${new URLSearchParams({
+										...Object.fromEntries($storePage.url.searchParams),
+										page: '1',
+										categories: ($storePage.url.searchParams.get('categories') || '')
+											.split(',')
+											.includes(category.slug)
+											? ($storePage.url.searchParams.get('categories') || '')
+													.split(',')
+													.filter((c) => c !== category.slug)
+													.join(',')
+											: [
+													...($storePage.url.searchParams.get('categories') || '').split(','),
+													category.slug
+												]
+													.filter((c) => c)
+													.join(',')
+									})
+										.toString()
+										.trim()}`}
+									class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedCategoriesSlugs.includes(category.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
+								>
+									<span>{category.name}</span>
+									<input
+										type="checkbox"
+										class="w-4 h-4 hover:cursor-pointer pointer-events-none"
+										checked={data.selectedCategoriesSlugs.includes(category.slug)}
+									/>
+								</a>
+							{/each}
+						</div>
+					{/if}
+				</div>
 
-			<div class="relative">
-				<button
-					bind:this={tagsBtnEl}
-					onclick={() => (showTagsDropdown = !showTagsDropdown)}
-					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
-				>
-					<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
-						{data.selectedTags.join(', ')}
-					</div>
-					<Icon icon="ph:caret-down" color="#000" width="1.2rem" />
-				</button>
-				{#if tagsBtnEl}
-					<div
-						class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10"
-						class:hidden={!showTagsDropdown}
-						use:clickOutside={[tagsBtnEl]}
-						onclickoutside={() => {
-							showTagsDropdown = false;
-						}}
+				<div class="relative">
+					<button
+						bind:this={tagsBtnEl}
+						onclick={() => (showTagsDropdown = !showTagsDropdown)}
+						class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 justify-between w-full md:w-auto"
 					>
-						{#each data.tags as tag}
-							<a
-								href={`?${new URLSearchParams({
-									...Object.fromEntries($storePage.url.searchParams),
-									page: '1',
-									tags: ($storePage.url.searchParams.get('tags') || '')
-										.split(',')
-										.includes(tag.slug)
-										? ($storePage.url.searchParams.get('tags') || '')
-												.split(',')
-												.filter((c) => c !== tag.slug)
-												.join(',')
-										: [...($storePage.url.searchParams.get('tags') || '').split(','), tag.slug]
-												.filter((c) => c)
-												.join(',')
-								})
-									.toString()
-									.trim()}`}
-								class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
-							>
-								<span>{tag.name}</span>
-								<input
-									type="checkbox"
-									class="w-4 h-4 hover:cursor-pointer pointer-events-none"
-									checked={data.selectedTagsSlugs.includes(tag.slug)}
-								/>
-							</a>
-						{/each}
+						<div class="whitespace-nowrap overflow-hidden text-left w-full md:w-60 2xl:w-72">
+							{data.selectedTags.join(', ')}
+						</div>
+						<Icon icon="ph:caret-down" color="#000" width="1.2rem" />
+					</button>
+					{#if tagsBtnEl}
+						<div
+							class="absolute left-0 right-0 w-full top-full bg-white dark:bg-gray-900 shadow-lg flex flex-col rounded-sm border z-10"
+							class:hidden={!showTagsDropdown}
+							use:clickOutside={[tagsBtnEl]}
+							onclickoutside={() => {
+								showTagsDropdown = false;
+							}}
+						>
+							{#each data.tags as tag}
+								<a
+									href={`?${new URLSearchParams({
+										...Object.fromEntries($storePage.url.searchParams),
+										page: '1',
+										tags: ($storePage.url.searchParams.get('tags') || '')
+											.split(',')
+											.includes(tag.slug)
+											? ($storePage.url.searchParams.get('tags') || '')
+													.split(',')
+													.filter((c) => c !== tag.slug)
+													.join(',')
+											: [...($storePage.url.searchParams.get('tags') || '').split(','), tag.slug]
+													.filter((c) => c)
+													.join(',')
+									})
+										.toString()
+										.trim()}`}
+									class={`flex justify-between items-center w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 first:rounded-t last:rounded-b ${data.selectedTagsSlugs.includes(tag.slug) ? ' bg-gray-100 dark:bg-gray-800' : ''}`}
+								>
+									<span>{tag.name}</span>
+									<input
+										type="checkbox"
+										class="w-4 h-4 hover:cursor-pointer pointer-events-none"
+										checked={data.selectedTagsSlugs.includes(tag.slug)}
+									/>
+								</a>
+							{/each}
+						</div>
+					{/if}
+				</div>
+
+				<select
+					value={data.selectedSort}
+					onchange={onSortChange}
+					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900 bg-white"
+				>
+					{#each sortOptions as opt}
+						<option value={opt.value}>{opt.label}</option>
+					{/each}
+				</select>
+
+				<button
+					onclick={() => (showNutritionFilters = !showNutritionFilters)}
+					class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 whitespace-nowrap"
+				>
+					<Icon icon="ph:funnel" width="1.2rem" />
+					Filters{#if activeNutritionCount > 0}&nbsp;<span
+							class="bg-blue-500 text-white text-xs rounded-full px-1.5 py-0.5"
+							>{activeNutritionCount}</span
+						>{/if}
+				</button>
+			</div>
+
+			{#if showNutritionFilters}
+				<div class="flex flex-wrap gap-3">
+					<div class="flex items-center gap-2">
+						<input
+							type="number"
+							placeholder="Min cal"
+							value={data.minCalories}
+							onchange={(e) => onNutritionChange('minCalories', e)}
+							class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+							min="0"
+						/>
+						<input
+							type="number"
+							placeholder="Max cal"
+							value={data.maxCalories}
+							onchange={(e) => onNutritionChange('maxCalories', e)}
+							class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+							min="0"
+						/>
 					</div>
-				{/if}
-			</div>
 
-			<select
-				value={data.selectedSort}
-				onchange={onSortChange}
-				class="p-2 border rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900 bg-white"
-			>
-				{#each sortOptions as opt}
-					<option value={opt.value}>{opt.label}</option>
-				{/each}
-			</select>
-
-			<div class="flex items-center gap-2">
-				<input
-					type="number"
-					placeholder="Min cal"
-					value={data.minCalories}
-					onchange={(e) => onNutritionChange('minCalories', e)}
-					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
-					min="0"
-				/>
-				<input
-					type="number"
-					placeholder="Max cal"
-					value={data.maxCalories}
-					onchange={(e) => onNutritionChange('maxCalories', e)}
-					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
-					min="0"
-				/>
-			</div>
-
-			<div class="flex items-center gap-2">
-				<input
-					type="number"
-					placeholder="Min prot"
-					value={data.minProtein}
-					onchange={(e) => onNutritionChange('minProtein', e)}
-					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
-					min="0"
-				/>
-				<input
-					type="number"
-					placeholder="Max prot"
-					value={data.maxProtein}
-					onchange={(e) => onNutritionChange('maxProtein', e)}
-					class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
-					min="0"
-				/>
-			</div>
+					<div class="flex items-center gap-2">
+						<input
+							type="number"
+							placeholder="Min prot"
+							value={data.minProtein}
+							onchange={(e) => onNutritionChange('minProtein', e)}
+							class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+							min="0"
+						/>
+						<input
+							type="number"
+							placeholder="Max prot"
+							value={data.maxProtein}
+							onchange={(e) => onNutritionChange('maxProtein', e)}
+							class="p-2 border rounded-sm w-24 dark:bg-gray-900 bg-white"
+							min="0"
+						/>
+					</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 

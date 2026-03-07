@@ -1,7 +1,7 @@
 import { getErrorMessage } from '$lib/errors';
 import apiClient from '$lib/server/api/client';
 import type { IEnhanceFailRes } from '$lib/types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -33,6 +33,6 @@ export const actions = {
 			return fail(500, failObj);
 		}
 
-		return { slug, title };
+		redirect(303, `/cookbooks/${slug}`);
 	}
 };

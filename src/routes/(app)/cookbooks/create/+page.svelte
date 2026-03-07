@@ -1,38 +1,14 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { enhance } from '$app/forms';
 	import { env } from '$env/dynamic/public';
 	import type { ActionData } from './$types';
 	import Alert from '$lib/components/Alert.svelte';
-	import { sidebarLinks } from '$lib/stores';
-	import { goto } from '$app/navigation';
 
 	interface Props {
 		form: ActionData;
 	}
 
 	let { form }: Props = $props();
-
-	const updateSidebarLinks = (slug: string, title: string) => {
-		if (!slug || !title) return;
-		sidebarLinks.update((current) => {
-			const nonCustom = current.filter((c) => !c.isCustom);
-			const custom = current.filter((c) => c.isCustom);
-			return [
-				...nonCustom,
-				...[
-					...custom,
-					{ href: `/cookbooks/${slug}`, title, icon: 'ph:book-bookmark', isCustom: true }
-				].sort((a, b) => a.title.localeCompare(b.title))
-			];
-		});
-		goto(`/cookbooks/${slug}`);
-	};
-
-	run(() => {
-		updateSidebarLinks(form?.slug, form?.title);
-	});
 </script>
 
 <svelte:head>

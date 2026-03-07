@@ -2,12 +2,13 @@
 	interface Props {
 		label: string;
 		checked?: boolean;
+		title?: string;
 	}
 
-	let { label, checked = $bindable(false) }: Props = $props();
+	let { label, checked = $bindable(false), title }: Props = $props();
 </script>
 
-<label class="inline-flex items-center cursor-pointer">
+<label class="inline-flex items-center cursor-pointer" {title}>
 	<input type="checkbox" value="" class="sr-only peer" bind:checked />
 	<div
 		class={`

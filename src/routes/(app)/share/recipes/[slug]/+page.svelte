@@ -196,7 +196,11 @@
 
 		{#if hasWakeLock}
 			<div class="mb-3">
-				<Toggle label="Prevent screen from turning off" bind:checked={toggleWakelock} />
+				<Toggle
+					label="Cooking Mode"
+					title="Prevents the screen from turning off"
+					bind:checked={toggleWakelock}
+				/>
 			</div>
 		{/if}
 

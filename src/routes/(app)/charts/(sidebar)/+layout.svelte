@@ -13,6 +13,16 @@
 				href: '/charts/recipes/popular',
 				icon: 'ph:trend-up',
 				title: 'Popular Recipes'
+			},
+			{
+				href: '/charts/recipes/trending',
+				icon: 'ph:fire',
+				title: 'Trending'
+			},
+			{
+				href: '/charts/recipes/sources',
+				icon: 'ph:globe',
+				title: 'Recipe Sources'
 			}
 		];
 

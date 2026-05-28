@@ -91,11 +91,11 @@
 			icon: 'ph:shopping-cart',
 			title: 'Shopping Lists'
 		},
-		// {
-		// 	href: '/charts/recipes/popular',
-		// 	icon: 'ph:chart-bar',
-		// 	title: 'Charts'
-		// },
+		{
+			href: '/charts/recipes/popular',
+			icon: 'ph:chart-bar',
+			title: 'Charts'
+		},
 		{
 			href: '/recipes/random',
 			icon: 'ph:shuffle',

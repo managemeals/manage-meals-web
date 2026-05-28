@@ -317,6 +317,11 @@ export interface IPopularRecipe {
 	recipe: IRecipe;
 }
 
+export interface IImportHostStat {
+	host: string;
+	count: number;
+}
+
 export interface IAccessRefreshToken {
 	accessToken: string;
 	refreshToken: string;

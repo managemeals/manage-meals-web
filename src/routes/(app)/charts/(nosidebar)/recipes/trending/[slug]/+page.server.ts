@@ -7,9 +7,9 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	const { slug } = params;
 
 	try {
-		const recipeRes = await apiClient(cookies.getAll()).get(`/recipes/popular/${slug}`);
+		const recipeRes = await apiClient(cookies.getAll()).get(`/recipes/trending/${slug}`);
 		return {
-			popularRecipe: recipeRes.data as IPopularRecipe
+			trendingRecipe: recipeRes.data as IPopularRecipe
 		};
 	} catch (e) {
 		console.log(e);

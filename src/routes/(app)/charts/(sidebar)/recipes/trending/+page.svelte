@@ -11,26 +11,26 @@
 </script>
 
 <svelte:head>
-	<title>Popular - Recipes - {env.PUBLIC_MAIN_TITLE}</title>
+	<title>Trending - Recipes - {env.PUBLIC_MAIN_TITLE}</title>
 </svelte:head>
 
 <div class="p-5">
-	<h1 class="text-2xl font-bold mb-2">Popular Recipes</h1>
+	<h1 class="text-2xl font-bold mb-2">Trending This Month</h1>
 	<p class="text-gray-600 dark:text-gray-400 mb-5">
-		Recipes imported by multiple people from the same source URL.
+		Recipes imported by multiple people in the last 30 days.
 	</p>
 
-	{#if !data.popularRecipes.length}
-		<p class="italic">No shared imports yet — check back as more recipes are added.</p>
+	{#if !data.trendingRecipes.length}
+		<p class="italic">Nothing trending yet — check back soon.</p>
 	{/if}
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
-		{#each data.popularRecipes as popularRecipe}
+		{#each data.trendingRecipes as trendingRecipe}
 			<RecipeCard
-				recipe={popularRecipe.recipe}
-				urlPrefix="/charts"
+				recipe={trendingRecipe.recipe}
 				hideCategoriesTags
-				badge={`${popularRecipe.count} imports`}
+				badge={`${trendingRecipe.count} imports`}
+				href={`/charts/recipes/trending/${trendingRecipe.recipe.slug}`}
 			/>
 		{/each}
 	</div>

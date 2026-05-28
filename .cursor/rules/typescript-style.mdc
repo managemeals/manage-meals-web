@@ -1,0 +1,25 @@
+---
+description: TypeScript and Prettier conventions
+globs: "**/*.{ts,svelte}"
+alwaysApply: false
+---
+
+# TypeScript & Style
+
+- Strict TypeScript — all shared interfaces in `src/lib/types.ts`
+- Prefix interfaces with `I` (e.g. `IRecipe`, `IUser`)
+
+## Prettier
+
+- Tabs for indentation
+- Single quotes
+- No trailing commas
+- 100 character line width
+
+Run `npm run format` before committing; `npm run check` for type errors.
+
+## Env vars
+
+- `PUBLIC_*` — exposed to client (title, PayPal, OAuth toggles, etc.)
+- Server-only: `API_URL`, `COOKIE_*`, `ORIGIN`, `PASSWORD_MIN_LENGTH`, `INFRA_ENDPOINT_KEY`
+- Never commit `.env` files

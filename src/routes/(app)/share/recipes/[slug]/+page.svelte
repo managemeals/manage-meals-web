@@ -10,6 +10,7 @@
 	import { page } from '$app/stores';
 	import Modal from '$lib/components/Modal.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import { formatMultiplier, scaleIngredient } from '$lib/recipe-scaling';
 
 	interface Props {
 		data: PageData;
@@ -24,6 +25,7 @@
 	let showWakeLockModal = $state(false);
 	let wakeLockError = $state('');
 	let hasWakeLockListener = false;
+	let multiplier = $state(1);
 
 	const handleWakeLockRelease = () => {
 		toggleWakelock = false;
@@ -206,22 +208,44 @@
 
 		<div class="flex flex-col md:flex-row gap-5 mb-5">
 			<div class="basis-1/3">
-				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
-				{#if data.shareRecipe.recipe?.data.ingredient_groups?.length}
+				<div class="flex items-center justify-between mb-3">
+					<h3 class="text-orange-500 text-lg uppercase font-semibold">Ingredients</h3>
+					<div class="flex items-center gap-2 text-sm">
+						<button
+							type="button"
+							onclick={() => {
+								if (multiplier > 0.5) multiplier = Math.round((multiplier - 0.5) * 10) / 10;
+							}}
+							disabled={multiplier <= 0.5}
+							class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed font-semibold"
+							>−</button
+						>
+						<span class="w-8 text-center font-semibold">{formatMultiplier(multiplier)}</span>
+						<button
+							type="button"
+							onclick={() => {
+								multiplier = Math.round((multiplier + 0.5) * 10) / 10;
+							}}
+							class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold"
+							>+</button
+						>
+					</div>
+				</div>
+				{#if data.shareRecipe.recipe?.data.ingredient_groups?.some((g) => g.purpose)}
 					{#each data.shareRecipe.recipe?.data.ingredient_groups as group, i}
 						{#if group.purpose}
 							<h4 class="font-semibold mb-1 {i > 0 ? 'mt-4' : ''}">{group.purpose}</h4>
 						{/if}
 						<ul class="list-disc list-inside">
 							{#each group.ingredients as ingredient}
-								<li class="mb-3 last:mb-0">{ingredient}</li>
+								<li class="mb-3 last:mb-0">{scaleIngredient(ingredient, multiplier)}</li>
 							{/each}
 						</ul>
 					{/each}
 				{:else}
 					<ul class="list-disc list-inside">
 						{#each data.shareRecipe.recipe?.data.ingredients || [] as ingredient}
-							<li class="mb-3 last:mb-0">{ingredient}</li>
+							<li class="mb-3 last:mb-0">{scaleIngredient(ingredient, multiplier)}</li>
 						{/each}
 					</ul>
 				{/if}

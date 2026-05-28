@@ -1,0 +1,38 @@
+---
+description: Svelte 5 runes and component patterns
+globs: "**/*.svelte"
+alwaysApply: false
+---
+
+# Svelte 5 Components
+
+Always use runes — no legacy `export let` or `$:` reactive statements.
+
+```svelte
+<script lang="ts">
+	interface Props {
+		label: string;
+		checked?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let { label, checked = $bindable(false), children }: Props = $props();
+
+	let count = $state(0);
+	let doubled = $derived(count * 2);
+</script>
+
+{@render children?.()}
+```
+
+- Use `@render children?.()` — not `<slot>`
+- Use `$bindable()` for two-way binding
+- Icons: `@iconify/svelte` (Phosphor icons, e.g. `ph:folder`)
+- Forms: native SvelteKit actions with `use:enhance` from `$app/forms`
+- Form responses: `IEnhanceFailRes` / `IEnhanceRes` from `$lib/types`
+
+```svelte
+<form method="POST" action="?/update" use:enhance>
+```
+
+When editing `.svelte` files, use the Svelte MCP server to validate changes.

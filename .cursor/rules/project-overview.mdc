@@ -1,0 +1,43 @@
+---
+description: ManageMeals Web project overview, commands, and structure
+alwaysApply: true
+---
+
+# ManageMeals Web
+
+SvelteKit frontend for [ManageMeals](https://managemeals.com) — a free recipe manager. Talks to a separate backend API (`manage-meals-api`).
+
+## Commands
+
+```bash
+npm run dev              # Dev server
+npm run build            # Production build
+npm run check            # Type-check (svelte-check + tsc)
+npm run lint             # Prettier + ESLint
+npm run format           # Auto-format
+npm run test:unit        # Vitest
+npm run test:integration # Playwright E2E
+```
+
+## Tech stack
+
+SvelteKit 2, Svelte 5 (runes), TypeScript (strict), Tailwind CSS 4 (via `src/app.css`), Axios (server-only), `@sveltejs/adapter-node`, Vitest + Playwright.
+
+## Structure
+
+- `src/routes/(app)/` — protected routes (auth required)
+- `src/routes/(auth)/` — login, register, etc.
+- `src/routes/(marketing)/` — public marketing pages
+- `src/routes/infra/` — health checks
+- `src/lib/components/` — reusable UI
+- `src/lib/types.ts` — all shared interfaces
+- `src/lib/server/api/client.ts` — Axios client factory
+- `src/hooks.server.ts` — auth guard + token refresh
+
+Dynamic routes use `[slug]/` (e.g. `recipes/[slug]/`).
+
+## Principles
+
+- Minimize scope — match existing patterns; don't over-engineer
+- Server-only API calls — never call the backend from client code
+- No commits unless explicitly requested

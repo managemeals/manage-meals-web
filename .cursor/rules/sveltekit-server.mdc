@@ -1,0 +1,48 @@
+---
+description: SvelteKit server routes, API calls, auth, and form actions
+globs: "{**/*.server.ts,src/lib/server/**}"
+alwaysApply: false
+---
+
+# Server-Side Patterns
+
+All backend API calls are server-side only via `apiClient` from `$lib/server/api/client`.
+
+```typescript
+import apiClient from '$lib/server/api/client';
+import { getErrorMessage } from '$lib/errors';
+import { fail } from '@sveltejs/kit';
+import type { IEnhanceFailRes } from '$lib/types';
+
+export const load = async ({ cookies }) => {
+	const res = await apiClient(cookies.getAll()).get('/recipes');
+	return { recipes: res.data };
+};
+```
+
+- Pass `cookies.getAll()` to `apiClient()` for auth
+- Use `getErrorMessage(e)` for Axios error messages
+- Put shared interfaces in `src/lib/types.ts`
+- Server-only code: `*.server.ts` or `src/lib/server/`
+
+## Auth
+
+- `hooks.server.ts` validates tokens and auto-refreshes
+- User available via `event.locals.user`
+- Public: `/`, `/auth/*`, `/infra/*`, `/share/*`
+- `(app)` routes redirect to `/auth/login` if unauthenticated
+
+## Form actions
+
+```typescript
+export const actions = {
+	update: async ({ request, cookies }) => {
+		const name = (await request.formData()).get('name') as string;
+		if (!name) {
+			return fail(400, { errors: { name: 'Required' }, inputs: { name } });
+		}
+		await apiClient(cookies.getAll()).patch('/settings', { name });
+		return { message: 'Saved', messageType: 'success' };
+	}
+};
+```

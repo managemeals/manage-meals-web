@@ -1,14 +1,80 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { env } from '$env/dynamic/public';
 	import Icon from '@iconify/svelte';
 	import type { PageData } from './$types';
 	import { format } from 'date-fns';
+	import Toggle from '$lib/components/Toggle.svelte';
+	import { onMount } from 'svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import Alert from '$lib/components/Alert.svelte';
+	import { formatMultiplier, scaleIngredient } from '$lib/recipe-scaling';
 
 	interface Props {
 		data: PageData;
 	}
 
 	let { data }: Props = $props();
+
+	let toggleWakelock = $state(false);
+	let hasWakeLock = $state(false);
+	// eslint-disable-next-line no-undef
+	let wakeLock: WakeLockSentinel | undefined;
+	let showWakeLockModal = $state(false);
+	let wakeLockError = $state('');
+	let hasWakeLockListener = false;
+	let multiplier = $state(1);
+
+	const handleWakeLockRelease = () => {
+		toggleWakelock = false;
+	};
+
+	const handleWakeLockToggle = async (toggled: boolean) => {
+		wakeLockError = '';
+		if (toggled) {
+			try {
+				wakeLock = await navigator.wakeLock.request('screen');
+				if (!hasWakeLockListener) {
+					wakeLock.addEventListener('release', handleWakeLockRelease);
+					hasWakeLockListener = true;
+				}
+			} catch (e) {
+				wakeLockError = `${(e as Error).name}, ${(e as Error).message}`;
+				showWakeLockModal = true;
+				toggleWakelock = false;
+			}
+		} else {
+			if (wakeLock) {
+				try {
+					wakeLock.removeEventListener('release', handleWakeLockRelease);
+					hasWakeLockListener = false;
+				} catch (e) {
+					console.error(e);
+				}
+				try {
+					await wakeLock.release();
+					wakeLock = undefined;
+				} catch (e) {
+					console.error(e);
+				}
+			}
+		}
+	};
+
+	onMount(() => {
+		if ('wakeLock' in navigator) {
+			hasWakeLock = true;
+		}
+
+		return async () => {
+			await handleWakeLockToggle(false);
+		};
+	});
+
+	run(() => {
+		handleWakeLockToggle(toggleWakelock);
+	});
 </script>
 
 <svelte:head>
@@ -85,14 +151,59 @@
 			</div>
 		{/if}
 
+		{#if hasWakeLock}
+			<div class="mb-3">
+				<Toggle
+					label="Cooking Mode"
+					title="Prevents the screen from turning off"
+					bind:checked={toggleWakelock}
+				/>
+			</div>
+		{/if}
+
 		<div class="flex flex-col md:flex-row gap-5 mb-5">
 			<div class="basis-1/3">
-				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Ingredients</h3>
-				<ul class="list-disc list-inside">
-					{#each data.popularRecipe.recipe.data.ingredients || [] as ingredient}
-						<li class="mb-3 last:mb-0">{ingredient}</li>
+				<div class="flex items-center justify-between mb-3">
+					<h3 class="text-orange-500 text-lg uppercase font-semibold">Ingredients</h3>
+					<div class="flex items-center gap-2 text-sm">
+						<button
+							type="button"
+							onclick={() => {
+								if (multiplier > 0.5) multiplier = Math.round((multiplier - 0.5) * 10) / 10;
+							}}
+							disabled={multiplier <= 0.5}
+							class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed font-semibold"
+							>−</button
+						>
+						<span class="w-8 text-center font-semibold">{formatMultiplier(multiplier)}</span>
+						<button
+							type="button"
+							onclick={() => {
+								multiplier = Math.round((multiplier + 0.5) * 10) / 10;
+							}}
+							class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold"
+							>+</button
+						>
+					</div>
+				</div>
+				{#if data.popularRecipe.recipe.data.ingredient_groups?.some((g) => g.purpose)}
+					{#each data.popularRecipe.recipe.data.ingredient_groups as group, i}
+						{#if group.purpose}
+							<h4 class="font-semibold mb-1 {i > 0 ? 'mt-4' : ''}">{group.purpose}</h4>
+						{/if}
+						<ul class="list-disc list-inside">
+							{#each group.ingredients as ingredient}
+								<li class="mb-3 last:mb-0">{scaleIngredient(ingredient, multiplier)}</li>
+							{/each}
+						</ul>
 					{/each}
-				</ul>
+				{:else}
+					<ul class="list-disc list-inside">
+						{#each data.popularRecipe.recipe.data.ingredients || [] as ingredient}
+							<li class="mb-3 last:mb-0">{scaleIngredient(ingredient, multiplier)}</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 			<div class="basis-2/3">
 				<h3 class="text-orange-500 text-lg uppercase font-semibold mb-3">Instructions</h3>
@@ -196,3 +307,7 @@
 		</div>
 	</div>
 </div>
+
+<Modal bind:show={showWakeLockModal}>
+	<Alert variant="error">{wakeLockError}</Alert>
+</Modal>

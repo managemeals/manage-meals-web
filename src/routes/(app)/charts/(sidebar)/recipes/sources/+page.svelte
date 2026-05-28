@@ -33,18 +33,13 @@
 						{index + 1}
 					</span>
 					<div class="flex-1 min-w-0">
-						<div class="flex items-baseline justify-between gap-2 mb-1">
-							<a
-								href={`https://${hostStat.host}`}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="font-medium truncate text-orange-600 hover:underline dark:text-orange-400"
-								title={hostStat.host}>{hostStat.host}</a
-							>
-							<span class="shrink-0 text-sm text-gray-600 dark:text-gray-400">
-								{hostStat.count.toLocaleString()}
-							</span>
-						</div>
+						<a
+							href={`https://${hostStat.host}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="font-medium truncate block mb-1 text-orange-600 hover:underline dark:text-orange-400"
+							title={hostStat.host}>{hostStat.host}</a
+						>
 						<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
 							<div
 								class="h-full rounded-full bg-orange-500"

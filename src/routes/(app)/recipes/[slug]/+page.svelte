@@ -34,6 +34,12 @@
 	let loadingRecipeShares = $state(false);
 	let multiplier = $state(1);
 
+	const allIngredients = $derived(
+		data.recipe.data.ingredients?.length
+			? data.recipe.data.ingredients
+			: (data.recipe.data.ingredient_groups?.flatMap((g) => g.ingredients) ?? [])
+	);
+
 	const handleWakeLockRelease = () => {
 		toggleWakelock = false;
 	};
@@ -460,12 +466,7 @@
 	<form method="post" action="?/shoppinglist" use:enhance>
 		<input type="hidden" id="title" name="title" value={data.recipe.data.title} />
 		<input type="hidden" id="recipeUuids" name="recipeUuids" value={data.recipe.uuid} />
-		<input
-			type="hidden"
-			id="ingredients"
-			name="ingredients"
-			value={data.recipe.data.ingredients.join('|||')}
-		/>
+		<input type="hidden" id="ingredients" name="ingredients" value={allIngredients.join('|||')} />
 		<div>
 			<button
 				type="submit"

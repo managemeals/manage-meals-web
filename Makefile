@@ -5,31 +5,31 @@ default:
 # hosted
 .PHONY: build
 build:
-	docker compose build
+	podman compose build
 
 .PHONY: up
 up:
-	docker compose up
+	podman compose up
 
 .PHONY: upd
 upd:
-	docker compose up -d
+	podman compose up -d
 
 .PHONY: pull
 pull:
-	docker compose pull
+	podman compose pull
 
 # self hosted
 .PHONY: build-selfhost
 build-selfhost:
-	docker compose \
+	podman compose \
 	-f docker-compose.selfhost.yaml \
 	-f docker-compose.selfhost.override.yaml \
 	build
 
 .PHONY: up-selfhost
 up-selfhost:
-	docker compose \
+	podman compose \
 	-f docker-compose.selfhost.yaml \
 	-f docker-compose.selfhost.override.yaml \
 	up

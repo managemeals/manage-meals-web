@@ -1,6 +1,36 @@
 import { env } from '$env/dynamic/private';
-import type { ICookie } from '$lib/types';
-import axios, { type AxiosInstance } from 'axios';
+import type { IAPIError, ICookie } from '$lib/types';
+import axios, { AxiosError, type AxiosInstance, type AxiosResponse } from 'axios';
+
+const sanitizeAxiosError = (error: AxiosError<IAPIError>): AxiosError<IAPIError> => {
+	const response = error.response;
+
+	const clean = new AxiosError<IAPIError>(
+		error.message,
+		error.code,
+		undefined,
+		undefined,
+		response
+			? ({
+					status: response.status,
+					statusText: response.statusText,
+					data: response.data
+				} as AxiosResponse<IAPIError>)
+			: undefined
+	);
+
+	clean.isAxiosError = true;
+	clean.stack = error.stack;
+
+	return clean;
+};
+
+const attachErrorSanitizer = (instance: AxiosInstance) => {
+	instance.interceptors.response.use(
+		(response) => response,
+		(error) => Promise.reject(axios.isAxiosError(error) ? sanitizeAxiosError(error) : error)
+	);
+};
 
 const apiClientUnauthed = axios.create({
 	baseURL: env.API_URL,
@@ -10,6 +40,8 @@ const apiClientUnauthed = axios.create({
 		'Content-Type': 'application/json'
 	}
 });
+
+attachErrorSanitizer(apiClientUnauthed);
 
 export { apiClientUnauthed };
 
@@ -59,6 +91,8 @@ const apiClient = (cookies: ICookie[]): AxiosInstance => {
 	// 		return Promise.reject(error);
 	// 	}
 	// );
+
+	attachErrorSanitizer(apiClientAuthed);
 
 	return apiClientAuthed;
 };

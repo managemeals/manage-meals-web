@@ -29,7 +29,7 @@
 	{#if env.PUBLIC_UMAMI_ANALYTICS_ENABLED === 'true'}
 		<script
 			async
-			src="https://umami.leafbread.io/script.js"
+			src="https://umami.hilmardigital.co.uk/script.js"
 			data-website-id={env.PUBLIC_MOCK_INSTANCE === 'yes'
 				? 'cf401ee6-82dc-4f00-a761-3680d7321f35'
 				: 'cf401ee6-82dc-4f00-a761-3680d7321f35'}

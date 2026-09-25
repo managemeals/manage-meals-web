@@ -1,8 +1,6 @@
-# ManageMeals Web — Claude Code Context
+# ManageMeals Web
 
-## Project Overview
-
-ManageMeals (https://managemeals.com) is a free recipe manager that scrapes recipes from websites. This is the SvelteKit frontend. It communicates with a separate backend API (`manage-meals-api`).
+SvelteKit frontend for [ManageMeals](https://managemeals.com) — a free recipe manager that scrapes recipes from websites. It talks to a separate backend API (`manage-meals-api`).
 
 ## Commands
 
@@ -61,101 +59,124 @@ src/
 
 Dynamic routes use `[slug]/` (e.g. `recipes/[slug]/`).
 
-## Code Conventions
+## Principles
 
-### Svelte 5 Runes
+- Minimize scope — match existing patterns; don't over-engineer
+- Server-only API calls — never call the backend from client code
+- No commits unless explicitly requested
 
-Always use runes syntax — no legacy `export let` or `$:` reactive statements.
+## TypeScript & Style (applies to `**/*.{ts,svelte}`)
 
-```svelte
-<script lang="ts">
-  interface Props {
-    label: string;
-    checked?: boolean; // use $bindable for two-way binding
-    children?: import('svelte').Snippet;
-  }
+- Strict TypeScript — all shared interfaces in `src/lib/types.ts`
+- Prefix interfaces with `I` (e.g. `IRecipe`, `IUser`)
 
-  let { label, checked = $bindable(false), children }: Props = $props();
-
-  let count = $state(0);
-  let doubled = $derived(count * 2);
-</script>
-
-{@render children?.()}
-```
-
-Use `@render children?.()` — **not** `<slot>`.
-
-### Code Style (Prettier)
+### Prettier
 
 - **Indentation:** Tabs
 - **Quotes:** Single quotes
 - **Trailing commas:** None
 - **Line width:** 100 characters
 
-### TypeScript
+Run `npm run format` before committing; `npm run check` for type errors.
 
-- Strict mode enabled
-- All interfaces in `src/lib/types.ts`
-- Server-only code goes in `src/lib/server/` or files named `*.server.ts`
+### Env vars
 
-## API Pattern
+- `PUBLIC_*` — exposed to client (title, PayPal, OAuth toggles, etc.)
+- Server-only: `API_URL`, `COOKIE_*`, `ORIGIN`, `PASSWORD_MIN_LENGTH`, `INFRA_ENDPOINT_KEY`
+- Never commit `.env` files
 
-All backend API calls are server-side only. Never call the backend directly from the client.
+## Svelte 5 Components (applies to `**/*.svelte`)
+
+Always use runes syntax — no legacy `export let` or `$:` reactive statements.
+
+```svelte
+<script lang="ts">
+	interface Props {
+		label: string;
+		checked?: boolean; // use $bindable for two-way binding
+		children?: import('svelte').Snippet;
+	}
+
+	let { label, checked = $bindable(false), children }: Props = $props();
+
+	let count = $state(0);
+	let doubled = $derived(count * 2);
+</script>
+
+{@render children?.()}
+```
+
+- Use `{@render children?.()}` — **not** `<slot>`
+- Use `$bindable()` for two-way binding
+- Icons: `@iconify/svelte` (Phosphor icons, e.g. `ph:folder`)
+- Forms: native SvelteKit actions with `use:enhance` from `$app/forms`
+- Form responses: `IEnhanceFailRes` / `IEnhanceRes` from `$lib/types`
+
+```svelte
+<form method="POST" action="?/update" use:enhance>
+```
+
+Validate `.svelte` changes with `npm run check`.
+
+## Server-Side Patterns (applies to `**/*.server.ts`, `src/lib/server/**`)
+
+All backend API calls are server-side only via `apiClient` from `$lib/server/api/client`. Never call the backend directly from the client.
 
 ```typescript
 // src/routes/(app)/recipes/+page.server.ts
-import { apiClient } from '$lib/server/api/client';
+import apiClient from '$lib/server/api/client';
+import { getErrorMessage } from '$lib/errors';
+import { fail } from '@sveltejs/kit';
+import type { IEnhanceFailRes } from '$lib/types';
 
-export const load: PageServerLoad = async ({ cookies }) => {
-  const res = await apiClient(cookies.getAll()).get('/recipes');
-  return { recipes: res.data };
+export const load = async ({ cookies }) => {
+	const res = await apiClient(cookies.getAll()).get('/recipes');
+	return { recipes: res.data };
 };
 ```
 
-Use `getErrorMessage(e)` from `$lib/errors` to extract readable messages from Axios errors.
+- Pass `cookies.getAll()` to `apiClient()` for auth
+- Use `getErrorMessage(e)` for Axios error messages
+- Put shared interfaces in `src/lib/types.ts`
+- Server-only code: `*.server.ts` or `src/lib/server/`
 
-## Authentication
+### Auth
 
-- **`hooks.server.ts`** intercepts all requests, validates tokens, auto-refreshes expired access tokens
+- `hooks.server.ts` intercepts all requests, validates tokens, and auto-refreshes expired access tokens
 - Tokens stored as HTTP-only cookies (names from env vars `COOKIE_ACCESS_TOKEN`, `COOKIE_REFRESH_TOKEN`)
 - Authenticated user available via `event.locals.user`
 - Public routes: `/`, `/auth/*`, `/infra/*`, `/share/*`
 - All `(app)` routes are protected — redirect to `/auth/login` if unauthenticated
 
-## Form Handling
+### Form actions
 
 Uses native SvelteKit form actions — no external form library.
 
 ```typescript
-// +page.server.ts
 export const actions = {
-  update: async ({ request, cookies }) => {
-    const formData = await request.formData();
-    const name = formData.get('name') as string;
+	update: async ({ request, cookies }) => {
+		const name = (await request.formData()).get('name') as string;
 
-    if (!name) {
-      return fail(400, { errors: { name: 'Required' }, inputs: { name } });
-    }
+		if (!name) {
+			return fail(400, { errors: { name: 'Required' }, inputs: { name } });
+		}
 
-    await apiClient(cookies.getAll()).patch('/settings', { name });
-    return { message: 'Saved', messageType: 'success' };
-  }
+		await apiClient(cookies.getAll()).patch('/settings', { name });
+		return { message: 'Saved', messageType: 'success' };
+	}
 };
 ```
 
 ```svelte
 <!-- +page.svelte -->
 <script lang="ts">
-  import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 </script>
 
 <form method="POST" action="?/update" use:enhance>
-  ...
+	...
 </form>
 ```
-
-Error/success responses follow `IEnhanceFailRes` / `IEnhanceRes` interfaces in `src/lib/types.ts`.
 
 ## Environment Variables
 

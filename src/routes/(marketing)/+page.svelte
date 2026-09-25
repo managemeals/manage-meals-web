@@ -354,12 +354,15 @@
 
 			<div>
 				<div class="flex items-center gap-2">
-					<Icon icon="ph:plugs" color="#f97316" width="2.2rem" />
-					<h4 class="text-xl font-semibold">Browser Extension (coming soon)</h4>
+					<Icon icon="ph:puzzle-piece" color="#f97316" width="2.2rem" />
+					<h4 class="text-xl font-semibold">Browser Extension</h4>
 				</div>
 				<p class="pt-3">
-					<span class="italic">Work in progress</span>. Browser extension to easily import recipes
-					while browsing the web.
+					Easily import recipes while browsing the web. Get the extension for <a
+						href="https://addons.mozilla.org/en-GB/firefox/addon/managemeals/"
+						class="hover:underline text-blue-500"
+						target="_blank">Firefox</a
+					>.
 				</p>
 			</div>
 		</div>

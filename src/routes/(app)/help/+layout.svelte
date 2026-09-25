@@ -15,6 +15,11 @@
 				title: 'FAQ'
 			},
 			{
+				href: '/help/extension',
+				icon: 'ph:puzzle-piece',
+				title: 'Extension'
+			},
+			{
 				href: '/help/bookmarklet',
 				icon: 'ph:bookmark-simple',
 				title: 'Bookmarklet'
